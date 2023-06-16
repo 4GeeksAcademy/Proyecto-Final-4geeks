@@ -1,3 +1,9 @@
 /* 
     General Styles used on every website (Don't Repeat Yourself)
 */
+.footer{
+    background:rgba(0, 0, 0, 0.3);
+}
+.sub-footer{
+    background:rgba(0, 0, 0, 0.20);
+}
