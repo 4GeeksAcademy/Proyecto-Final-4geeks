@@ -1,9 +1,9 @@
 .navbar-collapse ul {
-    margin: 0 0 0 auto !important;
-  }
-  
-  .navbar-collapse .dropdown-menu {
-    right: auto;
-    left: 10%;
-    transform: translateX(-50%) translateY(5%);
-  }
+  margin: 0 0 0 auto !important;
+}
+
+.navbar-collapse .dropdown-menu {
+  right: auto;
+  left: 10%;
+  transform: translateX(-50%) translateY(5%);
+}
