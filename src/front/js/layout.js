@@ -4,7 +4,7 @@ import ScrollToTop from "./component/scrollToTop";
 import { BackendURL } from "./component/backendURL";
 
 import { Home } from "./pages/home.jsx";
-
+import { Signup } from "./pages/signup.jsx";
 
 
 import injectContext from "./store/appContext";
@@ -21,13 +21,14 @@ const Layout = () => {
     if (!process.env.BACKEND_URL || process.env.BACKEND_URL == "") return <BackendURL />;
 
     return (
-        <div>
+        <>
             <BrowserRouter basename={basename}>
                 <ScrollToTop>
                     <Navbar />
                     <div className="page-wrapper">
                         <Routes   >
                             <Route element={<Home />} path="/" />
+                            <Route element={<Signup />} path="/signup" />
 
                             <Route element={<h1>Not found!</h1>} />
                         </Routes>
@@ -35,7 +36,7 @@ const Layout = () => {
                     <Footer />
                 </ScrollToTop>
             </BrowserRouter>
-        </div>
+        </>
     );
 };
 
