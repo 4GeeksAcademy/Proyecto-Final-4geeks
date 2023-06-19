@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Modal } from "./modal.jsx";
+import { ModalLogin } from "./modalLogin.jsx";
 
 import logo from "../../img/BTXF-notext.png";
 import "../../styles/navbar.css";
@@ -93,7 +93,7 @@ export const Navbar = () => {
                 Inicio
               </button>
 
-              <Modal />
+              <ModalLogin />
             </>
           )
         ) : null}
@@ -187,7 +187,7 @@ export const Navbar = () => {
                 Iniciar Sesión
               </button>
 
-              <Modal />
+              <ModalLogin />
             </>
           )
         ) : null}

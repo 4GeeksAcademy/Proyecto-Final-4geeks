@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 import "../../styles/modal.css";
 
-export const Modal = () => {
+export const ModalLogin = () => {
   const { actions } = useContext(Context);
 
   const [firstField, setFirstField] = useState("");
@@ -45,7 +45,7 @@ export const Modal = () => {
             </div>
             <div className="subtitle d-flex">
               <h6>¿No tienes una cuenta? </h6>
-              <Link to={`/`}>Regístrate</Link>
+              <Link to={`/signup`}>Regístrate</Link>
             </div>
           </div>
           <form onSubmit={handleSubmit}>
