@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const getState = ({ getStore, getActions, setStore }) => {
-	const url = "https://robmab-cautious-meme-xp9gqqrg9v9cgjq-3001.preview.app.github.dev"
+	const url = process.env.BACKEND_URL
 	return {
 		store: {
 
@@ -26,7 +26,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				console.log(loginData);
 
 				try {
-					const response = await axios.post(`${url}/login`, loginData)
+					const response = await axios.post(`${url}login`, loginData)
 					console.log(response);
 					if (response?.status === 200) {
 						localStorage.setItem("token", response.data.token);

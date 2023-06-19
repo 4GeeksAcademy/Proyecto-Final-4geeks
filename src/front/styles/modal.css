@@ -64,10 +64,6 @@
 
 /* FOOTER */
 
-.modal-footer {
-  justify-content: center;
-}
-
 /* RESPONSIVE */
 @media (max-width: 720px) {
   .modal-body div {
