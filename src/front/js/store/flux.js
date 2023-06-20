@@ -1,7 +1,12 @@
+import axios from "axios";
+
 const getState = ({ getStore, getActions, setStore }) => {
+	const url = process.env.BACKEND_URL
 	return {
 		store: {
-			message: null,
+
+
+			/* message: null,
 			demo: [
 				{
 					title: "FIRST",
@@ -13,11 +18,30 @@ const getState = ({ getStore, getActions, setStore }) => {
 					background: "white",
 					initial: "white"
 				}
-			]
+			] */
 		},
 		actions: {
+
+			login: async (loginData) => {
+				console.log(loginData);
+
+				try {
+					const response = await axios.post(`${url}login`, loginData)
+					console.log(response);
+					if (response?.status === 200) {
+						localStorage.setItem("token", response.data.token);
+					}
+
+					return true
+
+				} catch (error) {
+					console.log(error);
+					return false
+				}
+
+			},
 			// Use getActions to call a function within a fuction
-			exampleFunction: () => {
+			/* exampleFunction: () => {
 				getActions().changeColor(0, "green");
 			},
 
@@ -46,7 +70,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				//reset the global store
 				setStore({ demo: demo });
-			}
+			} */
 		}
 	};
 };

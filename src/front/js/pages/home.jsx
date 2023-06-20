@@ -1,26 +1,31 @@
 import React, { useContext } from "react";
 import { Context } from "../store/appContext";
-import rigoImageUrl from "../../img/rigo-baby.jpg";
+
+import hero from "../../img/hero.jpg";
 import "../../styles/home.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAnglesDown } from "@fortawesome/free-solid-svg-icons";
 
 export const Home = () => {
-	const { store, actions } = useContext(Context);
+  const { store, actions } = useContext(Context);
 
-	return (
-		<div className="text-center mt-5">
-			<h1>Hello Rigo!!</h1>
-			<p>
-				<img src={rigoImageUrl} />
-			</p>
-			<div className="alert alert-info">
-				{store.message || "Loading message from the backend (make sure your python backend is running)..."}
-			</div>
-			<p>
-				This boilerplate comes with lots of documentation:{" "}
-				<a href="https://start.4geeksacademy.com/starters/react-flask">
-					Read documentation
-				</a>
-			</p>
-		</div>
-	);
+  return (
+    <div
+      style={{
+        backgroundImage: `url(${hero})`,
+      }}
+      className="px-4 py-5 my-5 text-center hero"
+    >
+      <h1 className="display-5 fw-bold">BTFX</h1>
+      <div className="col-lg-6 mx-auto">
+        <p className="lead mb-4">
+          Bienvenido a nuestra plataforma de inscribción de pruebas ciclistas de
+          Bizkaia.
+        </p>
+      </div>
+      <div className="d-grid gap-2 d-sm-flex justify-content-sm-center icon">
+        <FontAwesomeIcon type="button" icon={faAnglesDown} />
+      </div>
+    </div>
+  );
 };

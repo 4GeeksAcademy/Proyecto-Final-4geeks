@@ -1,0 +1,48 @@
+/* .wrapper-formulary * {
+  border: 1px red solid;
+} */
+
+.wrapper-formulary {
+  width: 20em !important;
+}
+
+/* HEADER */
+.wrapper-formulary .header-submit {
+  text-align: center;
+}
+
+.wrapper-formulary h1 {
+  font-size: 30px;
+}
+.subtitle-submit {
+  display: flex;
+  justify-content: center;
+}
+.subtitle-submit > * {
+  line-height: 1em;
+  font-size: 13px;
+}
+.wrapper-formulary h6 {
+  font-size: 13px;
+}
+
+/* BODY */
+.wrapper-formulary a {
+  margin-left: 0.5em;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 13px;
+  color: #008367;
+}
+
+.wrapper-formulary input {
+  font-size: smaller;
+}
+
+/* FOOTER */
+.footer-submit {
+  display: flex;
+}
+.footer-submit button {
+  margin: 1em auto 4em auto;
+}
