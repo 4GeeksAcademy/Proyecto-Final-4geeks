@@ -7,10 +7,3 @@
     flex-direction: column;
     justify-content: center;
   }
-
-.footer{
-    background:rgba(0, 0, 0, 0.3);
-}
-.sub-footer{
-    background:rgba(0, 0, 0, 0.20);
-}
