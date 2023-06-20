@@ -1,7 +1,23 @@
-/*
-    home.css: This website contains selectors only used in home.css
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-    All pages share the styles on index.css but you should create 
-    one more css for each page that will contain the selected used 
-    on that page only (the ones not reused in other pages).
-*/
+  margin: 0 !important;
+  height: 90vh;
+  width: 100%;
+
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+
+  color: #fcf4f1;
+}
+
+.hero .icon {
+  margin-top: auto;
+}
+
+.hero .icon * {
+  font-size: 2em;
+}
