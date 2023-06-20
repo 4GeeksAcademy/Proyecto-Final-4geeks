@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from "react";
 import "../../styles/footer.css";
 import Log1 from "../../img/Logo1.1.png";
-import Log2 from "../../img/Logo2.png";
-import Log3 from "../../img/Logo3.png";
+import Log2 from "../../img/logo2.png";
+import Log3 from "../../img/logo3.png";
 
 
 
@@ -80,8 +80,7 @@ export const Footer = () => (
 											</li>
 										</div>
 							</div>
-							
-					
+												
 			</div>
 			</div>
 		</footer>
