@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 import { Link } from "react-router-dom";
 
@@ -6,11 +7,12 @@ import "../../styles/modal.css";
 
 export const ModalLogin = () => {
   const { actions } = useContext(Context);
+  const navigate = useNavigate();
 
   const [firstField, setFirstField] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const loginData = {
@@ -18,7 +20,7 @@ export const ModalLogin = () => {
       password: password,
     };
 
-    actions.login(loginData);
+    const resp = await actions.login(loginData);
   };
 
   return (
@@ -45,7 +47,13 @@ export const ModalLogin = () => {
             </div>
             <div className="subtitle d-flex">
               <h6>¿No tienes una cuenta? </h6>
-              <Link to={`/signup`}>Regístrate</Link>
+              <Link
+                to={`/signup`}
+                data-bs-dismiss="modal"
+                onClick={() => navigate("/signup")}
+              >
+                Regístrate
+              </Link>
             </div>
           </div>
           <form onSubmit={handleSubmit}>

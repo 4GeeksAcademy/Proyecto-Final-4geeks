@@ -30,19 +30,21 @@ export const Navbar = () => {
           <img width="80px" src={logo} alt="" />
         </Link>
         <form className="search-form d-flex">
-          <input
-            className="fontAwesome search form-control me-2"
-            onFocus={() => {
-              setSearch(true);
-            }}
-            onBlur={() => {
-              setSearch(false);
-            }}
-            type="search"
-            placeholder="&#xf002;"
-            aria-label="Search"
-            style={search ? { width: "10em" } : {}}
-          />
+          {dimensions.width < 1000 ? (
+            <input
+              className="fontAwesome search form-control me-2"
+              type="search"
+              placeholder="&#xf002;  "
+              aria-label="Search"
+            />
+          ) : (
+            <input
+              className="fontAwesome search form-control me-2"
+              type="search"
+              placeholder="&#xf002;  Buscar"
+              aria-label="Search"
+            />
+          )}
         </form>
         {dimensions.width < 1000 ? (
           logged ? (

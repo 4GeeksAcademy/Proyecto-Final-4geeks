@@ -6,6 +6,14 @@
   margin: 0 0 0 auto !important;
 }
 
+.navbar-collapse ul * {
+  font-size: large;
+  font-weight: 400;
+}
+.navbar-collapse {
+  width: 5em !important;
+}
+
 .navbar-collapse .dropdown-menu {
   right: auto;
   left: 10%;
@@ -18,8 +26,9 @@
 .fontAwesome {
   font-family: "Helvetica", FontAwesome, sans-serif;
 }
-.search {
-  width: 3.5em;
+.navbar .search {
+  margin-left: 3em;
+  width: 10em;
 }
 .search:focus {
   border-color: #0078505a;
@@ -38,12 +47,12 @@
     margin: 0;
     padding-right: 4px !important;
   }
-  .search {
+  .navbar .search {
     width: 5em !important;
-  }
-  .search {
     font-size: larger;
+    margin-left: 0;
   }
+
   .search-form {
     margin-left: auto;
   }
