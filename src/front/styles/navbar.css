@@ -2,6 +2,15 @@
   border: 1px red solid;
 } */
 
+.navbar {
+  background: rgb(255, 191, 164);
+  background: linear-gradient(
+    90deg,
+    rgba(255, 191, 164, 1) 0%,
+    rgba(255, 236, 228, 1) 45%
+  );
+}
+
 .navbar-collapse ul {
   margin: 0 0 0 auto !important;
 }
