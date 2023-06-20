@@ -9,15 +9,13 @@ import Log3 from "../../img/logo3.png";
 export const Footer = () => (
 	
 	<Fragment>
-								{/*  */}
 				
 		
 		<footer className="footer py-2  ">
 			<div className="container-fluid position-relative  ">
 
 					<div className="row ml-3 justify-content-between ">
-											
-						
+												
 							<div className="col-md-4 ">
 								<h2 className="fs-4">Contacto:</h2>
 									<p className="fs-6">Martín Barúa Picaza Kalea, 27, 48003 Bilbo, Bizkaia</p>
