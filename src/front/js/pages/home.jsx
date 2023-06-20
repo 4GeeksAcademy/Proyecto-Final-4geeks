@@ -9,6 +9,16 @@ import { faAnglesDown } from "@fortawesome/free-solid-svg-icons";
 export const Home = () => {
   const { store, actions } = useContext(Context);
 
+  /* PARALLAX */
+  document.querySelector("body").onscroll = () => {
+    const scrolltotop = document.scrollingElement.scrollTop;
+    const target = document.querySelector(".hero");
+    const xvalue = "center";
+    const factor = 0.5;
+    const yvalue = scrolltotop * factor;
+    target.style.backgroundPosition = xvalue + " " + yvalue + "px";
+  };
+
   return (
     <div
       style={{
