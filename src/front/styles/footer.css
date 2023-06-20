@@ -1,0 +1,45 @@
+#Bizk {
+    filter: blur(2px);
+    opacity: 0.4;
+    z-index: -1;
+   
+  }
+/* modificación para contorno de footer */
+.footer {
+  background-image: linear-gradient(120deg, rgba(246, 212, 101, 0.236) 0%, #fda085 100%);  
+  box-shadow: 0px -4px 6px 0px rgba(0,0,0,0.3);
+}
+
+.sub-footer{
+    background:rgba(0, 0, 0, 0.20);
+
+}
+
+.alinear{
+  width: 25%;
+  height: 25%;
+  list-style: none;
+}
+
+
+.enlaces {
+  color: #212529;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out; 
+
+}
+
+.enlaces:hover{
+  color: rgb(220, 53, 69);
+  transform: scale(1.1); 
+
+}
+
+.zoom-social  {
+  transition: transform 0.4s  ease-in-out; 
+}
+
+.zoom-social:hover  {
+  transform: scale(1.4); 
+}

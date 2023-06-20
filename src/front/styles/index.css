@@ -7,14 +7,7 @@
 }
 
 .page-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.footer {
-  background: rgba(0, 0, 0, 0.3);
-}
-.sub-footer {
-  background: rgba(0,  0,  0,  0.20);
-}
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
