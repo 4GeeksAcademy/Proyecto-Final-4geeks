@@ -3,7 +3,7 @@
 } */
 
 .wrapper-formulary {
-  width: 20em !important;
+  padding: 0 37%;
 }
 
 /* HEADER */
@@ -45,4 +45,11 @@
 }
 .footer-submit button {
   margin: 1em auto 4em auto;
+}
+
+/* RESPONSIVE */
+@media (max-width: 720px) {
+  .wrapper-formulary {
+    padding: 0 1em;
+  }
 }
