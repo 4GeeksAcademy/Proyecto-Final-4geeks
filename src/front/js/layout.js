@@ -6,6 +6,7 @@ import { BackendURL } from "./component/backendURL";
 
 import { Home } from "./pages/home.jsx";
 import { Signup } from "./pages/signup.jsx";
+import { Login } from "./pages/login.jsx";
 
 import background from "../img/background.png"
 
@@ -33,6 +34,7 @@ const Layout = () => {
                         <Routes   >
                             <Route element={<Home />} path="/" />
                             <Route element={<Signup />} path="/signup" />
+                            <Route element={<Login />} path="/login" />
 
                             <Route element={<h1>Not found!</h1>} />
                         </Routes>

@@ -39,6 +39,10 @@
   font-size: smaller;
 }
 
+.wrapper-formulary .form-check {
+  margin-top: 1em;
+}
+
 /* FOOTER */
 .footer-submit {
   display: flex;

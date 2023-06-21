@@ -47,6 +47,23 @@
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px #0078502c;
 }
 
+/* PROFILE */
+.navbar li {
+  list-style-type: none;
+}
+
+.nav-item > a,
+.nav-item > a:focus,
+.nav-item > a:hover {
+  text-decoration: none;
+  color: #00744b;
+  font-size: large;
+}
+.nav-item > a:hover {
+  transition: transform 0.1s ease-in-out;
+  transform: scale(1.1);
+}
+
 /* RESPONSIVE */
 
 .login-mb {
