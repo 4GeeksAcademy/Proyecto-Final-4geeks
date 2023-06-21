@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { ModalLogin } from "./modalLogin.jsx";
 
 import logo from "../../img/BTXF-notext.png";
 import "../../styles/navbar.css";
 
 export const Navbar = () => {
+  const location = useLocation();
+  /* remove parallax listen from home always page change */
+  useEffect(() => {
+    document.querySelector("body").onscroll = () => {};
+  }, [location]);
+
   const [logged, setLogged] = useState(false);
   const [search, setSearch] = useState(false);
 

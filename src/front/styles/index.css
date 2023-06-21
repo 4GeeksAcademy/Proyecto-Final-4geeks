@@ -27,3 +27,9 @@
   border-left: 1px rgba(79, 79, 79, 0.4) solid;
   border-right: 1px rgba(79, 79, 79, 0.4) solid;
 }
+
+@media (max-width: 720px) {
+  .page-inside-sideband {
+    width: 100% !important;
+  }
+}

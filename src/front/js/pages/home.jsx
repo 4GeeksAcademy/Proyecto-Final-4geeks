@@ -1,4 +1,6 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+
 import { Context } from "../store/appContext";
 
 import hero from "../../img/hero.jpg";
@@ -8,12 +10,13 @@ import { faAnglesDown } from "@fortawesome/free-solid-svg-icons";
 
 export const Home = () => {
   useEffect(() => {
-    document.title = "BTFX - Registro";
+    document.title = "BTFX";
   }, []);
 
   const { store, actions } = useContext(Context);
 
   /* PARALLAX */
+
   useEffect(() => {
     document.querySelector("body").onscroll = () => {
       const scrolltotop = document.scrollingElement.scrollTop;

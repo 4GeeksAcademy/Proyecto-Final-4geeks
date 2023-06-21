@@ -10,7 +10,6 @@ import "../../styles/signup.css";
 
 export const Signup = () => {
   useEffect(() => {
-    document.querySelector("body").onscroll = () => {};
     document.title = "BTFX - Registro";
   }, []);
 

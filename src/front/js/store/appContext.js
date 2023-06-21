@@ -23,7 +23,6 @@ const injectContext = PassedComponent => {
 		);
 
 		useEffect(() => {
-
 			WebFont.load({
 				google: {
 					families: ['Droid Sans', 'Chilanka', 'Roboto']
