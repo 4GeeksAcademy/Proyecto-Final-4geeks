@@ -68,7 +68,7 @@ export const Signup = () => {
               <h1>Registro</h1>
               <div className="subtitle-submit d-flex">
                 <h6>¿Ya tienes una cuenta?</h6>
-                <Link to={`/`}>Inicia Sesión</Link>
+                <Link to={`/login`}>Inicia Sesión</Link>
               </div>
             </div>
 

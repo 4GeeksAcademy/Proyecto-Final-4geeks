@@ -16,7 +16,6 @@ export const Home = () => {
   const { store, actions } = useContext(Context);
 
   /* PARALLAX */
-
   useEffect(() => {
     document.querySelector("body").onscroll = () => {
       const scrolltotop = document.scrollingElement.scrollTop;
