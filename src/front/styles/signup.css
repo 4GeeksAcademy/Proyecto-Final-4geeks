@@ -3,7 +3,7 @@
 } */
 
 .wrapper-formulary {
-  width: 20em !important;
+  padding: 0 37%;
 }
 
 /* HEADER */
@@ -39,10 +39,21 @@
   font-size: smaller;
 }
 
+.wrapper-formulary .form-check {
+  margin-top: 1em;
+}
+
 /* FOOTER */
 .footer-submit {
   display: flex;
 }
 .footer-submit button {
   margin: 1em auto 4em auto;
+}
+
+/* RESPONSIVE */
+@media (max-width: 720px) {
+  .wrapper-formulary {
+    padding: 0 1em;
+  }
 }

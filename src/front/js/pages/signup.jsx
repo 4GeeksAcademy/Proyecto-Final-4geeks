@@ -9,6 +9,10 @@ import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 import "../../styles/signup.css";
 
 export const Signup = () => {
+  useEffect(() => {
+    document.title = "BTFX - Registro";
+  }, []);
+
   const navigate = useNavigate();
   const { store, actions } = useContext(Context);
 
@@ -22,17 +26,31 @@ export const Signup = () => {
     setLoad(true);
   }, []);
 
+  const [dni, setDni] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [mobile, setMobile] = useState("");
+  const [password, setPassword] = useState("");
+  const [password2, setPassword2] = useState("");
+
   const handleFormulary = async (e) => {
     e.preventDefault();
 
-    const contactData = {};
+    const data = {
+      dni: dni,
+      fullName: fullName,
+      email: email,
+      mobile: mobile,
+      password: password,
+    };
 
-    const signup = await actions.signup(contactData);
+    const signup = await actions.signup(data);
     if (signup) {
-      const login = await actions.login(contactData);
+      const login = await actions.login(data);
       if (login) {
         navigate("/");
       }
+      navigate("/");
     }
     setAlert(true);
     setAlertText("Error with signup");
@@ -42,106 +60,106 @@ export const Signup = () => {
   const [alertText, setAlertText] = useState("An error has occurred.");
 
   return (
-    <div className="wrapper-formulary pt-5 w-25">
+    <div className="page-inside-wb wrapper-formulary pt-5 w-25">
       <>
         <div className="form">
-          {/* ALERT */}
-          {alert ? (
-            <div
-              className="alert alert-danger d-flex align-items-center"
-              role="alert"
-            >
-              <FontAwesomeIcon
-                icon={faTriangleExclamation}
-                style={{ color: "#fa0000" }}
-              />
-              <div>{alertText}</div>
-            </div>
-          ) : null}
-
-          {/* ALERT END*/}
           <form onSubmit={handleFormulary}>
             <div className="header-submit">
               <h1>Registro</h1>
               <div className="subtitle-submit d-flex">
                 <h6>¿Ya tienes una cuenta?</h6>
-                <Link to={`/`}>Inicia Sesión</Link>
+                <Link to={`/login`}>Inicia Sesión</Link>
               </div>
             </div>
 
             <hr />
-            <div className="form-group mb-1">
-              <label htmlFor="exampleInputEmail1">Nombre completo</label>
+            {/* ALERT */}
+            {alert ? (
+              <div
+                className="alert alert-danger d-flex align-items-center"
+                role="alert"
+              >
+                <FontAwesomeIcon
+                  icon={faTriangleExclamation}
+                  style={{ color: "#fa0000" }}
+                />
+                <div>{alertText}</div>
+              </div>
+            ) : null}
+
+            {/* ALERT END*/}
+            <div className="form-group">
+              <label htmlFor="exampleInputEmail1">DNI*</label>
               <input
-                onChange={(e) => e}
-                value={""}
+                required
+                onChange={(e) => setDni(e.target.value)}
+                value={dni}
                 type="text"
                 className="form-control"
-                id="username"
+                id="dni"
                 aria-describedby="emailHelp"
               />
             </div>
             <div className="form-group mb-1">
-              <label htmlFor="exampleInputEmail1">Email</label>
+              <label htmlFor="exampleInputEmail1">Nombre completo*</label>
               <input
-                onChange={(e) => e}
-                value={""}
+                required
+                onChange={(e) => setFullName(e.target.value)}
+                value={fullName}
                 type="text"
+                className="form-control"
+                id="fullname"
+                aria-describedby="emailHelp"
+              />
+            </div>
+            <div className="form-group mb-1">
+              <label htmlFor="exampleInputEmail1">Email*</label>
+              <input
+                required
+                onChange={(e) => setEmail(e.target.value)}
+                value={email}
+                type="email"
                 className="form-control "
-                id="firstname"
+                id="email"
                 aria-describedby="emailHelp"
                 placeholder="example@correo.com"
               />
             </div>
-            <div className="form-group mb-1">
-              <label htmlFor="exampleInputEmail1">Contraseña</label>
+
+            <div className="form-group">
+              <label htmlFor="exampleInputEmail1">Número de móvil*</label>
               <input
-                onChange={(e) => e}
-                value={""}
-                type="text"
+                required
+                onChange={(e) => setMobile(e.target.value)}
+                value={mobile}
+                type="number"
                 className="form-control"
-                id="lastname"
-                aria-describedby="emailHelp"
-              />
-            </div>
-            <div className="form-group mb-1">
-              <label htmlFor="exampleInputEmail1">Confirmar contraseña</label>
-              <input
-                onChange={(e) => e}
-                value={""}
-                type="email"
-                className="form-control"
-                id="email"
+                id="mobile"
                 aria-describedby="emailHelp"
               />
             </div>
 
-            <div className="form-group">
-              <label htmlFor="exampleInputEmail1">Número de móvil</label>
+            <div className="form-group mb-1">
+              <label htmlFor="exampleInputEmail1">Contraseña*</label>
               <input
-                onChange={(e) => e}
-                onBlur={(e) => {
-                  e;
-                }}
-                value={""}
+                required
+                onChange={(e) => setPassword(e.target.value)}
+                value={password}
                 type="password"
                 className="form-control"
-                id="passwordTwo"
+                id="password"
                 aria-describedby="emailHelp"
               />
             </div>
-
-            <div className="form-group">
-              <label htmlFor="exampleInputEmail1">DNI</label>
+            <div className="form-group mb-1">
+              <label htmlFor="exampleInputEmail1">Confirmar contraseña*</label>
               <input
-                onChange={(e) => e}
-                onBlur={(e) => {
-                  e;
-                }}
-                value={""}
+                required
+                onChange={(e) => setPassword2(e.target.value)}
+                value={password2}
                 type="password"
                 className="form-control"
-                id="passwordTwo"
+                id="password2"
                 aria-describedby="emailHelp"
               />
             </div>

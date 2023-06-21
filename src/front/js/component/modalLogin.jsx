@@ -11,6 +11,7 @@ export const ModalLogin = () => {
 
   const [firstField, setFirstField] = useState("");
   const [password, setPassword] = useState("");
+  const [remember, setRemember] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,6 +19,7 @@ export const ModalLogin = () => {
     const loginData = {
       firstField: firstField,
       password: password,
+      remember: remember,
     };
 
     const resp = await actions.login(loginData);
@@ -89,6 +91,10 @@ export const ModalLogin = () => {
               </div>
               <div className="mb-3 form-check">
                 <input
+                  onChange={(e) => {
+                    setRemember(e.target.checked);
+                  }}
+                  value={remember}
                   type="checkbox"
                   className="form-check-input"
                   id="exampleCheck1"

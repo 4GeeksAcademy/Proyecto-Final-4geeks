@@ -1,11 +1,20 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+import { Context } from "../store/appContext.js";
+import { Link, useLocation } from "react-router-dom";
 import { ModalLogin } from "./modalLogin.jsx";
 
 import logo from "../../img/BTXF-notext.png";
 import "../../styles/navbar.css";
 
 export const Navbar = () => {
+  const { actions } = useContext(Context);
+
+  const location = useLocation();
+  /* remove parallax listen from home always page change */
+  useEffect(() => {
+    document.querySelector("body").onscroll = () => {};
+  }, [location]);
+
   const [logged, setLogged] = useState(false);
   const [search, setSearch] = useState(false);
 
@@ -78,7 +87,11 @@ export const Navbar = () => {
                   </a>
                 </li>
                 <li>
-                  <a className="dropdown-item" href="#">
+                  <a
+                    onClick={() => actions.logout()}
+                    className="dropdown-item"
+                    href="#"
+                  >
                     Cerrar Sesión
                   </a>
                 </li>
@@ -134,7 +147,12 @@ export const Navbar = () => {
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link active" aria-current="page" href="#">
+              <a
+                className="nav-link active disabled"
+                aria-current="page"
+                href="#"
+                style={{ color: "grey" }}
+              >
                 Tienda
               </a>
             </li>
@@ -172,7 +190,11 @@ export const Navbar = () => {
                   </a>
                 </li>
                 <li>
-                  <a className="dropdown-item" href="#">
+                  <a
+                    onClick={() => actions.logout()}
+                    className="dropdown-item"
+                    href="#"
+                  >
                     Cerrar Sesión
                   </a>
                 </li>
