@@ -18,9 +18,8 @@
 }
 
 .navbar-collapse ul *:hover {
-  color: rgb(220, 53, 69) !important;
   transition: transform 0.1s ease-in-out;
-  transform: scale(1.05);
+  text-shadow: 0px 10px 14px #00000079;
 }
 .navbar-collapse {
   width: 5em !important;
@@ -52,14 +51,14 @@
   list-style-type: none;
 }
 
-.nav-item > a,
-.nav-item > a:focus,
-.nav-item > a:hover {
+.navbar .nav-item > a,
+.navbar .nav-item > a:focus,
+.navbar .nav-item > a:hover {
   text-decoration: none;
   color: #00744b;
   font-size: large;
 }
-.nav-item > a:hover {
+.navbar .nav-item > a:hover {
   transition: transform 0.1s ease-in-out;
   transform: scale(1.1);
 }
