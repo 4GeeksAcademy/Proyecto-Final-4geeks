@@ -108,3 +108,21 @@
     margin-left: 20px !important;
   }
 }
+
+@media (min-width: 720px) and (max-width: 1000px) {
+  .navbar > div > form {
+    margin-left: auto;
+  }
+  /* MOBILE NAVBAR SMALLER */
+  .navbar {
+    top: -0.5em;
+    left: -7em;
+    width: 126% !important;
+    padding-left: 10px;
+    scale: 0.8;
+    width: 110%;
+  }
+  .page-wrapper {
+    margin-top: 4.5em;
+  }
+}
