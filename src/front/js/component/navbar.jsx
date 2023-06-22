@@ -137,9 +137,13 @@ export const Navbar = () => {
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link active" aria-current="page" href="#">
+              <Link
+                className="nav-link active"
+                aria-current="page"
+                to={"/classification"}
+              >
                 Clasificación
-              </a>
+              </Link>
             </li>
             <li className="nav-item">
               <a className="nav-link active" aria-current="page" href="#">
