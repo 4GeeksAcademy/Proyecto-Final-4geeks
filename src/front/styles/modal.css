@@ -1,6 +1,10 @@
 /* .modal * {
   border: 1px red solid;
 } */
+
+.modal {
+}
+
 .modal-header {
   flex-direction: column;
 }
@@ -14,6 +18,10 @@
 }
 .modal-content {
   width: 35em;
+}
+
+.modal-backdrop {
+  z-index: 9;
 }
 
 /* HEADER */
