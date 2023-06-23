@@ -115,14 +115,10 @@
   }
   /* MOBILE NAVBAR SMALLER */
   .navbar {
-    top: -0.5em;
-    left: -7em;
-    width: 126% !important;
-    padding-left: 10px;
-    scale: 0.8;
-    width: 110%;
+    top: -0.7em;
+    padding-bottom: 0;
   }
   .page-wrapper {
-    margin-top: 4.5em;
+    margin-top: 4.4em;
   }
 }

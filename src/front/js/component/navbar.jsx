@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Context } from "../store/appContext.js";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ModalLogin } from "./modalLogin.jsx";
 
 import logo from "../../img/BTXF-notext.png";
@@ -10,6 +10,7 @@ export const Navbar = () => {
   const { actions } = useContext(Context);
 
   const location = useLocation();
+  const navigate = useNavigate();
   /* remove parallax listen from home always page change */
   useEffect(() => {
     document.querySelector("body").onscroll = () => {};
@@ -17,6 +18,7 @@ export const Navbar = () => {
 
   const [logged, setLogged] = useState(false);
   const [search, setSearch] = useState(false);
+  const [collapse, setCollapse] = useState(false);
 
   //CAPTURE WIDTH AND HEIGHT WHEN ZOOM IN/OUT
   const [dimensions, setDimensions] = useState({});
@@ -35,7 +37,16 @@ export const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container-fluid">
-        <Link className="navbar-brand" to={"/"}>
+        <Link
+          onClick={() => {
+            setCollapse(false);
+            navigate("/");
+          }}
+          data-bs-toggle={collapse ? `collapse` : ""}
+          data-bs-target="#navbarSupportedContent"
+          className="navbar-brand"
+          to={"/"}
+        >
           <img width="80px" src={logo} alt="" />
         </Link>
         <form className="search-form d-flex">
@@ -113,6 +124,13 @@ export const Navbar = () => {
           )
         ) : null}
         <button
+          onClick={() => {
+            if (!collapse) {
+              const myTimeout = setTimeout(() => setCollapse(true), 300);
+            } else {
+              const myTimeout = setTimeout(() => setCollapse(false), 300);
+            }
+          }}
           className="navbar-toggler"
           type="button"
           data-bs-toggle="collapse"
@@ -138,9 +156,14 @@ export const Navbar = () => {
             </li>
             <li className="nav-item">
               <Link
+                onClick={() => {
+                  setCollapse(false);
+                  navigate("/classification");
+                }}
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent"
                 className="nav-link active"
                 aria-current="page"
-                to={"/classification"}
               >
                 Clasificación
               </Link>
