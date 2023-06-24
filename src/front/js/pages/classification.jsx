@@ -12,6 +12,7 @@ export const Classification = () => {
 
   const [point, setPoint] = useState({});
   const [event, setEvent] = useState({});
+  const [categorie, setCategorie] = useState({});
 
   const { store } = useContext(Context);
   return (
@@ -22,7 +23,10 @@ export const Classification = () => {
           {store.tournaments.map((item, index) => (
             <button
               key={index}
-              onClick={() => setPoint({ [item]: !point[item] })}
+              onClick={() => {
+                setEvent({});
+                setPoint({ [item]: true });
+              }}
               type="button"
               className={
                 point[item] ? `btn btn-dark btn-sm` : `btn btn-light btn-sm`
@@ -34,15 +38,17 @@ export const Classification = () => {
         </div>
         {Object.values(point)[0] ? (
           <>
+            <div className="hr"></div>
             <hr />
             <div className="trials">
               {store.trials.map((item, index) => (
                 <>
-                  {item.tournament === Object.keys(point)[0] ? (
+                  {item.tournament === Object.keys(point)[0] && (
                     <button
-                      onClick={() =>
-                        setEvent({ [item.name]: !event[item.name] })
-                      }
+                      onClick={() => {
+                        setCategorie({});
+                        setEvent({ [item.name]: true });
+                      }}
                       key={index}
                       type="button"
                       className={
@@ -53,29 +59,50 @@ export const Classification = () => {
                     >
                       {item.name}
                     </button>
-                  ) : null}
+                  )}
                 </>
               ))}
             </div>
           </>
         ) : null}
 
-        {/*  {Object.values(event)[0] ? (
+        {Object.values(event)[0] && Object.values(point)[0] ? (
           <>
             <hr />
             <div className="categories">
               {store.trials.map((item) => {
                 const arr = [];
                 if (item.name === Object.keys(event)[0]) {
-                  item.categories.map((item, index) => {
+                  item.categories.map((item) => {
                     arr.push(item);
                   });
                 }
-                return <button>hi</button>;
+                return (
+                  <>
+                    {item.name === Object.keys(event)[0]
+                      ? arr.map((item, index) => {
+                          return (
+                            <button
+                              onClick={() => setCategorie({ [item]: true })}
+                              key={index}
+                              type="button"
+                              className={
+                                categorie[item]
+                                  ? "btn btn-dark btn-sm"
+                                  : "btn btn-light btn-sm"
+                              }
+                            >
+                              {item}
+                            </button>
+                          );
+                        })
+                      : null}
+                  </>
+                );
               })}
             </div>
           </>
-        ) : null} */}
+        ) : null}
       </div>
     </div>
   );
