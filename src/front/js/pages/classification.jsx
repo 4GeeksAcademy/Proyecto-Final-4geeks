@@ -3,18 +3,20 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { Context } from "../store/appContext";
 
 import "../../styles/classification.css";
+import "../../styles/table.css";
 import { Button, ListGroupItem } from "react-bootstrap";
 
 export const Classification = () => {
   useEffect(() => {
-    document.title = "BTFX - Registro";
+    document.title = "BTFX - Clasificación";
   }, []);
+
+  const { store } = useContext(Context);
 
   const [point, setPoint] = useState({});
   const [event, setEvent] = useState({});
   const [categorie, setCategorie] = useState({});
 
-  const { store } = useContext(Context);
   return (
     <div className="page-inside-sideband classification">
       <h1>Clasificación</h1>
@@ -103,6 +105,44 @@ export const Classification = () => {
             </div>
           </>
         ) : null}
+      </div>
+      <div className="table">
+        <table>
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Equipo</th>
+              <th>Puntos</th>
+            </tr>
+          </thead>
+          <tfoot>
+            <tr>
+              <th colSpan="3">Año: 2023</th>
+            </tr>
+          </tfoot>
+          <tbody>
+            <tr>
+              <td data-title="Provider Name">Iacob Geaorgescu</td>
+              <td data-title="E-mail">Equipo 1</td>
+              <td className="select">41</td>
+            </tr>
+            <tr>
+              <td data-title="Provider Name">Julius Neumann</td>
+              <td data-title="E-mail">Equipo 1</td>
+              <td className="select">36</td>
+            </tr>
+            <tr>
+              <td data-title="Provider Name">Christoph Koller</td>
+              <td data-title="E-mail">Equipo 2</td>
+              <td className="select">30</td>
+            </tr>
+            <tr>
+              <td data-title="Provider Name">Bram Lemmens</td>
+              <td data-title="E-mail">Equipo 4</td>
+              <td className="select">18</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   );

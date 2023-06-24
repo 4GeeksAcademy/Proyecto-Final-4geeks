@@ -3,6 +3,7 @@
   border: 1px solid red;
 } */
 
+/* FILTERS */
 .classification .filters {
   display: flex;
   flex-direction: column;
@@ -50,8 +51,18 @@
   padding: 0.1em 0.5em;
 }
 
+/* TABLE */
+.classification .table {
+  padding: 2em;
+}
+
+/* RESPONSIVE */
 @media (max-width: 720px) {
   .classification .filters {
     width: 95%;
+  }
+
+  .classification .table {
+    padding: 0;
   }
 }
