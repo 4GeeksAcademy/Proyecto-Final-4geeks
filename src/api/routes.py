@@ -53,29 +53,29 @@ def signup():
         response_body["msg"] = "fullName not found"
         return jsonify(response_body), 400
 
-    # if user_name is None:
-    #     response_body["msg"] = "user_name not found"
-    #     return jsonify(response_body), 400
+    if user_name is None:
+        response_body["msg"] = "userName not found"
+        return jsonify(response_body), 400
 
-    # if email is None:
-    #     response_body["msg"] = "email not found"
-    #     return jsonify(response_body), 400
+    if email is None:
+        response_body["msg"] = "email not found"
+        return jsonify(response_body), 400
 
-    # if password is None:
-    #     response_body["msg"] = "password not found"
-    #     return jsonify(response_body), 400
+    if password is None:
+        response_body["msg"] = "password not found"
+        return jsonify(response_body), 400
 
     # dni = dni.lower().replace(" ", "")
-    # fullName = fullName.lower()
+    # full_name = full_name.lower()
     # user_name = user_name.lower().replace(" ", "")
     # email = email.lower().replace(" ", "")
 
-    # user = User.query.filter_by(
-    #     email=email, dni=dni, user_name=user_name).first()
+    user = User.query.filter_by(
+        email=email, dni=dni, user_name=user_name).first()
 
-    # if user != None:
-    #     response_body["msg"] = "Email or user_name or dni already exist "
-    #     return jsonify(response_body), 401
+    if user != None:
+        response_body["msg"] = "Email or user_name or dni already exist "
+        return jsonify(response_body), 401
 
     # Encrypt password
 
