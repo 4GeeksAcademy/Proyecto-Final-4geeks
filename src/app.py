@@ -7,10 +7,14 @@ from flask_migrate import Migrate
 from flask_swagger import swagger
 from flask_cors import CORS
 from api.utils import APIException, generate_sitemap
-from api.models import db, User, Rider, Category, Club, Team, Competition, Championship, Registro_torneo, Inscripcion
+from api.models import db
 from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
+
+# from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required, JWTManager
+# from flask_bcrypt import Bcrypt
+
 
 # from models import Person
 
