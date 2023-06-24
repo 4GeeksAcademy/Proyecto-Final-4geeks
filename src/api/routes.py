@@ -35,21 +35,23 @@ def handle_hello():
 def signup():
 
     dni = request.json.get("dni", None)
-    fullName = request.json.get("full_name", None)
-    user_name = request.json.get("user_name", None)
+    full_name = request.json.get("fullName", None)
+    user_name = request.json.get("userName", None)
     email = request.json.get("email", None)
     password = request.json.get("password", None)
 
 # Check if properties of user exist
     response_body = {}
+    
 
-    # if dni is None:
-    #     response_body["msg"] = "dni not found"
-    #     return jsonify(response_body), 400
+    if dni is None:
+        response_body["msg"] = "dni not found"
+        return jsonify(response_body), 400
+    
 
-    # if fullName is None:
-    #     response_body["msg"] = "fullName not found"
-    #     return jsonify(response_body), 400
+    if full_name is None:
+        response_body["msg"] = "fullName not found"
+        return jsonify(response_body), 400
 
     # if user_name is None:
     #     response_body["msg"] = "user_name not found"
@@ -88,7 +90,7 @@ def signup():
     # db.session.add(user)
     # db.session.commit()
 
-    response_body["msg"] = "Ok. User created"
+    response_body["msg"] = "Ok. User created" 
 
     return jsonify(response_body), 200
 
