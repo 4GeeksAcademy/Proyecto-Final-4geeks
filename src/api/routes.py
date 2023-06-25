@@ -6,7 +6,12 @@ from api.models import db, User, Rider, Category, Club, Team, Competition, Champ
 from api.utils import generate_sitemap, APIException
 
 from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
+
+###revisar
 from flask_bcrypt import Bcrypt
+app = Flask(__name__)
+# Setup B-crypt
+bcrypt = Bcrypt(app)
 
 import datetime
 # import timedelta
@@ -14,8 +19,7 @@ import datetime
 api = Blueprint('api', __name__)
 
 
-# Setup B-crypt
-# bcrypt = Bcrypt(app)
+
 
 
 @api.route('/hello', methods=['POST', 'GET'])
@@ -35,8 +39,8 @@ def handle_hello():
 def signup():
 
     dni = request.json.get("dni", None)
-    full_name = request.json.get("fullName", None)
-    user_name = request.json.get("userName", None)
+    fullName = request.json.get("fullName", None)
+    userName = request.json.get("userName", None)
     email = request.json.get("email", None)
     password = request.json.get("password", None)
 
@@ -44,58 +48,73 @@ def signup():
     response_body = {}
     
 
-    # if dni is None:
-    #     response_body["msg"] = "dni not found"
-    #     return jsonify(response_body), 400
+    if dni is None:
+        response_body["msg"] = "dni not found"
+        return jsonify(response_body), 400
     
 
-    # if full_name is None:
-    #     response_body["msg"] = "fullName not found"
-    #     return jsonify(response_body), 400
+    if fullName is None:
+        response_body["msg"] = "fullName not found"
+        return jsonify(response_body), 400
 
-    # if user_name is None:
-    #     response_body["msg"] = "userName not found"
-    #     return jsonify(response_body), 400
+    if userName is None:
+        response_body["msg"] = "userName not found"
+        return jsonify(response_body), 400
 
-    # if email is None:
-    #     response_body["msg"] = "email not found"
-    #     return jsonify(response_body), 400
+    if email is None:
+        response_body["msg"] = "email not found"
+        return jsonify(response_body), 400
 
-    # if password is None:
-    #     response_body["msg"] = "password not found"
-    #     return jsonify(response_body), 400
+    if password is None:
+        response_body["msg"] = "password not found"
+        return jsonify(response_body), 400
 
     # dni = dni.lower().replace(" ", "")
     # full_name = full_name.lower()
     # user_name = user_name.lower().replace(" ", "")
     # email = email.lower().replace(" ", "")
 
-    # user = User.query.filter_by(
-    #     email=email, dni=dni, user_name=user_name).first()
+    
+    user = User.query.filter_by(
+        email=email).first()
+   
+    if user != None:
+        response_body["msg"] = "Email already exist "
+        return jsonify(response_body), 401
 
-    # if user != None:
-    #     response_body["msg"] = "Email or user_name or dni already exist "
-    #     return jsonify(response_body), 401
+    user = User.query.filter_by(
+        dni=dni).first()
 
-    # Encrypt password
+    if user != None:
+        response_body["msg"] = "dni already exist "
+        return jsonify(response_body), 401
+    
+    user = User.query.filter_by(
+        user_name=userName).first()
+ 
+    if user != None:
+        response_body["msg"] = "user_name already exist "
+        return jsonify(response_body), 401
+    
+    #Encrypt password
 
-    # pw_hash = bcrypt.generate_password_hash("password").decode("utf-8")
+    pw_hash = bcrypt.generate_password_hash("password")
 
-    # print(pw_hash)
-    # print(password)
+    print(pw_hash)
+    print(password)
 
-    # user = User(
-    #     dni=dni, full_name=fullName, user_name=user_name, email=email, password=password)
+    user = User(
+        dni=dni, email=email, password=pw_hash)
 
-    # db.session.add(user)
-    # db.session.commit()
+    db.session.add(user)
+    db.session.commit()
 
-    response_body["msg"] = "Ok. User created" 
+    response_body["msg"] = "Ok. User created :)" 
 
     return jsonify(response_body), 200
 
 
-# @api.route("/login", methods=["POST"])
+# @app.route("/login", methods=["POST"])
 # def login():
 
 #     r = request.get_json(force=True)
@@ -134,7 +153,7 @@ def signup():
 #     return jsonify(response_body), 200
 
 
-# @api.route("/private", methods=["GET"])
+# @app.route("/private", methods=["GET"])
 # @jwt_required()
 # def private():
 
