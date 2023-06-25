@@ -13,42 +13,58 @@ export const Classification = () => {
 
   const { store } = useContext(Context);
 
-  const [point, setPoint] = useState({});
+  const [point, setPoint] = useState({ [store.trials[0].tournament]: true });
   const [event, setEvent] = useState({});
   const [categorie, setCategorie] = useState({});
 
   const [runners, setRunners] = useState([]);
-  const [c, setC] = useState(false);
 
   useEffect(() => {
-    let arr = [];
-    store.trials.map((item, index) => {
-      if (Object.keys(point)[0] === item.tournament) {
-        item.runners.map((x) => {
-          const filter = arr.filter((y) => y.name === x.name);
+    let aux = [];
+    store.trials.map((item) => {
+      if (
+        Object.keys(point)[0] === item.tournament &&
+        Object.keys(event).length === 0
+      ) {
+        item.runners.map((x, xIndex) => {
+          const filter = aux.filter((y) => y.name === x.name);
           if (filter.length === 0) {
-            arr.push(x);
+            aux.push(x);
           } else {
-            arr.map((z) => {
-              if (z.name === x.name && !c) {
-                const runner = z;
-                const points = z.points + x.points;
+            const index = aux.findIndex((e) => e.name === x.name);
+            const points = aux[index].points + x.points;
 
-                runner.points = points;
-                setC(true);
-                return runner;
-              } else return z;
-            });
+            aux.splice(index, 1);
+
+            /* ES NECESARIO CREAR UNA REPLICA DEL ITEM X, 
+            PORQUE SI NO ESTARÍA MODIFICANDO DIRECTAMENTE LA STORE */
+            const replicaX = {};
+
+            for (const i in x) {
+              if (i === "points") replicaX[i] = points;
+              else replicaX[i] = x[i];
+            }
+            aux.push(replicaX);
           }
+        });
+      } else if (
+        Object.keys(point)[0] === item.tournament &&
+        Object.keys(event)[0] === item.name &&
+        Object.keys(event).length > 0
+      ) {
+        item.runners.map((x) => {
+          aux.push(x);
         });
       }
     });
 
-    setRunners(arr);
-    console.log(arr);
+    aux.sort((a, b) => {
+      return b.points - a.points;
+    });
 
-    arr = [];
-  }, [point]);
+    setRunners(aux);
+    aux = [];
+  }, [point, event]);
 
   return (
     <div className="page-inside-sideband classification">
@@ -154,12 +170,12 @@ export const Classification = () => {
             </tr>
           </tfoot>
           <tbody>
-            {store.trials.map((item, index) => {
+            {runners.map((item, index) => {
               return (
-                <tr>
-                  <td data-title="Nombre">Iacob Geaorgescu</td>
-                  <td data-title="Equipo">Equipo 1</td>
-                  <td data-title="Puntos">41</td>
+                <tr key={index}>
+                  <td data-title="Nombre">{item.name}</td>
+                  <td data-title="Equipo">{item.team}</td>
+                  <td data-title="Puntos">{item.points}</td>
                 </tr>
               );
             })}
