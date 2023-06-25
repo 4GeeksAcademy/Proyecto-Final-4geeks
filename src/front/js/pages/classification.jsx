@@ -17,6 +17,39 @@ export const Classification = () => {
   const [event, setEvent] = useState({});
   const [categorie, setCategorie] = useState({});
 
+  const [runners, setRunners] = useState([]);
+  const [c, setC] = useState(false);
+
+  useEffect(() => {
+    let arr = [];
+    store.trials.map((item, index) => {
+      if (Object.keys(point)[0] === item.tournament) {
+        item.runners.map((x) => {
+          const filter = arr.filter((y) => y.name === x.name);
+          if (filter.length === 0) {
+            arr.push(x);
+          } else {
+            arr.map((z) => {
+              if (z.name === x.name && !c) {
+                const runner = z;
+                const points = z.points + x.points;
+
+                runner.points = points;
+                setC(true);
+                return runner;
+              } else return z;
+            });
+          }
+        });
+      }
+    });
+
+    setRunners(arr);
+    console.log(arr);
+
+    arr = [];
+  }, [point]);
+
   return (
     <div className="page-inside-sideband classification">
       <h1>Clasificación</h1>
@@ -121,26 +154,15 @@ export const Classification = () => {
             </tr>
           </tfoot>
           <tbody>
-            <tr>
-              <td data-title="Provider Name">Iacob Geaorgescu</td>
-              <td data-title="E-mail">Equipo 1</td>
-              <td className="select">41</td>
-            </tr>
-            <tr>
-              <td data-title="Provider Name">Julius Neumann</td>
-              <td data-title="E-mail">Equipo 1</td>
-              <td className="select">36</td>
-            </tr>
-            <tr>
-              <td data-title="Provider Name">Christoph Koller</td>
-              <td data-title="E-mail">Equipo 2</td>
-              <td className="select">30</td>
-            </tr>
-            <tr>
-              <td data-title="Provider Name">Bram Lemmens</td>
-              <td data-title="E-mail">Equipo 4</td>
-              <td className="select">18</td>
-            </tr>
+            {store.trials.map((item, index) => {
+              return (
+                <tr>
+                  <td data-title="Nombre">Iacob Geaorgescu</td>
+                  <td data-title="Equipo">Equipo 1</td>
+                  <td data-title="Puntos">41</td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
