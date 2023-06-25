@@ -63,7 +63,7 @@ class Rider(db.Model):
     equipo = db.Column(db.String(30), unique=False, nullable=True)
 
     def __repr__(self):
-        return f'<Riders {self.name}, >'
+        return f'<Rider {self.name}, >'
 
     def serialize(self):
         return {
