@@ -50,7 +50,7 @@ def signup():
  
     # #Encrypt password 
 
-    pw_hash = current_app.bcrypt.generate_password_hash("password").decode("utf-8")
+    pw_hash = current_app.bcrypt.generate_password_hash(password).decode("utf-8")
 
     user = User(
         email=email, password=pw_hash, name= None, surname=None, full_name=fullName,phone=None,user_name=userName,dni=dni,uci_id=None,licencia=None,federado=None, sexo=None,fecha_nacimiento=None, club=None,equipo=None)

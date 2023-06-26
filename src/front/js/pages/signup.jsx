@@ -27,7 +27,9 @@ export const Signup = () => {
   }, []);
 
   const [dni, setDni] = useState("");
-  const [fullName, setFullName] = useState("");
+  const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
+  const [subName, setSubName] = useState("");
   const [email, setEmail] = useState("");
   const [mobile, setMobile] = useState("");
   const [password, setPassword] = useState("");
@@ -38,7 +40,9 @@ export const Signup = () => {
 
     const data = {
       dni: dni,
-      fullName: fullName,
+      username: username,
+      name: name,
+      subName: subName,
       email: email,
       mobile: mobile,
       password: password,
@@ -101,14 +105,38 @@ export const Signup = () => {
               />
             </div>
             <div className="form-group mb-1">
-              <label htmlFor="exampleInputEmail1">Nombre completo*</label>
+              <label htmlFor="exampleInputEmail1">Nombre de usuario*</label>
               <input
                 required
-                onChange={(e) => setFullName(e.target.value)}
-                value={fullName}
+                onChange={(e) => setUsername(e.target.value)}
+                value={username}
                 type="text"
                 className="form-control"
-                id="fullname"
+                id="username"
+                aria-describedby="emailHelp"
+              />
+            </div>
+            <div className="form-group mb-1">
+              <label htmlFor="exampleInputEmail1">Nombre*</label>
+              <input
+                required
+                onChange={(e) => setName(e.target.value)}
+                value={name}
+                type="text"
+                className="form-control"
+                id="name"
+                aria-describedby="emailHelp"
+              />
+            </div>
+            <div className="form-group mb-1">
+              <label htmlFor="exampleInputEmail1">Apellidos*</label>
+              <input
+                required
+                onChange={(e) => setSubName(e.target.value)}
+                value={subName}
+                type="text"
+                className="form-control"
+                id="subname"
                 aria-describedby="emailHelp"
               />
             </div>

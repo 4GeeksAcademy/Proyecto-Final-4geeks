@@ -62,7 +62,7 @@ export const ModalLogin = () => {
             <div className="modal-body">
               <div className="mb-3">
                 <label htmlFor="exampleInputEmail1" className="form-label">
-                  DNI, email o número de móvil
+                  DNI, email o nombre de usuario
                 </label>
                 <input
                   onChange={(e) => {
