@@ -12,6 +12,7 @@ export const Home = () => {
   useEffect(() => {
     document.title = "BTFX";
   }, []);
+  const location = useLocation();
 
   const { store, actions } = useContext(Context);
 
@@ -25,7 +26,7 @@ export const Home = () => {
       const yvalue = scrolltotop * factor;
       target.style.backgroundPosition = xvalue + " " + yvalue + "px";
     };
-  }, []);
+  }, [location]);
 
   return (
     <div className="back-hero">
