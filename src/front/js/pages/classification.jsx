@@ -24,7 +24,7 @@ export const Classification = () => {
 
   /* ARRAY OF RUNNERS DEPENDING OF FILTERS/STATES */
   useEffect(() => {
-    let aux = [];
+    const aux = [];
     store.trials.map((item) => {
       if (
         Object.keys(point)[0] === item.tournament &&
@@ -72,12 +72,24 @@ export const Classification = () => {
       }
     });
 
+    /* SORT ARRAY BY POINTS */
     aux.sort((a, b) => {
       return b.points - a.points;
     });
 
-    setRunners(aux);
-    aux = [];
+    /* ADD NUMBER TO NAME FOR CLARITY */
+    const auxNumber = [];
+    aux.map((e, i) => {
+      const name = `${i + 1}. ${e.name}`;
+      const replicaE = {};
+      for (const ind in e) {
+        if (ind === "name") replicaE[ind] = name;
+        else replicaE[ind] = e[ind];
+      }
+      auxNumber.push(replicaE);
+    });
+
+    setRunners(auxNumber);
   }, [point, event, categorie]);
 
   /* SORT FUNCTION FOR TABLE */
