@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 5702f8dbda75
+Revision ID: c93994096263
 Revises: 
-Create Date: 2023-06-21 18:03:53.023972
+Create Date: 2023-06-26 16:09:09.510493
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '5702f8dbda75'
+revision = 'c93994096263'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -76,11 +76,12 @@ def upgrade():
     op.create_table('user',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('email', sa.String(length=120), nullable=False),
-    sa.Column('password', sa.String(length=15), nullable=False),
-    sa.Column('is_active', sa.Boolean(), nullable=False),
+    sa.Column('password', sa.String(length=120), nullable=False),
     sa.Column('name', sa.String(length=20), nullable=True),
     sa.Column('surname', sa.String(length=80), nullable=True),
-    sa.Column('nick', sa.String(length=20), nullable=True),
+    sa.Column('full_name', sa.String(length=80), nullable=True),
+    sa.Column('phone', sa.Integer(), nullable=True),
+    sa.Column('user_name', sa.String(length=20), nullable=True),
     sa.Column('dni', sa.String(length=9), nullable=True),
     sa.Column('uci_id', sa.Integer(), nullable=True),
     sa.Column('licencia', sa.String(length=9), nullable=True),
@@ -93,7 +94,8 @@ def upgrade():
     sa.UniqueConstraint('dni'),
     sa.UniqueConstraint('email'),
     sa.UniqueConstraint('licencia'),
-    sa.UniqueConstraint('uci_id')
+    sa.UniqueConstraint('uci_id'),
+    sa.UniqueConstraint('user_name')
     )
     op.create_table('registro_torneo',
     sa.Column('id', sa.Integer(), nullable=False),

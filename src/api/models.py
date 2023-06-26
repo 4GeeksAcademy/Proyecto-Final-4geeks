@@ -7,12 +7,13 @@ db = SQLAlchemy()
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    password = db.Column(db.String(15), unique=False, nullable=False)
-    is_active = db.Column(db.Boolean(), unique=False, nullable=False)
+    password = db.Column(db.String(120), unique=False, nullable=False)
+    #is_active = db.Column(db.Boolean(), unique=False, nullable=False)
     name = db.Column(db.String(20), unique=False, nullable=True)
     surname = db.Column(db.String(80), unique=False, nullable=True)
+    full_name = db.Column(db.String(80), unique=False, nullable=True)
     phone = db.Column(db.Integer, unique=False, nullable=True)
-    nick = db.Column(db.String(20), unique=True, nullable=True)
+    user_name = db.Column(db.String(20), unique=True, nullable=True)
     dni = db.Column(db.String(9), unique=True, nullable=True)
     uci_id = db.Column(db.Integer, unique=True, nullable=True)
     licencia = db.Column(db.String(9), unique=True, nullable=True)
@@ -23,7 +24,7 @@ class User(db.Model):
     equipo = db.Column(db.String(30), unique=False, nullable=True)
 
     def __repr__(self):
-        return f'<User {self.email}, >'
+        return f'<User {self.email} >'
 
     def serialize(self):
         return {
@@ -32,8 +33,9 @@ class User(db.Model):
             # # do not serialize the password, its a security breach
             "name": self.name,
             "surname": self.surname,
+            "full_name": self.full_name,
             "phone": self.phone,
-            "nick": self.nick,
+            "user_name": self.user_name,
             "dni": self.dni,
             "uci_id": self.uci_id,
             "licencia": self.licencia,
@@ -61,7 +63,7 @@ class Rider(db.Model):
     equipo = db.Column(db.String(30), unique=False, nullable=True)
 
     def __repr__(self):
-        return f'<Riders {self.name}, >'
+        return f'<Rider {self.name}, >'
 
     def serialize(self):
         return {
