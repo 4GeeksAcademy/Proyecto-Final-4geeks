@@ -1,7 +1,7 @@
 """
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
-from flask import Flask, request, jsonify, url_for, Blueprint
+from flask import Flask, request, jsonify, url_for, Blueprint, current_app
 from api.models import db, User, Rider, Category, Club, Team, Competition, Championship, Registro_torneo, Inscripcion
 from api.utils import generate_sitemap, APIException
 
@@ -9,18 +9,12 @@ from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_requir
 
 ###revisar
 from flask_bcrypt import Bcrypt
-app = Flask(__name__)
-# Setup B-crypt
-bcrypt = Bcrypt(app)
+
 
 import datetime
 # import timedelta
 
 api = Blueprint('api', __name__)
-
-
-
-
 
 @api.route('/hello', methods=['POST', 'GET'])
 def handle_hello():
@@ -46,65 +40,21 @@ def signup():
 
 # Check if properties of user exist
     response_body = {}
-    
-
-    if dni is None:
-        response_body["msg"] = "dni not found"
-        return jsonify(response_body), 400
-    
-
-    if fullName is None:
-        response_body["msg"] = "fullName not found"
-        return jsonify(response_body), 400
-
-    if userName is None:
-        response_body["msg"] = "userName not found"
-        return jsonify(response_body), 400
-
-    if email is None:
-        response_body["msg"] = "email not found"
-        return jsonify(response_body), 400
-
-    if password is None:
-        response_body["msg"] = "password not found"
-        return jsonify(response_body), 400
-
-    # dni = dni.lower().replace(" ", "")
-    # full_name = full_name.lower()
-    # user_name = user_name.lower().replace(" ", "")
-    # email = email.lower().replace(" ", "")
-
-    
+         
     user = User.query.filter_by(
-        email=email).first()
+        email=email).filter_by(dni=dni).filter_by(user_name=userName).first()
    
     if user != None:
-        response_body["msg"] = "Email already exist "
+        response_body["msg"] = "Email or dni or user_name already exist "
         return jsonify(response_body), 401
-
-    user = User.query.filter_by(
-        dni=dni).first()
-
-    if user != None:
-        response_body["msg"] = "dni already exist "
-        return jsonify(response_body), 401
-    
-    user = User.query.filter_by(
-        user_name=userName).first()
  
-    if user != None:
-        response_body["msg"] = "user_name already exist "
-        return jsonify(response_body), 401
-    
-    #Encrypt password
+    # #Encrypt password 
 
-    pw_hash = bcrypt.generate_password_hash("password")
-
-    print(pw_hash)
-    print(password)
+    pw_hash = current_app.bcrypt.generate_password_hash("password").decode("utf-8")
 
     user = User(
-        dni=dni, email=email, password=pw_hash)
+        email=email, password=pw_hash, name= None, surname=None, full_name=fullName,phone=None,user_name=userName,dni=dni,uci_id=None,licencia=None,federado=None, sexo=None,fecha_nacimiento=None, club=None,equipo=None)
+    
 
     db.session.add(user)
     db.session.commit()

@@ -12,6 +12,10 @@ from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
 
+from flask_bcrypt import Bcrypt
+#app = Flask(__name__)
+
+
 # from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required, JWTManager
 #from flask_bcrypt import Bcrypt
 
@@ -38,6 +42,9 @@ db.init_app(app)
 
 # Allow CORS requests to this API
 CORS(app)
+# Setup B-crypt
+bcrypt = Bcrypt(app)
+app.bcrypt = bcrypt
 
 # add the admin
 setup_admin(app)
