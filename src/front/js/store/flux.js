@@ -111,7 +111,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         console.log(data);
 
         try {
-          const response = await axios.post(`${url}login`, data);
+          const response = await axios.post(`${url}api/login`, data);
           console.log(response);
           if (response?.status === 200) {
             localStorage.setItem("token", response.data.token);
@@ -127,7 +127,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         console.log(data);
 
         try {
-          const response = await axios.post(`${url}signup`, data);
+          const response = await axios.post(`${url}api/signup`, data);
           console.log(response);
           return true;
         } catch (error) {

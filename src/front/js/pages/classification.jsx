@@ -254,19 +254,19 @@ export const Classification = () => {
                     <FontAwesomeIcon icon={faCaretDown} />
                   ) : null}
                 </th>
-                <th onClick={(e) => handleSort(e, "points")} id="points">
-                  Puntos{" "}
-                  {sort?.points === true ? (
-                    <FontAwesomeIcon icon={faCaretUp} />
-                  ) : sort?.points === false ? (
-                    <FontAwesomeIcon icon={faCaretDown} />
-                  ) : null}
-                </th>
                 <th onClick={(e) => handleSort(e, "categorie")} id="categorie">
                   Categoría{" "}
                   {sort?.categorie === true ? (
                     <FontAwesomeIcon icon={faCaretUp} />
                   ) : sort?.categorie === false ? (
+                    <FontAwesomeIcon icon={faCaretDown} />
+                  ) : null}
+                </th>
+                <th onClick={(e) => handleSort(e, "points")} id="points">
+                  Puntos{" "}
+                  {sort?.points === true ? (
+                    <FontAwesomeIcon icon={faCaretUp} />
+                  ) : sort?.points === false ? (
                     <FontAwesomeIcon icon={faCaretDown} />
                   ) : null}
                 </th>
@@ -283,8 +283,8 @@ export const Classification = () => {
                   <tr key={index}>
                     <td data-title="Nombre">{item.name}</td>
                     <td data-title="Equipo">{item.team}</td>
-                    <td data-title="Puntos">{item.points}</td>
                     <td data-title="Categoría">{item.categorie}</td>
+                    <td data-title="Puntos">{item.points}</td>
                   </tr>
                 );
               })}
