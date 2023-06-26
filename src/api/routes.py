@@ -4,10 +4,11 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 from flask import Flask, request, jsonify, url_for, Blueprint, current_app
 from api.models import db, User, Rider, Category, Club, Team, Competition, Championship, Registro_torneo, Inscripcion
 from api.utils import generate_sitemap, APIException
+from sqlalchemy import or_
 
 from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
 
-###revisar
+# revisar
 from flask_bcrypt import Bcrypt
 
 
@@ -15,6 +16,7 @@ import datetime
 # import timedelta
 
 api = Blueprint('api', __name__)
+
 
 @api.route('/hello', methods=['POST', 'GET'])
 def handle_hello():
@@ -42,58 +44,71 @@ def signup():
 
 # Check if properties of user exist
     response_body = {}
-         
+
     user = User.query.filter_by(
         email=email).filter_by(dni=dni).filter_by(user_name=user_name).first()
-   
+
     if user != None:
         response_body["msg"] = "Email or dni or user_name already exist "
         return jsonify(response_body), 401
- 
-    # #Encrypt password 
 
-    pw_hash = current_app.bcrypt.generate_password_hash(password).decode("utf-8")
+    # #Encrypt password
+
+    pw_hash = current_app.bcrypt.generate_password_hash(
+        password).decode("utf-8")
 
     user = User(
-        email=email, password=pw_hash, name= name, subname= subname, phone=phone,user_name=user_name,dni=dni,uci_id=None,licencia=None,federado=None, sexo=None,fecha_nacimiento=None, club=None,equipo=None)
-    
+        email=email, password=pw_hash, name=name, subname=subname, phone=phone, user_name=user_name, dni=dni, uci_id=None, licencia=None, federado=None, sexo=None, fecha_nacimiento=None, club=None, equipo=None)
 
     db.session.add(user)
     db.session.commit()
 
-    response_body["msg"] = "Ok. User created :)" 
+    response_body["msg"] = "Ok. User created :)"
 
     return jsonify(response_body), 200
 
 
-# @api.route("/login", methods=["POST"])
-# def login():
+@api.route("/login", methods=["POST"])
+def login():
 
-#     r = request.get_json(force=True)
+    try:
+        first_field = request.json.get("firstField", None)
+        password = request.json.get("password", None)
+        remember = request.json.get("remember", None)
 
-#     # Check password & user_name|email
-#     if "email" in r:
-#         user = User.query.filter_by((
-#             User.email == r["email"].replace(" ", "").lower()).filter_by(
-#             User.dni == r["email"].replace(" ", "").lower()).filter_by(
-#             User.user_name == r["email"].replace(" ", "").lower())
-#         ).first()
-#     else:
-#         return jsonify({"msg": "Email or user_name or DNI property not found"}), 400
+        user = User.query.filter(
+            or_(User.email == first_field, User.dni == first_field)).first()
 
-#     if user is None:
-#         return jsonify({"msg": "User not found on database"}), 401
+        print(user)
+        if user is None:
+            return jsonify({"msg": "El usuario no fue encontrado."}), 401
+        # token = create_access_token(
+        #     identity=user.id, expires_delta=datetime.timedelta(days=3650))
+        # data_response = create_token(user)
+        return jsonify({"msg": "ok"}), 200
 
-#     if "password" not in r:
-#         return jsonify({"msg": "Password not found"}), 400
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
 
-#     print(r["password"])
-#     # Check password
-#     check_password = current_app.bcrypt.check_password_hash(user.password, r["password"])
+#     response_body = {}
+
+#     user = User.query.filter_by(
+#         email=first_field).filter_by(dni=first_field).filter_by(user_name=first_field).first()
+
+#     print(user)
+
+#     if user != None:
+#         response_body["msg"] = "Email or dni or user_name already exist "
+#         return jsonify(response_body), 401
+
+
+# #     # Check password
+#     check_password = current_app.bcrypt.check_password_hash(
+#         user.password, r["password"])
 #     if not check_password:
 #         return jsonify({"msg": "Incorrect password"}), 401
 
-#     # Create Access Token
+# #     # Create Access Token
 
 #     access_token = create_access_token(
 #         identity=user.id, expires_delta=datetime.timedelta(days=3650))
