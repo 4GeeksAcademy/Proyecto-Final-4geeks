@@ -76,8 +76,11 @@ def login():
         password = request.json.get("password", None)
         remember = request.json.get("remember", None)
 
-        user = User.query.filter(
-            or_(User.email == first_field, User.dni == first_field)).first()
+        # user = User.query.filter(
+        #     or_(User.email == first_field, User.dni == first_field)).first()
+
+        user = User.query.filter((User.email == first_field) | (
+            User.dni == first_field) | User.user_name).first()
 
         print(user)
         if user is None:
