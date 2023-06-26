@@ -10,8 +10,7 @@ class User(db.Model):
     password = db.Column(db.String(120), unique=False, nullable=False)
     #is_active = db.Column(db.Boolean(), unique=False, nullable=False)
     name = db.Column(db.String(20), unique=False, nullable=True)
-    surname = db.Column(db.String(80), unique=False, nullable=True)
-    full_name = db.Column(db.String(80), unique=False, nullable=True)
+    subname = db.Column(db.String(80), unique=False, nullable=True)
     phone = db.Column(db.Integer, unique=False, nullable=True)
     user_name = db.Column(db.String(20), unique=True, nullable=True)
     dni = db.Column(db.String(9), unique=True, nullable=True)
@@ -32,8 +31,7 @@ class User(db.Model):
             "email": self.email,
             # # do not serialize the password, its a security breach
             "name": self.name,
-            "surname": self.surname,
-            "full_name": self.full_name,
+            "subname": self.subname,
             "phone": self.phone,
             "user_name": self.user_name,
             "dni": self.dni,

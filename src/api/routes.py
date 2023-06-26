@@ -33,8 +33,10 @@ def handle_hello():
 def signup():
 
     dni = request.json.get("dni", None)
-    fullName = request.json.get("fullName", None)
-    userName = request.json.get("userName", None)
+    name = request.json.get("name", None)
+    subname = request.json.get("subName", None)
+    phone = request.json.get("mobile", None)
+    user_name = request.json.get("username", None)
     email = request.json.get("email", None)
     password = request.json.get("password", None)
 
@@ -42,7 +44,7 @@ def signup():
     response_body = {}
          
     user = User.query.filter_by(
-        email=email).filter_by(dni=dni).filter_by(user_name=userName).first()
+        email=email).filter_by(dni=dni).filter_by(user_name=user_name).first()
    
     if user != None:
         response_body["msg"] = "Email or dni or user_name already exist "
@@ -53,7 +55,7 @@ def signup():
     pw_hash = current_app.bcrypt.generate_password_hash(password).decode("utf-8")
 
     user = User(
-        email=email, password=pw_hash, name= None, surname=None, full_name=fullName,phone=None,user_name=userName,dni=dni,uci_id=None,licencia=None,federado=None, sexo=None,fecha_nacimiento=None, club=None,equipo=None)
+        email=email, password=pw_hash, name= name, subname= subname, phone=phone,user_name=user_name,dni=dni,uci_id=None,licencia=None,federado=None, sexo=None,fecha_nacimiento=None, club=None,equipo=None)
     
 
     db.session.add(user)
