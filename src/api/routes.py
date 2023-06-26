@@ -50,7 +50,7 @@ def signup():
  
     # #Encrypt password 
 
-    pw_hash = current_app.bcrypt.generate_password_hash("password").decode("utf-8")
+    pw_hash = current_app.bcrypt.generate_password_hash(password).decode("utf-8")
 
     user = User(
         email=email, password=pw_hash, name= None, surname=None, full_name=fullName,phone=None,user_name=userName,dni=dni,uci_id=None,licencia=None,federado=None, sexo=None,fecha_nacimiento=None, club=None,equipo=None)
@@ -64,43 +64,43 @@ def signup():
     return jsonify(response_body), 200
 
 
-@api.route("/login", methods=["POST"])
-def login():
+# @api.route("/login", methods=["POST"])
+# def login():
 
-    r = request.get_json(force=True)
+#     r = request.get_json(force=True)
 
-    # Check password & user_name|email
-    if "email" in r:
-        user = User.query.filter_by((
-            User.email == r["email"].replace(" ", "").lower()).filter_by(
-            User.dni == r["email"].replace(" ", "").lower()).filter_by(
-            User.user_name == r["email"].replace(" ", "").lower())
-        ).first()
-    else:
-        return jsonify({"msg": "Email or user_name or DNI property not found"}), 400
+#     # Check password & user_name|email
+#     if "email" in r:
+#         user = User.query.filter_by((
+#             User.email == r["email"].replace(" ", "").lower()).filter_by(
+#             User.dni == r["email"].replace(" ", "").lower()).filter_by(
+#             User.user_name == r["email"].replace(" ", "").lower())
+#         ).first()
+#     else:
+#         return jsonify({"msg": "Email or user_name or DNI property not found"}), 400
 
-    if user is None:
-        return jsonify({"msg": "User not found on database"}), 401
+#     if user is None:
+#         return jsonify({"msg": "User not found on database"}), 401
 
-    if "password" not in r:
-        return jsonify({"msg": "Password not found"}), 400
+#     if "password" not in r:
+#         return jsonify({"msg": "Password not found"}), 400
 
-    print(r["password"])
-    # Check password
-    check_password = current_app.bcrypt.check_password_hash(user.password, r["password"])
-    if not check_password:
-        return jsonify({"msg": "Incorrect password"}), 401
+#     print(r["password"])
+#     # Check password
+#     check_password = current_app.bcrypt.check_password_hash(user.password, r["password"])
+#     if not check_password:
+#         return jsonify({"msg": "Incorrect password"}), 401
 
-    # Create Access Token
+#     # Create Access Token
 
-    access_token = create_access_token(
-        identity=user.id, expires_delta=datetime.timedelta(days=3650))
+#     access_token = create_access_token(
+#         identity=user.id, expires_delta=datetime.timedelta(days=3650))
 
-    response_body = {"msg": "Ok",
-                     "token": access_token,
-                     "user": user.serialize()}
+#     response_body = {"msg": "Ok",
+#                      "token": access_token,
+#                      "user": user.serialize()}
 
-    return jsonify(response_body), 200
+#     return jsonify(response_body), 200
 
 
 # @app.route("/private", methods=["GET"])
