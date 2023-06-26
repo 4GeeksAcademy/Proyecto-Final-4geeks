@@ -52,8 +52,16 @@
 }
 
 /* TABLE */
+
 .classification .table {
   padding: 2em;
+}
+.classification h2 {
+  margin-top: 2em;
+  font-size: 20px;
+}
+.classification .table th {
+  cursor: pointer;
 }
 
 /* RESPONSIVE */
