@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from "react";
+import { Link } from "react-router-dom";
 import "../../styles/footer.css";
 import Log1 from "../../img/Logo1.1.png";
 import Log2 from "../../img/logo2.png";
@@ -21,9 +22,7 @@ export const Footer = () => (
 									<p className="fs-6">Martín Barúa Picaza Kalea, 27, 48003 Bilbo, Bizkaia</p>
 								<div className="fs-4 d-flex gap-4">
 									<a href="#"><i className="fab fa-facebook-f text-primary zoom-social "></i></a>
-									<a href="#"><i className="fab fa-twitter text-info zoom-social"></i></a>
-									<a href="#"><i className="fab fa-instagram text-danger zoom-social"></i></a>
-									<a href="#"><i className="fab fa-linkedin-in text-secondary zoom-social"></i></a>
+									
 								</div>
 							</div>
 
@@ -43,27 +42,27 @@ export const Footer = () => (
 									
 										<div className="col-6 d-inline">
 											<li className="nav-item ">
-											<a className="nav-link enlaces " aria-current="page" href="#">
+											<Link className="nav-link enlaces " aria-current="page" to="#">
 												Calendario
-											</a>
+											</Link>
 											</li>
 											<li className="nav-item">
-											<a className="nav-link enlaces " aria-current="page" href="#">
+											<Link className="nav-link enlaces " aria-current="page" to="#">
 												Inscripción
-											</a>
+											</Link>
 											</li>
 										</div>
 
 										<div className="col-6 d-inline ">
 											<li className="nav-item ">
-											<a className="nav-link enlaces" aria-current="page" href="#">
+											<Link className="nav-link enlaces" aria-current="page" to="classification">
 												Clasificación
-											</a>
+											</Link>
 											</li>
 											<li className="nav-item">
-											<a className="nav-link enlaces" aria-current="page" href="#">
+											<Link className="nav-link enlaces" aria-current="page" to="#">
 												Noticias
-											</a>
+											</Link>
 											</li>
 
 										</div>
@@ -83,11 +82,26 @@ export const Footer = () => (
 			</div>
 		</footer>
 
-		<div className=" container-fluid sub-footer text-center p-1 fs-6"> 
-			<p className="fst-italic text-dark">© 2023 Copyright. All rights reserved. 
-			<a className="text-dark text-decoration-none" href="#"> 4GeeksAcademy Group 3</a></p> 
-		</div>
-		
+		<nav class="d-flex navbar-expand-lg bg-body-tertiary position-static">
+			<div class="container-fluid">
 
+
+				<ul class="navbar-nav row w-100 p-2">
+					<li class="col-lg-2 ">
+					<a class="nav-link active" aria-current="page" href="#">Politica de privacidad</a>
+					</li>
+					<li class="col-lg-2">
+					<a class="nav-link" href="#">Politica de cookies</a>
+					</li>
+					<li class="col-lg-2">
+					<a class="nav-link" href="#">Aviso Legal</a>
+					</li>
+					<li class="col-lg-6 text-end">
+					<p >© 2023 Copyright. All rights reserved.</p>
+					</li>
+				
+				</ul>
+				</div>
+			</nav>
 	</Fragment>
 );
