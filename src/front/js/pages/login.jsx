@@ -15,13 +15,13 @@ export const Login = () => {
 
   const navigate = useNavigate();
   //Redirect in case user is logged
-  useEffect(() => {
+  /*   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token !== null) {
       navigate("/");
     }
     setLoad(true);
-  }, []);
+  }, []); */
 
   const { store, actions } = useContext(Context);
   const [load, setLoad] = useState(false);
@@ -43,6 +43,27 @@ export const Login = () => {
     };
 
     const resp = await actions.login(loginData);
+    if (resp === 200) {
+      navigate("/");
+    }
+
+    if (resp === 401) {
+      setAlert(true);
+      setAlertText("Dni, email, nombre de usuario o contraseña no encontrado");
+      setPassword("");
+    }
+
+    if (resp === 400) {
+      setAlert(true);
+      setAlertText("Error inesperado, porfavor intentelo de nuevo");
+      setPassword("");
+    }
+
+    if (resp === undefined) {
+      setAlert(true);
+      setAlertText("CORS policity");
+      setPassword("");
+    }
   };
 
   return (

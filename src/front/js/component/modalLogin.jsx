@@ -1,13 +1,23 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 import { Link } from "react-router-dom";
 
 import "../../styles/modal.css";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
+
 export const ModalLogin = () => {
   const { actions } = useContext(Context);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setAlert(false);
+  }, [firstField, password]);
+
+  const [alert, setAlert] = useState(false);
+  const [alertText, setAlertText] = useState("An error has occurred.");
 
   const [firstField, setFirstField] = useState("");
   const [password, setPassword] = useState("");
@@ -23,6 +33,28 @@ export const ModalLogin = () => {
     };
 
     const resp = await actions.login(loginData);
+
+    if (resp === 200) {
+      location.reload();
+    }
+
+    if (resp === 401) {
+      setAlert(true);
+      setAlertText("Dni, email, nombre de usuario o contraseña no encontrado");
+      setPassword("");
+    }
+
+    if (resp === 400) {
+      setAlert(true);
+      setAlertText("Error inesperado, porfavor intentelo de nuevo");
+      setPassword("");
+    }
+
+    if (resp === undefined) {
+      setAlert(true);
+      setAlertText("CORS policity");
+      setPassword("");
+    }
   };
 
   return (
@@ -58,8 +90,24 @@ export const ModalLogin = () => {
               </Link>
             </div>
           </div>
+
           <form onSubmit={handleSubmit}>
             <div className="modal-body">
+              {/* ALERT */}
+              {alert ? (
+                <div
+                  className="alert alert-danger d-flex align-items-center"
+                  role="alert"
+                >
+                  <FontAwesomeIcon
+                    icon={faTriangleExclamation}
+                    style={{ color: "#fa0000" }}
+                  />
+                  <div className="alert-text">{alertText}</div>
+                </div>
+              ) : null}
+
+              {/* ALERT END*/}
               <div className="mb-3">
                 <label htmlFor="exampleInputEmail1" className="form-label">
                   DNI, email o nombre de usuario

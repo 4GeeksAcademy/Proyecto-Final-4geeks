@@ -20,6 +20,8 @@ export const Navbar = () => {
   const [search, setSearch] = useState(false);
   const [collapse, setCollapse] = useState(false);
 
+  const [showModal, setShowModal] = useState(false);
+
   //CAPTURE WIDTH AND HEIGHT WHEN ZOOM IN/OUT
   const [dimensions, setDimensions] = useState({});
 
@@ -151,7 +153,7 @@ export const Navbar = () => {
             </li>
             <li className="nav-item">
               <a className="nav-link active" aria-current="page" href="#">
-                Inscripción
+                Torneos
               </a>
             </li>
             <li className="nav-item">
@@ -230,6 +232,9 @@ export const Navbar = () => {
           ) : (
             <>
               <button
+                onClick={() => {
+                  setShowModal(true);
+                }}
                 type="button"
                 className="btn btn-success login-dk"
                 data-bs-toggle="modal"

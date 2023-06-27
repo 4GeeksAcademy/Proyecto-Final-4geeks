@@ -8,7 +8,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(120), unique=False, nullable=False)
-    #is_active = db.Column(db.Boolean(), unique=False, nullable=False)
+    # is_active = db.Column(db.Boolean(), unique=False, nullable=False)
     name = db.Column(db.String(20), unique=False, nullable=True)
     subname = db.Column(db.String(80), unique=False, nullable=True)
     phone = db.Column(db.Integer, unique=False, nullable=True)
@@ -21,6 +21,8 @@ class User(db.Model):
     fecha_nacimiento = db.Column(db.Date, nullable=True)
     club = db.Column(db.String(30), unique=False, nullable=True)
     equipo = db.Column(db.String(30), unique=False, nullable=True)
+    role = db.Column(db.Enum('User', 'Team manager', 'Admin',
+                     name="role"), nullable=True, server_default="User")
 
     def __repr__(self):
         return f'<User {self.email} >'
@@ -28,8 +30,8 @@ class User(db.Model):
     def serialize(self):
         return {
             "id": self.id,
+            "role": self.role,
             "email": self.email,
-            # # do not serialize the password, its a security breach
             "name": self.name,
             "subname": self.subname,
             "phone": self.phone,
