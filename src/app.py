@@ -13,11 +13,9 @@ from api.admin import setup_admin
 from api.commands import setup_commands
 
 from flask_bcrypt import Bcrypt
-#app = Flask(__name__)
+from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required, JWTManager
 
-
-# from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required, JWTManager
-#from flask_bcrypt import Bcrypt
+# from flask_bcrypt import Bcrypt
 
 
 # from models import Person
@@ -26,6 +24,8 @@ ENV = os.getenv("FLASK_ENV")
 static_file_dir = os.path.join(os.path.dirname(
     os.path.realpath(__file__)), '../public/')
 app = Flask(__name__)
+# Allow CORS requests to this API
+CORS(app)
 app.url_map.strict_slashes = False
 
 # database condiguration
@@ -40,11 +40,14 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 MIGRATE = Migrate(app, db, compare_type=True)
 db.init_app(app)
 
-# Allow CORS requests to this API
-CORS(app)
+
 # Setup B-crypt
 bcrypt = Bcrypt(app)
 app.bcrypt = bcrypt
+
+# Setup the Flask-JWT-Extended extension
+app.config["JWT_SECRET_KEY"] = "unimade"  # Change this!
+jwt = JWTManager(app)
 
 # add the admin
 setup_admin(app)

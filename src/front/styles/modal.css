@@ -2,9 +2,6 @@
   border: 1px red solid;
 } */
 
-.modal {
-}
-
 .modal-header {
   flex-direction: column;
 }
@@ -22,6 +19,12 @@
 
 .modal-backdrop {
   z-index: 9;
+}
+
+/* ALERT */
+.alert-text {
+  width: 100% !important;
+  margin-left: 0.5em;
 }
 
 /* HEADER */

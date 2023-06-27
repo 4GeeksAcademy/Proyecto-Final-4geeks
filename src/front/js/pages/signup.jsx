@@ -18,13 +18,13 @@ export const Signup = () => {
 
   const [load, setLoad] = useState(false);
   //Redirect in case user is logged
-  useEffect(() => {
+  /*   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token !== null) {
       navigate("/");
     }
     setLoad(true);
-  }, []);
+  }, []); */
 
   const [dni, setDni] = useState("");
   const [username, setUsername] = useState("");
@@ -49,7 +49,7 @@ export const Signup = () => {
     };
 
     const signup = await actions.signup(data);
-    if (signup) {
+    /* if (signup) {
       const login = await actions.login(data);
       if (login) {
         navigate("/");
@@ -57,7 +57,7 @@ export const Signup = () => {
       navigate("/");
     }
     setAlert(true);
-    setAlertText("Error with signup");
+    setAlertText("Error with signup"); */
   };
 
   const [alert, setAlert] = useState(false);

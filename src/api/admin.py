@@ -1,4 +1,3 @@
-
 import os
 from flask_admin import Admin
 from .models import db, User, Rider, Category, Club, Team, Competition, Championship, Registro_torneo, Inscripcion

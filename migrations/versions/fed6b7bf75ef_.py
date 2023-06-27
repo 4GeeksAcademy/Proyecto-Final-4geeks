@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: c93994096263
+Revision ID: fed6b7bf75ef
 Revises: 
-Create Date: 2023-06-26 16:09:09.510493
+Create Date: 2023-06-27 17:11:06.516143
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'c93994096263'
+revision = 'fed6b7bf75ef'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -78,8 +78,7 @@ def upgrade():
     sa.Column('email', sa.String(length=120), nullable=False),
     sa.Column('password', sa.String(length=120), nullable=False),
     sa.Column('name', sa.String(length=20), nullable=True),
-    sa.Column('surname', sa.String(length=80), nullable=True),
-    sa.Column('full_name', sa.String(length=80), nullable=True),
+    sa.Column('subname', sa.String(length=80), nullable=True),
     sa.Column('phone', sa.Integer(), nullable=True),
     sa.Column('user_name', sa.String(length=20), nullable=True),
     sa.Column('dni', sa.String(length=9), nullable=True),
@@ -90,6 +89,7 @@ def upgrade():
     sa.Column('fecha_nacimiento', sa.Date(), nullable=True),
     sa.Column('club', sa.String(length=30), nullable=True),
     sa.Column('equipo', sa.String(length=30), nullable=True),
+    sa.Column('role', sa.Enum('User', 'Team manager', 'Admin', name='role'), server_default='User', nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('dni'),
     sa.UniqueConstraint('email'),

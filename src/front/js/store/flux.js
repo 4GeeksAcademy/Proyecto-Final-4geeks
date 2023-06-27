@@ -2,6 +2,14 @@ import axios from "axios";
 
 const getState = ({ getStore, getActions, setStore }) => {
   const url = process.env.BACKEND_URL;
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST, PATCH, PUT, DELETE, OPTIONS",
+      "Access-Control-Allow-Headers": "Origin, Content-Type, X-Auth-Token",
+    },
+  };
   return {
     store: {
       tournaments: ["Torneo Maitez", "Torneo Caldos"],
@@ -111,27 +119,29 @@ const getState = ({ getStore, getActions, setStore }) => {
         console.log(data);
 
         try {
-          const response = await axios.post(`${url}api/login`, data);
-          console.log(response);
+          const response = await axios.post(`${url}login`, data, config);
+          console.log(response.data, response.status);
           if (response?.status === 200) {
             localStorage.setItem("token", response.data.token);
+            localStorage.setItem("user", JSON.stringify(response.data.user));
           }
 
-          return true;
+          return 200;
         } catch (error) {
-          console.log(error);
-          return false;
+          if (error === undefined) return undefined;
+          console.log(error.response?.data, error.response?.status);
+          return error.response?.status;
         }
       },
       signup: async (data) => {
         console.log(data);
 
         try {
-          const response = await axios.post(`${url}api/signup`, data);
+          const response = await axios.post(`${url}signup`, data, config);
           console.log(response);
           return true;
         } catch (error) {
-          console.log(error);
+          console.log(error.response.data, error.response.status);
           return false;
         }
       },
