@@ -18,13 +18,13 @@ export const Signup = () => {
 
   const [load, setLoad] = useState(false);
   //Redirect in case user is logged
-  /*   useEffect(() => {
+  useEffect(() => {
     const token = localStorage.getItem("token");
     if (token !== null) {
       navigate("/");
     }
     setLoad(true);
-  }, []); */
+  }, []);
 
   const [dni, setDni] = useState("");
   const [username, setUsername] = useState("");
@@ -35,8 +35,58 @@ export const Signup = () => {
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
 
+  /* CHECK DNI */
+  const validateDNI = (dniC) => {
+    let numero, lett, letra;
+    const expresion_regular_dni = /^[XYZ]?\d{5,8}[A-Z]$/;
+    const dni = dniC.toUpperCase();
+
+    if (dni === "") {
+      setAlert(false);
+      return true;
+    }
+
+    if (expresion_regular_dni.test(dni) === true) {
+      numero = dni.substr(0, dni.length - 1);
+      numero = numero.replace("X", 0);
+      numero = numero.replace("Y", 1);
+      numero = numero.replace("Z", 2);
+      lett = dni.substr(dni.length - 1, 1);
+      numero = numero % 23;
+      letra = "TRWAGMYFPDXBNJZSQVHLCKET";
+      letra = letra.substring(numero, numero + 1);
+      if (letra != lett) {
+        setAlert(true);
+        setAlertText("Dni erroneo, la letra del NIF no se corresponde");
+        return false;
+      } else {
+        setAlert(false);
+        return true;
+      }
+    } else {
+      setAlert(true);
+      setAlertText("Dni erroneo, formato no válido");
+      return false;
+    }
+  };
+
+  const validatePassword = () => {
+    if (password !== password2 && password !== "" && password2 !== "") {
+      setAlert(true);
+      setAlertText("Las contraseñas no coinciden");
+      return false;
+    } else {
+      setAlert(false);
+      return true;
+    }
+  };
+
   const handleFormulary = async (e) => {
     e.preventDefault();
+
+    if (!validateDNI(dni)) return;
+
+    if (!validatePassword()) return;
 
     const data = {
       dni: dni,
@@ -49,7 +99,8 @@ export const Signup = () => {
     };
 
     const signup = await actions.signup(data);
-    /* if (signup) {
+    if (signup) {
+      data.firstField = username;
       const login = await actions.login(data);
       if (login) {
         navigate("/");
@@ -57,7 +108,7 @@ export const Signup = () => {
       navigate("/");
     }
     setAlert(true);
-    setAlertText("Error with signup"); */
+    setAlertText("Error with signup");
   };
 
   const [alert, setAlert] = useState(false);
@@ -96,7 +147,10 @@ export const Signup = () => {
               <label htmlFor="exampleInputEmail1">DNI*</label>
               <input
                 required
-                onChange={(e) => setDni(e.target.value)}
+                onBlur={(e) => validateDNI(e.target.value)}
+                onChange={(e) => {
+                  setDni(e.target.value);
+                }}
                 value={dni}
                 type="text"
                 className="form-control"
@@ -108,19 +162,25 @@ export const Signup = () => {
               <label htmlFor="exampleInputEmail1">Nombre de usuario*</label>
               <input
                 required
-                onChange={(e) => setUsername(e.target.value)}
+                onChange={(e) => {
+                  setUsername(e.target.value);
+                }}
                 value={username}
                 type="text"
                 className="form-control"
                 id="username"
                 aria-describedby="emailHelp"
+                minLength="3"
               />
             </div>
             <div className="form-group mb-1">
               <label htmlFor="exampleInputEmail1">Nombre*</label>
               <input
                 required
-                onChange={(e) => setName(e.target.value)}
+                onFocus={() => setAlert(false)}
+                onChange={(e) => {
+                  setName(e.target.value);
+                }}
                 value={name}
                 type="text"
                 className="form-control"
@@ -132,7 +192,9 @@ export const Signup = () => {
               <label htmlFor="exampleInputEmail1">Apellidos*</label>
               <input
                 required
-                onChange={(e) => setSubName(e.target.value)}
+                onChange={(e) => {
+                  setSubName(e.target.value);
+                }}
                 value={subName}
                 type="text"
                 className="form-control"
@@ -144,7 +206,9 @@ export const Signup = () => {
               <label htmlFor="exampleInputEmail1">Email*</label>
               <input
                 required
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
                 value={email}
                 type="email"
                 className="form-control "
@@ -155,12 +219,14 @@ export const Signup = () => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="exampleInputEmail1">Número de móvil*</label>
+              <label htmlFor="exampleInputEmail1">Número de móvil</label>
               <input
-                required
-                onChange={(e) => setMobile(e.target.value)}
+                onChange={(e) => {
+                  setMobile(e.target.value);
+                }}
                 value={mobile}
-                type="number"
+                type="tel"
+                pattern="[+]{0,1}[0-9]{0,6}[^\\s+$]{0,1}[0-9]{4,14}"
                 className="form-control"
                 id="mobile"
                 aria-describedby="emailHelp"
@@ -171,7 +237,10 @@ export const Signup = () => {
               <label htmlFor="exampleInputEmail1">Contraseña*</label>
               <input
                 required
-                onChange={(e) => setPassword(e.target.value)}
+                onBlur={validatePassword}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
                 value={password}
                 type="password"
                 className="form-control"
@@ -183,7 +252,10 @@ export const Signup = () => {
               <label htmlFor="exampleInputEmail1">Confirmar contraseña*</label>
               <input
                 required
-                onChange={(e) => setPassword2(e.target.value)}
+                onBlur={validatePassword}
+                onChange={(e) => {
+                  setPassword2(e.target.value);
+                }}
                 value={password2}
                 type="password"
                 className="form-control"

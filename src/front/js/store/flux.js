@@ -12,6 +12,7 @@ const getState = ({ getStore, getActions, setStore }) => {
   };
   return {
     store: {
+      user: {},
       tournaments: ["Torneo Maitez", "Torneo Caldos"],
       trials: [
         {
@@ -116,7 +117,7 @@ const getState = ({ getStore, getActions, setStore }) => {
     },
     actions: {
       login: async (data) => {
-        console.log(data);
+        data.firstField = data.firstField.toLowerCase().replaceAll(" ", "");
 
         try {
           const response = await axios.post(`${url}login`, data, config);
@@ -124,6 +125,10 @@ const getState = ({ getStore, getActions, setStore }) => {
           if (response?.status === 200) {
             localStorage.setItem("token", response.data.token);
             localStorage.setItem("user", JSON.stringify(response.data.user));
+            console.log(response.data.user);
+            const store = getStore();
+            store.user = response.data.user;
+            setStore(store);
           }
 
           return 200;
@@ -134,6 +139,11 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
       signup: async (data) => {
+        data.email = data.email.toLowerCase().replaceAll(" ", "");
+        data.mobile = data.mobile.replaceAll(" ", "");
+        data.name = data.name.toLowerCase().replaceAll(" ", "");
+        data.subName = data.subName.toLowerCase();
+        data.username = data.username.toLowerCase().replaceAll(" ", "");
         console.log(data);
 
         try {
@@ -146,8 +156,12 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
       logout: () => {
-        console.log("prueba");
         localStorage.removeItem("token");
+        localStorage.removeItem("user");
+
+        const store = getStore();
+        store.user = {};
+        setStore(store);
       },
 
       /* 
