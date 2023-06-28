@@ -9,7 +9,7 @@
 
   position: fixed;
   width: 100%;
-  overflow: hidden;
+
   top: 0;
   z-index: 10;
 }
@@ -61,7 +61,7 @@
 .navbar .nav-item > a:focus,
 .navbar .nav-item > a:hover {
   text-decoration: none;
-  color: #00744b;
+  color: #000000;
   font-size: large;
 }
 .navbar .nav-item > a:hover {
@@ -69,10 +69,22 @@
   transform: scale(1.1);
 }
 
+.navbar .nav-item .dropdown-toggle {
+  border: 1px solid #3f665d;
+  border-radius: 3px;
+  margin-left: 2em;
+  margin-right: 0.3em;
+  background-color: #edfcf8;
+}
+
 .navbar-collapse ul > * {
   text-align: center;
 
   padding: 0.3em;
+}
+
+.navbar .dropdown-menu {
+  left: -3em !important;
 }
 
 /* RESPONSIVE */
@@ -106,6 +118,10 @@
     padding: 1em;
     text-align: center;
     margin-left: 20px !important;
+  }
+
+  .navbar .nav-item .dropdown-toggle {
+    margin-left: 0;
   }
 }
 

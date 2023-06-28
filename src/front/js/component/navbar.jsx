@@ -7,7 +7,7 @@ import logo from "../../img/BTXF-notext.png";
 import "../../styles/navbar.css";
 
 export const Navbar = () => {
-  const { actions } = useContext(Context);
+  const { store, actions } = useContext(Context);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -20,7 +20,19 @@ export const Navbar = () => {
   const [search, setSearch] = useState(false);
   const [collapse, setCollapse] = useState(false);
 
+  const [username, setUsername] = useState(false);
   const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    const username = JSON.parse(localStorage.getItem("user"))?.user_name;
+    if (username !== undefined)
+      setUsername(username.charAt().toUpperCase() + username.slice(1));
+
+    const token = localStorage.getItem("token");
+    if (token !== null) {
+      setLogged(true);
+    } else setLogged(false);
+  }, [store.user]);
 
   //CAPTURE WIDTH AND HEIGHT WHEN ZOOM IN/OUT
   const [dimensions, setDimensions] = useState({});
@@ -79,9 +91,12 @@ export const Navbar = () => {
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                Usuario
+                {username}
               </a>
-              <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+              <ul
+                className="dropdown-menu dropdown-menu-right"
+                aria-labelledby="navbarDropdown"
+              >
                 <li>
                   <a className="dropdown-item" href="#">
                     Perfil
@@ -115,13 +130,14 @@ export const Navbar = () => {
               <button
                 type="button"
                 className="btn btn-success login-mb"
-                data-bs-toggle="modal"
-                data-bs-target="#exampleModal"
+                onClick={() => {
+                  setShowModal(!showModal);
+                }}
               >
                 Inicio
               </button>
 
-              <ModalLogin />
+              {showModal && <ModalLogin setShowModal={setShowModal} />}
             </>
           )
         ) : null}
@@ -198,9 +214,12 @@ export const Navbar = () => {
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                Usuario
+                {username}
               </a>
-              <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+              <ul
+                className="dropdown-menu dropdown-menu-right"
+                aria-labelledby="navbarDropdown"
+              >
                 <li>
                   <a className="dropdown-item" href="#">
                     Perfil
@@ -233,17 +252,14 @@ export const Navbar = () => {
             <>
               <button
                 onClick={() => {
-                  setShowModal(true);
+                  setShowModal(!showModal);
                 }}
                 type="button"
                 className="btn btn-success login-dk"
-                data-bs-toggle="modal"
-                data-bs-target="#exampleModal"
               >
                 Iniciar Sesión
               </button>
-
-              <ModalLogin />
+              {showModal && <ModalLogin setShowModal={setShowModal} />}
             </>
           )
         ) : null}

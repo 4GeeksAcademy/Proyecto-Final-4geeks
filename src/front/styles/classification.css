@@ -3,6 +3,10 @@
   border: 1px solid red;
 } */
 
+.classification h1 {
+  text-shadow: 1px 2px 2px rgb(255, 255, 255);
+}
+
 /* FILTERS */
 .classification .filters {
   display: flex;
@@ -20,10 +24,6 @@
   align-items: center;
 
   padding: 2.5em 0;
-}
-
-.classification .filters {
-  margin-top: 2em;
 }
 
 .classification .filters .btn-light {
@@ -51,10 +51,16 @@
   padding: 0.1em 0.5em;
 }
 
+.classification .btn-dark {
+  background-color: #164a3c59;
+  color: black;
+}
+
 /* TABLE */
 
 .classification .table {
   padding: 2em;
+  border-radius: 5px !important;
 }
 .classification h2 {
   margin-top: 2em;
@@ -62,6 +68,9 @@
 }
 .classification .table th {
   cursor: pointer;
+}
+.classification .table * {
+  font-size: large;
 }
 
 /* RESPONSIVE */
