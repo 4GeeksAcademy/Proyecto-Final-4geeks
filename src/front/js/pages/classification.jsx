@@ -7,6 +7,7 @@ import "../../styles/table.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretUp, faCaretDown } from "@fortawesome/free-solid-svg-icons";
+import crown from "../../img/crown.png";
 
 export const Classification = () => {
   useEffect(() => {
@@ -144,13 +145,32 @@ export const Classification = () => {
 
   return (
     <div className="page-inside-sideband classification">
-      <h1>Clasificación</h1>
+      <div
+        style={{
+          backgroundImage: `url(${crown})`,
+          backgroundSize: "10em",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "top",
+
+          width: "300px",
+          height: "9.6em",
+          display: "flex",
+          alignItems: "center",
+
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <h1>Clasificación</h1>
+      </div>
+
       <div className="filters">
         <div className="tournaments">
           {store.tournaments.map((item, index) => (
             <button
               key={index}
               onClick={() => {
+                setSort({});
                 setEvent({});
                 setPoint({ [item]: true });
               }}
@@ -173,6 +193,7 @@ export const Classification = () => {
                   {item.tournament === Object.keys(point)[0] && (
                     <button
                       onClick={() => {
+                        setSort({});
                         setCategorie({});
                         setEvent({ [item.name]: true });
                       }}
@@ -210,7 +231,10 @@ export const Classification = () => {
                       ? arr.map((item, index) => {
                           return (
                             <button
-                              onClick={() => setCategorie({ [item]: true })}
+                              onClick={() => {
+                                setCategorie({ [item]: true });
+                                setSort({});
+                              }}
                               key={index}
                               type="button"
                               className={
