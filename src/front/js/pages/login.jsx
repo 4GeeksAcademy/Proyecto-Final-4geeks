@@ -15,13 +15,13 @@ export const Login = () => {
 
   const navigate = useNavigate();
   //Redirect in case user is logged
-  /*   useEffect(() => {
+  useEffect(() => {
     const token = localStorage.getItem("token");
     if (token !== null) {
       navigate("/");
     }
     setLoad(true);
-  }, []); */
+  }, []);
 
   const { store, actions } = useContext(Context);
   const [load, setLoad] = useState(false);
@@ -61,7 +61,7 @@ export const Login = () => {
 
     if (resp === undefined) {
       setAlert(true);
-      setAlertText("CORS policity");
+      setAlertText("Error with Back-End");
       setPassword("");
     }
   };
@@ -101,7 +101,10 @@ export const Login = () => {
               </label>
               <input
                 required
-                onChange={(e) => setFirstField(e.target.value)}
+                onChange={(e) => {
+                  setFirstField(e.target.value);
+                  setAlert(false);
+                }}
                 value={firstField}
                 type="text"
                 className="form-control"
@@ -113,7 +116,10 @@ export const Login = () => {
               <label htmlFor="exampleInputEmail1">Contraseña</label>
               <input
                 required
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  setAlert(false);
+                }}
                 value={password}
                 type="password"
                 className="form-control"
