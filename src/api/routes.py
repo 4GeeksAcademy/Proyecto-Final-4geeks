@@ -52,8 +52,8 @@ def signup():
             email=email, password=pw_hash, name=name,
             subname=subname, phone=phone, user_name=user_name,
             dni=dni, uci_id=None, licencia=None,
-            federado=None, sexo=None, fecha_nacimiento=None,
-            club=None, equipo=None)
+            federado=None, sexo=None, fecha_nacimiento=None
+        )
 
         db.session.add(user)
         db.session.commit()

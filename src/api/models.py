@@ -8,7 +8,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(120), unique=False, nullable=False)
-    is_active = db.Column(db.Boolean(), unique=False, nullable=False)
+    # is_active = db.Column(db.Boolean(), unique=False, nullable=False)
     name = db.Column(db.String(20), unique=False, nullable=True)
     subname = db.Column(db.String(80), unique=False, nullable=True)
     phone = db.Column(db.Integer, unique=False, nullable=True)
@@ -22,7 +22,7 @@ class User(db.Model):
     category_id = db.Column(db.Integer, db.ForeignKey(
         "category.id"), nullable=True)
     club_id = db.Column(db.Integer, db.ForeignKey(
-        "club.id"), nullable=False)
+        "club.id"), nullable=True)
     team_id = db.Column(db.Integer, db.ForeignKey(
         "team.id"), nullable=True)
     role = db.Column(db.Enum('User', 'Team manager', 'Admin',

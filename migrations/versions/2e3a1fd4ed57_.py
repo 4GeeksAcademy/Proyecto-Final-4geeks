@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 7313b680f4d2
+Revision ID: 2e3a1fd4ed57
 Revises: 
-Create Date: 2023-06-28 18:35:34.063733
+Create Date: 2023-06-28 19:17:23.430214
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '7313b680f4d2'
+revision = '2e3a1fd4ed57'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -89,7 +89,6 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('email', sa.String(length=120), nullable=False),
     sa.Column('password', sa.String(length=120), nullable=False),
-    sa.Column('is_active', sa.Boolean(), nullable=False),
     sa.Column('name', sa.String(length=20), nullable=True),
     sa.Column('subname', sa.String(length=80), nullable=True),
     sa.Column('phone', sa.Integer(), nullable=True),
@@ -101,7 +100,7 @@ def upgrade():
     sa.Column('sexo', sa.Enum('Hombre', 'Mujer', name='sexo'), nullable=True),
     sa.Column('fecha_nacimiento', sa.Date(), nullable=True),
     sa.Column('category_id', sa.Integer(), nullable=True),
-    sa.Column('club_id', sa.Integer(), nullable=False),
+    sa.Column('club_id', sa.Integer(), nullable=True),
     sa.Column('team_id', sa.Integer(), nullable=True),
     sa.Column('role', sa.Enum('User', 'Team manager', 'Admin', name='role'), server_default='User', nullable=True),
     sa.ForeignKeyConstraint(['category_id'], ['category.id'], ),
