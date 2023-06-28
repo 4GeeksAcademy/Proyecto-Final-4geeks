@@ -53,7 +53,7 @@ def signup():
             subname=subname, phone=phone, user_name=user_name,
             dni=dni, uci_id=None, licencia=None,
             federado=None, sexo=None, fecha_nacimiento=None,
-            club=None, equipo=None, role="user")
+            club=None, equipo=None)
 
         db.session.add(user)
         db.session.commit()
@@ -114,3 +114,23 @@ def login():
 
 #     return jsonify({"msg": f"Logged in as {user.user_name}",
 #                     "response": user.serialize()}), 200
+
+@api.route("/clasificacion", methods=["GET"])
+def clasificacion_all():
+
+    try:
+
+        tournament = list(
+            map(lambda item: item.serialize(), Championship.query.all()))
+
+        if not tournament:
+            # No content
+            return jsonify({"msg": "El torneo no fue encontrado."}), 204
+
+        return jsonify({"msg": "Ok",
+                        "tournament": tournament.serialize()
+                        }
+                       ), 200
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400

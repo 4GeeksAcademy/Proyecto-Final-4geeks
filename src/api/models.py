@@ -8,7 +8,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(120), unique=False, nullable=False)
-    # is_active = db.Column(db.Boolean(), unique=False, nullable=False)
+    is_active = db.Column(db.Boolean(), unique=False, nullable=False)
     name = db.Column(db.String(20), unique=False, nullable=True)
     subname = db.Column(db.String(80), unique=False, nullable=True)
     phone = db.Column(db.Integer, unique=False, nullable=True)
@@ -19,8 +19,12 @@ class User(db.Model):
     federado = db.Column(db.Enum('Sí', 'No', name="federado"), nullable=True)
     sexo = db.Column(db.Enum('Hombre', 'Mujer', name="sexo"), nullable=True)
     fecha_nacimiento = db.Column(db.Date, nullable=True)
-    club = db.Column(db.String(30), unique=False, nullable=True)
-    equipo = db.Column(db.String(30), unique=False, nullable=True)
+    category_id = db.Column(db.Integer, db.ForeignKey(
+        "category.id"), nullable=True)
+    club_id = db.Column(db.Integer, db.ForeignKey(
+        "club.id"), nullable=False)
+    team_id = db.Column(db.Integer, db.ForeignKey(
+        "team.id"), nullable=True)
     role = db.Column(db.Enum('User', 'Team manager', 'Admin',
                      name="role"), nullable=True, server_default="User")
 
@@ -42,8 +46,10 @@ class User(db.Model):
             "federado": self.federado,
             "sexo": self.sexo,
             "fecha_nacimiento": self.fecha_nacimiento,
-            "club": self.club,
-            "equipo": self.equipo
+            "category_id": self.category_id,
+            "club_id": self.club_id,
+            "team_id": self.team_id,
+            "role": self.role
         }
 
 
@@ -58,9 +64,12 @@ class Rider(db.Model):
     federado = db.Column(db.Enum('Sí', 'No', name="federado"), nullable=True)
     sexo = db.Column(db.Enum('Hombre', 'Mujer', name="sexo"), nullable=True)
     fecha_nacimiento = db.Column(db.Date, nullable=True)
-    category = db.Column(db.String(20), unique=False, nullable=True)
-    club = db.Column(db.String(30), unique=False, nullable=True)
-    equipo = db.Column(db.String(30), unique=False, nullable=True)
+    category_id = db.Column(db.Integer, db.ForeignKey(
+        "category.id"), nullable=False)
+    club_id = db.Column(db.Integer, db.ForeignKey(
+        "club.id"), nullable=False)
+    team_id = db.Column(db.Integer, db.ForeignKey(
+        "team.id"), nullable=True)
 
     def __repr__(self):
         return f'<Rider {self.name}, >'
@@ -76,9 +85,9 @@ class Rider(db.Model):
             "federado": self.federado,
             "sexo": self.sexo,
             "fecha_nacimiento": self.fecha_nacimiento,
-            "category": self.category,
-            "club": self.club,
-            "equipo": self.equipo
+            "category_id": self.category_id,
+            "club_id": self.club_id,
+            "team_id": self.team_id
         }
 
 
@@ -86,6 +95,8 @@ class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
     name = db.Column(db.String(30), unique=True, nullable=True)
+    rider = db.relationship("Rider", backref="category", lazy=True)
+    user = db.relationship("User", backref="category", lazy=True)
 
     def __repr__(self):
         return f'<Category {self.name}, >'
@@ -101,6 +112,8 @@ class Club(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
     name = db.Column(db.String(30), unique=True, nullable=True)
+    rider = db.relationship("Rider", backref="club", lazy=True)
+    user = db.relationship("User", backref="club", lazy=True)
 
     def __repr__(self):
         return f'<Club{self.name}, >'
@@ -116,7 +129,12 @@ class Team(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
     name = db.Column(db.String(30), unique=True, nullable=True)
-    club_id = db.Column(db.Integer, db.ForeignKey('club.id'))
+    club_id = db.Column(db.Integer, db.ForeignKey(
+        "club.id"), nullable=False)
+
+    rider = db.relationship("Rider", backref="team", lazy=True)
+    user = db.relationship("User", backref="team", lazy=True)
+    club = db.relationship("Club", backref="team", lazy=True)
 
     def __repr__(self):
         return f'<Team {self.name}, >'
@@ -125,6 +143,7 @@ class Team(db.Model):
         return {
             "id": self.id,
             "name": self.name,
+            "club_id": self.club_id
         }
 
 
@@ -152,7 +171,7 @@ class Competition(db.Model):
         }
 
 
-class Championship(db.Model):
+class Championship (db.Model):
     id = db.Column(db.Integer, primary_key=True)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
     title = db.Column(db.String(30), unique=True, nullable=False)
@@ -169,13 +188,14 @@ class Championship(db.Model):
 
 class Registro_torneo (db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    dorsal = db.Column(db.Integer)
     rider_id = db.Column(db.Integer, db.ForeignKey('rider.id'))
-    riders = db.relationship("Rider", backref="registro_torneo", lazy=True)
     championship_id = db.Column(db.Integer, db.ForeignKey('championship.id'))
+    category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
+
+    riders = db.relationship("Rider", backref="registro_torneo", lazy=True)
     championships = db.relationship(
         "Championship", backref="registro_torneo", lazy=True)
-    dorsal = db.Column(db.Integer)
-    category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
     categories = db.relationship(
         "Category", backref="registro_torneo", lazy=True)
 
@@ -185,12 +205,12 @@ class Registro_torneo (db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "rider_id": self.rider_id,
-            "riders": self.rider_id,
-            "championship_id": self.championship_id,
-            "championships": self.championships,
             "dorsal": self.dorsal,
+            "rider_id": self.rider_id,
+            "championship_id": self.championship_id,
             "category_id": self.category_id,
+            "riders": self.rider_id,
+            "championships": self.championships,
             "categories": self.categories
         }
 
