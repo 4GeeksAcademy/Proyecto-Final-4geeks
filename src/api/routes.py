@@ -122,13 +122,19 @@ def clasificacion_all():
 
         tournament = list(
             map(lambda item: item.serialize(), Championship.query.all()))
+        name = list(
+            map(lambda item: item.serialize(), Competition.query.all()))
+        categories = list(
+            map(lambda item: item.serialize(), Category.query.all()))
+        runners = list(
+            map(lambda item: item.serialize(), Rider.query.all()))
 
         if not tournament:
             # No content
-            return jsonify({"msg": "El torneo no fue encontrado."}), 204
+            return jsonify({"msg": "No existen torneos"}), 204
 
         return jsonify({"msg": "Ok",
-                        "tournament": tournament.serialize()
+                        "response": [tournament, name, categories, runners]
                         }
                        ), 200
 

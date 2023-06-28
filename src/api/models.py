@@ -177,7 +177,7 @@ class Championship (db.Model):
     title = db.Column(db.String(30), unique=True, nullable=False)
 
     def __repr__(self):
-        return f'<Championship{self.title}, >'
+        return f'<Championship{self.Comtitle}, >'
 
     def serialize(self):
         return {
