@@ -126,11 +126,15 @@ def edit_profile():
         user.user_name = user_name
         user.email = email
 
+        print(current_user)
         db.session.commit()
 
-        return jsonify({'msg': "Ok. User edited"}), 200
-#     return jsonify({"msg": f"Logged in as {user.user_name}",
-#                     "response": user.serialize()}), 200
+        return jsonify({'msg': "Ok. User edited",
+                        "user": user.serialize()}), 200
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+
 
 @api.route("/clasificacion", methods=["GET"])
 def clasificacion_all():

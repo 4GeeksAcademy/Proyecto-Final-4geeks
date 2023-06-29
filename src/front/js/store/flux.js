@@ -127,6 +127,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             localStorage.setItem("token", response.data.token);
             localStorage.setItem("user", JSON.stringify(response.data.user));
             console.log(response.data.user);
+
             const store = getStore();
             store.user = response.data.user;
             setStore(store);
@@ -191,9 +192,19 @@ const getState = ({ getStore, getActions, setStore }) => {
           const response = await axios.put(`${url}profile/edit`, data, config);
           console.log(response.data, response.status);
 
-          data.user_name = data.username;
-          delete data.username;
-          localStorage.setItem("user", JSON.stringify(data));
+          const user = JSON.parse(localStorage.getItem("user"));
+          user.user_name = data.username;
+          user.name = data.name;
+          user.subname = data.subname;
+          user.dni = data.dni;
+          user.phone = data.phone;
+          user.email = data.email;
+          localStorage.setItem("user", JSON.stringify(user));
+
+          const store = getStore();
+          store.user = user;
+          setStore(store);
+
           return true;
         } catch (error) {
           console.log(error.response.data, error.response.status);

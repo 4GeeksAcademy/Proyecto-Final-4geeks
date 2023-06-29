@@ -52,7 +52,7 @@ export const Profile = () => {
 
       setLoad(true);
     }
-  }, []);
+  }, [store.user]);
 
   const handleSubmit = async () => {
     const dataUser = {
