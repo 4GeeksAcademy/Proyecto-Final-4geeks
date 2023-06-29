@@ -52,8 +52,8 @@ def signup():
             email=email, password=pw_hash, name=name,
             subname=subname, phone=phone, user_name=user_name,
             dni=dni, uci_id=None, licencia=None,
-            federado=None, sexo=None, fecha_nacimiento=None,
-            club=None, equipo=None)
+            federado=None, sexo=None, fecha_nacimiento=None
+        )
 
         db.session.add(user)
         db.session.commit()
@@ -129,6 +129,31 @@ def edit_profile():
         db.session.commit()
 
         return jsonify({'msg': "Ok. User edited"}), 200
+#     return jsonify({"msg": f"Logged in as {user.user_name}",
+#                     "response": user.serialize()}), 200
+
+@api.route("/clasificacion", methods=["GET"])
+def clasificacion_all():
+
+    try:
+
+        tournament = list(
+            map(lambda item: item.serialize(), Championship.query.all()))
+        name = list(
+            map(lambda item: item.serialize(), Competition.query.all()))
+        categories = list(
+            map(lambda item: item.serialize(), Category.query.all()))
+        runners = list(
+            map(lambda item: item.serialize(), Rider.query.all()))
+
+        if not tournament:
+            # No content
+            return jsonify({"msg": "No existen torneos"}), 204
+
+        return jsonify({"msg": "Ok",
+                        "response": [tournament, name, categories, runners]
+                        }
+                       ), 200
 
     except Exception as e:
         return jsonify({'error': str(e)}), 400
