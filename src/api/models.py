@@ -170,14 +170,15 @@ class Championship(db.Model):
 class Registro_torneo (db.Model):
     id = db.Column(db.Integer, primary_key=True)
     rider_id = db.Column(db.Integer, db.ForeignKey('rider.id'))
-    riders = db.relationship("Rider", backref="registro_torneo", lazy=True)
     championship_id = db.Column(db.Integer, db.ForeignKey('championship.id'))
-    championships = db.relationship(
-        "Championship", backref="registro_torneo", lazy=True)
     dorsal = db.Column(db.Integer)
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
+
+    championships = db.relationship(
+        "Championship", backref="registro_torneo", lazy=True)
     categories = db.relationship(
         "Category", backref="registro_torneo", lazy=True)
+    riders = db.relationship("Rider", backref="registro_torneo", lazy=True)
 
     def __repr__(self):
         return '<Registro_torneo %r>' % self.id

@@ -98,9 +98,16 @@ export const Navbar = () => {
                 aria-labelledby="navbarDropdown"
               >
                 <li>
-                  <a className="dropdown-item" href="#">
+                  <Link
+                    onClick={() => {
+                      setCollapse(false);
+                      navigate("/profile");
+                    }}
+                    className="dropdown-item"
+                    to={"/profile"}
+                  >
                     Perfil
-                  </a>
+                  </Link>
                 </li>
                 <hr className="dropdown-divider" />
                 <li>
@@ -116,7 +123,10 @@ export const Navbar = () => {
                 </li>
                 <li>
                   <a
-                    onClick={() => actions.logout()}
+                    onClick={() => {
+                      actions.logout();
+                      navigate("/");
+                    }}
                     className="dropdown-item"
                     href="#"
                   >
@@ -221,7 +231,14 @@ export const Navbar = () => {
                 aria-labelledby="navbarDropdown"
               >
                 <li>
-                  <a className="dropdown-item" href="#">
+                  <a
+                    onClick={() => {
+                      setCollapse(false);
+                      navigate("/profile");
+                    }}
+                    className="dropdown-item"
+                    href="#"
+                  >
                     Perfil
                   </a>
                 </li>
@@ -239,7 +256,10 @@ export const Navbar = () => {
                 </li>
                 <li>
                   <a
-                    onClick={() => actions.logout()}
+                    onClick={() => {
+                      actions.logout();
+                      navigate("/");
+                    }}
                     className="dropdown-item"
                     href="#"
                   >

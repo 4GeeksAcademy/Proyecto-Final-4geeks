@@ -24,6 +24,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             "Categoría 3",
             "Categoría 4",
           ],
+
           runners: [
             {
               name: "Alejandro",
@@ -144,6 +145,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         data.name = data.name.toLowerCase().replaceAll(" ", "");
         data.subName = data.subName.toLowerCase();
         data.username = data.username.toLowerCase().replaceAll(" ", "");
+        data.dni = data.dni.toLowerCase().replaceAll(" ", "");
         console.log(data);
 
         try {
@@ -162,6 +164,41 @@ const getState = ({ getStore, getActions, setStore }) => {
         const store = getStore();
         store.user = {};
         setStore(store);
+      },
+
+      editProfile: async (data) => {
+        console.log(data);
+        data.email = data.email.toLowerCase().replaceAll(" ", "");
+        data.phone = parseInt(data.phone.toString().replaceAll(" ", ""));
+        data.name = data.name.replaceAll(" ", "");
+        data.subname = data.subname;
+        data.username = data.username.toLowerCase().replaceAll(" ", "");
+        data.dni = data.dni.toLowerCase().replaceAll(" ", "");
+
+        const token = localStorage.getItem("token");
+        const config = {
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods":
+              "GET, POST, PATCH, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers":
+              "Origin, Content-Type, X-Auth-Token",
+            Authorization: "Bearer " + token,
+          },
+        };
+        try {
+          const response = await axios.put(`${url}profile/edit`, data, config);
+          console.log(response.data, response.status);
+
+          data.user_name = data.username;
+          delete data.username;
+          localStorage.setItem("user", JSON.stringify(data));
+          return true;
+        } catch (error) {
+          console.log(error.response.data, error.response.status);
+          return false;
+        }
       },
 
       /* 

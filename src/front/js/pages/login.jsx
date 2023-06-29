@@ -61,7 +61,7 @@ export const Login = () => {
 
     if (resp === undefined) {
       setAlert(true);
-      setAlertText("Error with Back-End");
+      setAlertText("Bloqued by CORS policy");
       setPassword("");
     }
   };

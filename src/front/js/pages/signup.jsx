@@ -108,7 +108,7 @@ export const Signup = () => {
       navigate("/");
     }
     setAlert(true);
-    setAlertText("Error with signup");
+    setAlertText("Error con el registro, porfavor vuelva a intentarlo.");
   };
 
   const [alert, setAlert] = useState(false);
@@ -177,7 +177,6 @@ export const Signup = () => {
               <label htmlFor="exampleInputEmail1">Nombre*</label>
               <input
                 required
-                onFocus={() => setAlert(false)}
                 onChange={(e) => {
                   setName(e.target.value);
                 }}

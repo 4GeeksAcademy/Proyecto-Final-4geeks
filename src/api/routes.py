@@ -101,16 +101,34 @@ def login():
         return jsonify({'error': str(e)}), 400
 
 
-# @app.route("/private", methods=["GET"])
-# @jwt_required()
-# def private():
+@api.route("/profile/edit", methods=["PUT"])
+@jwt_required()
+def edit_profile():
 
-#     current_user = get_jwt_identity()
+    try:
+        dni = request.json.get("dni", None)
+        name = request.json.get("name", None)
+        subname = request.json.get("subname", None)
+        phone = request.json.get("phone", None)
+        user_name = request.json.get("username", None)
+        email = request.json.get("email", None)
 
-#     user = User.query.get(current_user)
+        current_user = get_jwt_identity()
+        user = User.query.get(current_user)
 
-#     if user == None:
-#         return jsonify({"msg": "User not found"}), 404
+        if user == None:
+            return jsonify({"msg": "User not found"}), 404
 
-#     return jsonify({"msg": f"Logged in as {user.user_name}",
-#                     "response": user.serialize()}), 200
+        user.dni = dni
+        user.name = name
+        user.subname = subname
+        user.phone = phone
+        user.user_name = user_name
+        user.email = email
+
+        db.session.commit()
+
+        return jsonify({'msg': "Ok. User edited"}), 200
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
