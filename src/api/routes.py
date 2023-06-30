@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint, current_app
-from api.models import db, User, Rider, Category, Club, Team, Competition, Championship, Registro_torneo, Inscripcion
+from api.models import db, User, Category, Club, Team, Competition, Championship, Tournament_Registration, Competition_Data
 from api.utils import generate_sitemap, APIException
 from sqlalchemy import or_
 

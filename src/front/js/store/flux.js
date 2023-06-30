@@ -117,6 +117,26 @@ const getState = ({ getStore, getActions, setStore }) => {
       ],
     },
     actions: {
+      firstLoad: async () => {
+        const user = localStorage.getItem("user");
+        if (user !== null) {
+          const store = getStore();
+          store.user = JSON.parse(user);
+          setStore(user);
+
+          try {
+            const response = await axios.get(`${url}clasificacion`, config);
+            console.log(response.data, response.status);
+
+            return 200;
+          } catch (error) {
+            if (error === undefined) return undefined;
+            console.log(error.response?.data, error.response?.status);
+            return error.response?.status;
+          }
+        }
+      },
+
       login: async (data) => {
         data.firstField = data.firstField.toLowerCase().replaceAll(" ", "");
 
