@@ -125,8 +125,16 @@ const getState = ({ getStore, getActions, setStore }) => {
           setStore(user);
 
           try {
-            const response = await axios.get(`${url}clasificacion`, config);
+            const response = await axios.get(`${url}trials`, config);
+            const tournaments = await axios.get(`${url}tournaments`, config);
+
             console.log(response.data, response.status);
+            console.log(tournaments.data, tournaments.status);
+
+            const store = getStore();
+            store.trials = response.data.response;
+            store.tournaments = tournaments.data.response;
+            setStore(store);
 
             return 200;
           } catch (error) {

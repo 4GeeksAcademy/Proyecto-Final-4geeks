@@ -180,7 +180,7 @@ export const Profile = () => {
                     placeholder={data.name}
                   />
                 ) : (
-                  <p className="info">{data.email}</p>
+                  <p className="info">{data.name}</p>
                 )}
               </div>
               <div className="col-12 col-md-6">
