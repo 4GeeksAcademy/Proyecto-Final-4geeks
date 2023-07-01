@@ -1,0 +1,89 @@
+/* .profile * {
+  border: 1px red solid;
+} */
+
+.profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 2em;
+}
+
+.profile h1 {
+  margin-bottom: 1em;
+  text-shadow: 1px 5px 1px rgb(255, 255, 255);
+}
+
+.profile .profile-wrapper {
+  background-color: rgb(245, 255, 252);
+  width: 600px;
+
+  border: 1px solid rgba(0, 0, 0, 0.57);
+  border-radius: 5px;
+  box-shadow: 0 2px 1px 1px #03030369;
+  padding: 1em 0;
+}
+
+.profile .profile-wrapper div {
+  display: flex;
+  align-items: center;
+
+  padding: 5px 20px;
+}
+.profile .profile-wrapper hr {
+  margin: 5px 20px;
+  padding: 1px 0;
+}
+.profile .profile-wrapper div p {
+  font-size: large;
+}
+
+.profile .profile-wrapper .info {
+  margin-left: 0.5em;
+  color: rgba(33, 33, 33, 0.692);
+}
+
+.footer-profile {
+  display: flex;
+}
+
+.footer-profile .edit {
+  margin-left: auto;
+  border: 1px solid rgba(55, 55, 55, 0.437);
+  padding: 0.1em 0.5em;
+  margin-top: 0.5em;
+}
+
+.footer-profile .accept {
+  margin: 0.5em 0.5em 0 auto;
+  border: 1px solid rgba(55, 55, 55, 0.437);
+  padding: 0.1em 0.5em;
+  background-color: greenyellow;
+  text-shadow: rgb(255, 255, 255) 1px 1px 2px;
+}
+.footer-profile .cancel {
+  margin: 0.5em auto 0 0.5em;
+  border: 1px solid rgba(55, 55, 55, 0.437);
+  padding: 0.1em 0.5em;
+  background-color: red;
+  color: white;
+  text-shadow: black 1px 1px 2px;
+}
+
+/* ALERT */
+.profile .profile-wrapper .alert {
+  margin: 0 1.7em;
+}
+
+/* INPUTS */
+.profile .profile-wrapper input {
+  margin: 0 0 1em 0.5em;
+  padding: 0.1em;
+  background-color: rgb(255, 255, 255) !important;
+}
+
+@media (max-width: 720px) {
+  .profile .profile-wrapper {
+    width: 95%;
+  }
+}

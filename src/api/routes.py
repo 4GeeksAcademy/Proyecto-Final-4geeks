@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint, current_app
-from api.models import db, User, Rider, Category, Club, Team, Competition, Championship, Registro_torneo, Inscripcion
+from api.models import db, User, Category, Club, Team, Competition, Championship, Competition_Data, Category_Competition
 from api.utils import generate_sitemap, APIException
 from sqlalchemy import or_
 
@@ -13,6 +13,7 @@ from flask_bcrypt import Bcrypt
 
 
 import datetime
+import json
 # import timedelta
 
 api = Blueprint('api', __name__)
@@ -101,40 +102,96 @@ def login():
         return jsonify({'error': str(e)}), 400
 
 
-# @app.route("/private", methods=["GET"])
-# @jwt_required()
-# def private():
+@api.route("/profile/edit", methods=["PUT"])
+@jwt_required()
+def edit_profile():
 
-#     current_user = get_jwt_identity()
+    try:
+        dni = request.json.get("dni", None)
+        name = request.json.get("name", None)
+        subname = request.json.get("subname", None)
+        phone = request.json.get("phone", None)
+        user_name = request.json.get("username", None)
+        email = request.json.get("email", None)
 
-#     user = User.query.get(current_user)
+        current_user = get_jwt_identity()
+        user = User.query.get(current_user)
 
-#     if user == None:
-#         return jsonify({"msg": "User not found"}), 404
+        if user == None:
+            return jsonify({"msg": "User not found"}), 404
 
-#     return jsonify({"msg": f"Logged in as {user.user_name}",
-#                     "response": user.serialize()}), 200
+        user.dni = dni
+        user.name = name
+        user.subname = subname
+        user.phone = phone
+        user.user_name = user_name
+        user.email = email
 
-@api.route("/clasificacion", methods=["GET"])
-def clasificacion_all():
+        print(current_user)
+        db.session.commit()
+
+        return jsonify({'msg': "Ok. User edited",
+                        "user": user.serialize()}), 200
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+
+
+@api.route("/trials", methods=["GET"])
+def trials():
 
     try:
 
-        tournament = list(
-            map(lambda item: item.serialize(), Championship.query.all()))
-        name = list(
-            map(lambda item: item.serialize(), Competition.query.all()))
-        categories = list(
-            map(lambda item: item.serialize(), Category.query.all()))
-        runners = list(
-            map(lambda item: item.serialize(), Rider.query.all()))
+        def query_trials(item):
+            obj = item.serialize()
+            # CONVERT TIME AND DATE TO STRING FOR JSONIFY
+            for key in obj:
+                if isinstance(obj[key], datetime.date) or isinstance(obj[key], datetime.time):
+                    obj[key] = str(obj[key])
 
-        if not tournament:
+            runners = list(map(lambda item: item.serialize(), Competition_Data.query.filter_by(
+                competition_id=obj["id"]).all()))
+
+            # ADD RUNNERS TO RESPONSE
+            run = []
+            for x in runners:
+                aux = {}
+                aux["name"] = x["user"]["name"]
+                aux["team"] = x["user"]["team"]["name"] if x["user"]["team"] != None else x["user"]["team"]
+
+                aux["points"] = x["points"]
+                aux["categorie"] = x["user"]["category"]["name"] if x["user"]["category"] != None else x["user"]["category"]
+                run.append(aux)
+
+            obj["runners"] = run
+
+            return obj
+
+        trials = list(
+            map(query_trials, Competition.query.all()))
+
+        if not trials:
             # No content
-            return jsonify({"msg": "No existen torneos"}), 204
+            return jsonify({"msg": "No existen torneos",
+                            "response": []}), 204
 
         return jsonify({"msg": "Ok",
-                        "response": [tournament, name, categories, runners]
+                        "response": trials
+                        }
+                       ), 200
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+
+
+@api.route("/tournaments", methods=["GET"])
+def tournaments():
+    try:
+        tournaments = list(
+            map(lambda item: item.serialize()["title"], Championship.query.all()))
+
+        return jsonify({"msg": "Ok",
+                        "response": tournaments
                         }
                        ), 200
 

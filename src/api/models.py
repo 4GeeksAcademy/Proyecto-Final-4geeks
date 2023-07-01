@@ -5,33 +5,42 @@ db = SQLAlchemy()
 
 
 class User(db.Model):
+    __tablename__ = "user"
     id = db.Column(db.Integer, primary_key=True)
+
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(120), unique=False, nullable=False)
-    # is_active = db.Column(db.Boolean(), unique=False, nullable=False)
-    name = db.Column(db.String(20), unique=False, nullable=True)
-    subname = db.Column(db.String(80), unique=False, nullable=True)
+    user_name = db.Column(db.String(20), unique=True, nullable=False)
+    name = db.Column(db.String(20), unique=False, nullable=False)
+    subname = db.Column(db.String(80), unique=False, nullable=False)
+    dni = db.Column(db.String(9), unique=True, nullable=False)
+
     phone = db.Column(db.Integer, unique=False, nullable=True)
-    user_name = db.Column(db.String(20), unique=True, nullable=True)
-    dni = db.Column(db.String(9), unique=True, nullable=True)
+    sexo = db.Column(db.Enum('Hombre', 'Mujer', name="sexo"), nullable=True)
+    fecha_nacimiento = db.Column(db.Date, nullable=True)
     uci_id = db.Column(db.Integer, unique=True, nullable=True)
     licencia = db.Column(db.String(9), unique=True, nullable=True)
     federado = db.Column(db.Enum('Sí', 'No', name="federado"), nullable=True)
-    sexo = db.Column(db.Enum('Hombre', 'Mujer', name="sexo"), nullable=True)
-    fecha_nacimiento = db.Column(db.Date, nullable=True)
-    category_id = db.Column(db.Integer, db.ForeignKey(
-        "category.id"), nullable=True)
-    club_id = db.Column(db.Integer, db.ForeignKey(
-        "club.id"), nullable=True)
-    team_id = db.Column(db.Integer, db.ForeignKey(
-        "team.id"), nullable=True)
     role = db.Column(db.Enum('User', 'Team manager', 'Admin',
                      name="role"), nullable=True, server_default="User")
+    rider = db.Column(db.Enum('Yes', 'No',
+                              name="rider"), nullable=True, server_default="No")
+
+    category_id = db.Column(db.Integer, db.ForeignKey(
+        "category.id"), nullable=True)
+    team_id = db.Column(db.Integer, db.ForeignKey(
+        "team.id"), nullable=True)
+
+    competition_data = db.relationship(
+        "Competition_Data", backref="user", lazy=True)
 
     def __repr__(self):
-        return f'<User {self.email} >'
+        return f'<User {self.id}>'
 
     def serialize(self):
+        category = Category.query.filter_by(id=self.category_id).first()
+        team = Team.query.filter_by(id=self.team_id).first()
+
         return {
             "id": self.id,
             "role": self.role,
@@ -46,138 +55,162 @@ class User(db.Model):
             "federado": self.federado,
             "sexo": self.sexo,
             "fecha_nacimiento": self.fecha_nacimiento,
-            "category_id": self.category_id,
-            "club_id": self.club_id,
-            "team_id": self.team_id,
-            "role": self.role
-        }
+            "role": self.role,
+            "rider": self.rider,
 
+            "category": category.serialize() if category != None else category,
+            "team": team.serialize() if team != None else team
 
-class Rider(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    is_active = db.Column(db.Boolean(), unique=False, nullable=False)
-    name = db.Column(db.String(20), unique=False, nullable=True)
-    surname = db.Column(db.String(80), unique=False, nullable=True)
-    dni = db.Column(db.String(9), unique=True, nullable=True)
-    uci_id = db.Column(db.Integer, unique=True, nullable=True)
-    licencia = db.Column(db.String(9), unique=True, nullable=True)
-    federado = db.Column(db.Enum('Sí', 'No', name="federado"), nullable=True)
-    sexo = db.Column(db.Enum('Hombre', 'Mujer', name="sexo"), nullable=True)
-    fecha_nacimiento = db.Column(db.Date, nullable=True)
-    category_id = db.Column(db.Integer, db.ForeignKey(
-        "category.id"), nullable=False)
-    club_id = db.Column(db.Integer, db.ForeignKey(
-        "club.id"), nullable=False)
-    team_id = db.Column(db.Integer, db.ForeignKey(
-        "team.id"), nullable=True)
-
-    def __repr__(self):
-        return f'<Rider {self.name}, >'
-
-    def serialize(self):
-        return {
-            "id": self.id,
-            "name": self.name,
-            "surname": self.surname,
-            "dni": self.dni,
-            "uci_id": self.uci_id,
-            "licencia": self.licencia,
-            "federado": self.federado,
-            "sexo": self.sexo,
-            "fecha_nacimiento": self.fecha_nacimiento,
-            "category_id": self.category_id,
-            "club_id": self.club_id,
-            "team_id": self.team_id
-        }
-
-
-class Category(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    is_active = db.Column(db.Boolean(), unique=False, nullable=False)
-    name = db.Column(db.String(30), unique=True, nullable=True)
-    rider = db.relationship("Rider", backref="category", lazy=True)
-    user = db.relationship("User", backref="category", lazy=True)
-
-    def __repr__(self):
-        return f'<Category {self.name}, >'
-
-    def serialize(self):
-        return {
-            "id": self.id,
-            "name": self.name,
-        }
-
-
-class Club(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    is_active = db.Column(db.Boolean(), unique=False, nullable=False)
-    name = db.Column(db.String(30), unique=True, nullable=True)
-    rider = db.relationship("Rider", backref="club", lazy=True)
-    user = db.relationship("User", backref="club", lazy=True)
-
-    def __repr__(self):
-        return f'<Club{self.name}, >'
-
-    def serialize(self):
-        return {
-            "id": self.id,
-            "name": self.name,
         }
 
 
 class Team(db.Model):
+    __tablename__ = "team"
     id = db.Column(db.Integer, primary_key=True)
-    is_active = db.Column(db.Boolean(), unique=False, nullable=False)
-    name = db.Column(db.String(30), unique=True, nullable=True)
+
+    name = db.Column(db.String(30), unique=True, nullable=False)
+
     club_id = db.Column(db.Integer, db.ForeignKey(
         "club.id"), nullable=False)
 
-    rider = db.relationship("Rider", backref="team", lazy=True)
     user = db.relationship("User", backref="team", lazy=True)
-    club = db.relationship("Club", backref="team", lazy=True)
 
     def __repr__(self):
-        return f'<Team {self.name}, >'
+        return f'<Team {self.id}>'
+
+    def serialize(self):
+        club = Club.query.filter_by(id=self.club_id).first()
+        return {
+            "id": self.id,
+            "name": self.name,
+
+            "club": club.serialize() if club != None else club
+        }
+
+
+class Club(db.Model):
+    __tablename__ = "club"
+    id = db.Column(db.Integer, primary_key=True)
+
+    name = db.Column(db.String(30), unique=True, nullable=False)
+
+    team = db.relationship("Team", backref="club", lazy=True)
+
+    def __repr__(self):
+        return f'<Club {self.id}>'
 
     def serialize(self):
         return {
             "id": self.id,
             "name": self.name,
-            "club_id": self.club_id
+        }
+
+
+class Category(db.Model):
+    __tablename__ = "category"
+    id = db.Column(db.Integer, primary_key=True)
+
+    name = db.Column(db.String(30), unique=True, nullable=False)
+
+    user = db.relationship("User", backref="category", lazy=True)
+    category_competition = db.relationship(
+        "Category_Competition", backref="category", lazy=True)
+
+    def __repr__(self):
+        return f'<Category {self.id}>'
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+        }
+
+
+class Category_Competition(db.Model):
+    __tablename__ = "category_competition"
+    id = db.Column(db.Integer, primary_key=True)
+
+    category_id = db.Column(db.Integer, db.ForeignKey(
+        "category.id"), nullable=False)
+    competition_id = db.Column(db.Integer, db.ForeignKey(
+        "competition.id"), nullable=False)
+
+    def __repr__(self):
+        return f'<Category {self.id}>'
+
+    def serialize(self):
+        category = Category.query.get(self.category_id)
+        competition = Competition.query.get(self.competition_id)
+
+        return {
+            "id": self.id,
+            "category": category.serialize()["name"],
+            "competition": competition.title
+
         }
 
 
 class Competition(db.Model):
+    __tablename__ = "competition"
     id = db.Column(db.Integer, primary_key=True)
-    is_active = db.Column(db.Boolean(), unique=False, nullable=False)
+
     title = db.Column(db.String(30), unique=False, nullable=False)
-    categoria = db.Column(db.String(30), unique=False, nullable=True)
     fecha_celebracion = db.Column(db.Date, nullable=True)
     hora_celebracion = db.Column(db.Time, nullable=True)
+    location = db.Column(db.String(30), unique=False, nullable=True)
     fecha_verificar_licencia = db.Column(db.Date, nullable=True)
-    hora_inicio_verificar_licencia = db.Column(db.Time, nullable=True)
-    hora_fin_verificar_licencia = db.Column(db.Time, nullable=True)
     organizador = db.Column(db.String(30), unique=False, nullable=True)
     limite_participacion = db.Column(db.Integer, unique=False, nullable=True)
     email_incidencias = db.Column(db.String(30), unique=False, nullable=True)
 
+    championship_id = db.Column(db.Integer, db.ForeignKey(
+        "championship.id"), nullable=False)
+
+    competition_data = db.relationship(
+        "Competition_Data", backref="competition", lazy=True)
+    category_competition = db.relationship(
+        "Category_Competition", backref="competition", lazy=True)
+
     def __repr__(self):
-        return f'<Competition{self.title}, >'
+        return f'<Competition {self.id}>'
 
     def serialize(self):
+
+        championship = Championship.query.filter_by(
+            id=self.championship_id).first()
+
+        aux = Category_Competition.query.filter_by(
+            competition_id=self.id).all()
+
+        categories = list(map(lambda item: item.serialize()["category"], aux))
+
         return {
             "id": self.id,
-            "title": self.title,
+            "name": self.title,
+            "date_celebration": self.fecha_celebracion,
+            "time_celebration": self.hora_celebracion,
+            "date_license": self.fecha_verificar_licencia,
+            "location": self.location,
+
+            "organizer": self.organizador,
+            "participation_limit": self.limite_participacion,
+            "email_incidents": self.email_incidencias,
+            "categories": categories,
+            "tournament": championship.serialize()["title"] if championship != None else championship
         }
 
 
 class Championship (db.Model):
+    __tablename__ = "championship"
     id = db.Column(db.Integer, primary_key=True)
-    is_active = db.Column(db.Boolean(), unique=False, nullable=False)
+
     title = db.Column(db.String(30), unique=True, nullable=False)
 
+    competition = db.relationship(
+        "Competition", backref="championship", lazy=True)
+
     def __repr__(self):
-        return f'<Championship{self.Comtitle}, >'
+        return f'<Championship {self.id}>'
 
     def serialize(self):
         return {
@@ -186,47 +219,31 @@ class Championship (db.Model):
         }
 
 
-class Registro_torneo (db.Model):
+class Competition_Data (db.Model):
+    __tablename__ = "competition_data"
     id = db.Column(db.Integer, primary_key=True)
-    dorsal = db.Column(db.Integer)
-    rider_id = db.Column(db.Integer, db.ForeignKey('rider.id'))
-    championship_id = db.Column(db.Integer, db.ForeignKey('championship.id'))
-    category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
 
-    riders = db.relationship("Rider", backref="registro_torneo", lazy=True)
-    championships = db.relationship(
-        "Championship", backref="registro_torneo", lazy=True)
-    categories = db.relationship(
-        "Category", backref="registro_torneo", lazy=True)
+    dorsal = db.Column(db.Integer, unique=False)
+    time = db.Column(db.Integer, unique=False, nullable=True)
+    points = db.Column(db.Integer, unique=False, nullable=True)
+
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    competition_id = db.Column(db.Integer, db.ForeignKey('competition.id'))
 
     def __repr__(self):
-        return '<Registro_torneo %r>' % self.id
+        return f'<Competition_Data {self.id}>'
 
     def serialize(self):
+        user = User.query.filter_by(id=self.user_id).first()
+        competition = Competition.query.filter_by(
+            id=self.competition_id).first()
+
         return {
             "id": self.id,
             "dorsal": self.dorsal,
-            "rider_id": self.rider_id,
-            "championship_id": self.championship_id,
-            "category_id": self.category_id,
-            "riders": self.rider_id,
-            "championships": self.championships,
-            "categories": self.categories
-        }
+            "time": self.time,
+            "points": self.points,
 
-
-class Inscripcion (db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    competition_id = db.Column(db.Integer, db.ForeignKey('competition.id'))
-    registro_torneo_id = db.Column(
-        db.Integer, db.ForeignKey('registro_torneo.id'))
-
-    def __repr__(self):
-        return '<Competition %r>' % self.id
-
-    def serialize(self):
-        return {
-            "id": self.id,
-            "competition_id": self.competition_id,
-            "registro_torneo_id": self.registro_torneo_id,
+            "user": user.serialize() if user != None else user,
+            "competition": competition.serialize() if competition != None else competition,
         }
