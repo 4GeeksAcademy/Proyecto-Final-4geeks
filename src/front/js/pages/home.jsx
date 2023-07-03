@@ -8,6 +8,8 @@ import "../../styles/home.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAnglesDown } from "@fortawesome/free-solid-svg-icons";
 
+import { Location } from "../component/location.jsx";
+
 export const Home = () => {
   useEffect(() => {
     document.title = "BTFX";
@@ -29,7 +31,7 @@ export const Home = () => {
   }, [location]);
 
   return (
-    <div className="back-hero">
+    <div className="wrapper-home">
       <div
         style={{
           backgroundImage: `url(${hero})`,
@@ -47,6 +49,8 @@ export const Home = () => {
           <FontAwesomeIcon type="button" icon={faAnglesDown} />
         </div>
       </div>
+
+      <Location />
     </div>
   );
 };
