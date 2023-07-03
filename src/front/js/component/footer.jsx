@@ -67,15 +67,7 @@ export const Footer = () => (
                       Clasificación
                     </Link>
                   </li>
-                  <li className="nav-item">
-                    <Link
-                      className="nav-link enlaces"
-                      aria-current="page"
-                      to="#"
-                    >
-                      Noticias
-                    </Link>
-                  </li>
+                  <li className="nav-item"></li>
                 </div>
               </div>
             </ul>

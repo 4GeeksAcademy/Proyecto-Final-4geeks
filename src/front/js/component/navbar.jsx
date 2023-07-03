@@ -117,11 +117,6 @@ export const Navbar = () => {
                 </li>
 
                 <li>
-                  <a className="dropdown-item" href="#">
-                    Carrito
-                  </a>
-                </li>
-                <li>
                   <a
                     onClick={() => {
                       actions.logout();
@@ -179,9 +174,10 @@ export const Navbar = () => {
             </li>
             <li className="nav-item">
               <a className="nav-link active" aria-current="page" href="#">
-                Torneos
+                Inscripción
               </a>
             </li>
+
             <li className="nav-item">
               <Link
                 onClick={() => {
@@ -195,21 +191,6 @@ export const Navbar = () => {
               >
                 Clasificación
               </Link>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link active" aria-current="page" href="#">
-                Noticias
-              </a>
-            </li>
-            <li className="nav-item">
-              <a
-                className="nav-link active disabled"
-                aria-current="page"
-                href="#"
-                style={{ color: "grey" }}
-              >
-                Tienda
-              </a>
             </li>
           </ul>
         </div>
@@ -249,11 +230,6 @@ export const Navbar = () => {
                   </a>
                 </li>
 
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Carrito
-                  </a>
-                </li>
                 <li>
                   <a
                     onClick={() => {

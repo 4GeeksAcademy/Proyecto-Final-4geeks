@@ -3,24 +3,57 @@ import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 import { Link } from "react-router-dom";
 
-import {
-  MapContainer,
-  TileLayer,
-  useMap,
-} from "https://cdn.esm.sh/react-leaflet";
+import "../../styles/location.css";
+import { Marker } from "./marker.jsx";
+import location from "../../img/locate.jpg";
+
+import GoogleMapReact from "google-map-react";
 
 export const Location = () => {
+  const defaultProps = {
+    center: {
+      lat: 43.2477,
+      lng: -2.92777,
+    },
+    zoom: 15,
+  };
   return (
-    <MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false}>
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-      <Marker position={[51.505, -0.09]}>
-        <Popup>
-          A pretty CSS3 popup. <br /> Easily customizable.
-        </Popup>
-      </Marker>
-    </MapContainer>
+    <div
+      className="location"
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "column",
+
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.2),
+        rgba(0, 0, 0, 0.2)),url(${location})`,
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "bottom",
+        backgroundSize: "cover",
+        backgroundAttachment: "scroll",
+      }}
+    >
+      <h1>Localizanos</h1>
+      <div
+        style={{
+          height: "60vh",
+          width: "100%",
+        }}
+      >
+        <GoogleMapReact
+          bootstrapURLKeys={{ key: "AIzaSyAnIvuew8skXijw_KBeIo4vZkY4JCV80oQ" }}
+          defaultCenter={defaultProps.center}
+          defaultZoom={defaultProps.zoom}
+          yesIWantToUseGoogleMapApiInternals
+        >
+          <Marker
+            lat={defaultProps.center.lat}
+            lng={defaultProps.center.lng}
+            text="My Marker"
+          />
+        </GoogleMapReact>
+      </div>
+    </div>
   );
 };

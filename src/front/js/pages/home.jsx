@@ -22,11 +22,11 @@ export const Home = () => {
   useEffect(() => {
     document.querySelector("body").onscroll = () => {
       const scrolltotop = document.scrollingElement.scrollTop;
-      const target = document.querySelector(".hero");
+      const target1 = document.querySelector(".hero");
       const xvalue = "center";
       const factor = 0.5;
       const yvalue = scrolltotop * factor;
-      target.style.backgroundPosition = xvalue + " " + yvalue + "px";
+      target1.style.backgroundPosition = xvalue + " " + yvalue + "px";
     };
   }, [location]);
 

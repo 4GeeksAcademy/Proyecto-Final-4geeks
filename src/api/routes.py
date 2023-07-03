@@ -149,10 +149,10 @@ def trials():
                 if isinstance(obj[key], datetime.date) or isinstance(obj[key], datetime.time):
                     obj[key] = str(obj[key])
 
+            # ADD RUNNERS TO RESPONSE
             runners = list(map(lambda item: item.serialize(), Competition_Data.query.filter_by(
                 competition_id=obj["id"]).all()))
 
-            # ADD RUNNERS TO RESPONSE
             run = []
             for x in runners:
                 aux = {}
