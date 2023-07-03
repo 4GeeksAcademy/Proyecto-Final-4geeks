@@ -21,7 +21,7 @@ class User(db.Model):
     uci_id = db.Column(db.Integer, unique=True, nullable=True)
     licencia = db.Column(db.String(9), unique=True, nullable=True)
     federado = db.Column(db.Enum('Sí', 'No', name="federado"), nullable=True)
-    role = db.Column(db.Enum('User', 'Team manager', 'Admin',
+    role = db.Column(db.Enum('User', 'Manager', 'Admin',
                      name="role"), nullable=True, server_default="User")
     rider = db.Column(db.Enum('Yes', 'No',
                               name="rider"), nullable=True, server_default="No")
@@ -35,7 +35,7 @@ class User(db.Model):
         "Competition_Data", backref="user", lazy=True)
 
     def __repr__(self):
-        return f'<User {self.id}>'
+        return f'<User {self.name}>'
 
     def serialize(self):
         category = Category.query.filter_by(id=self.category_id).first()
@@ -76,7 +76,7 @@ class Team(db.Model):
     user = db.relationship("User", backref="team", lazy=True)
 
     def __repr__(self):
-        return f'<Team {self.id}>'
+        return f'<Team {self.name}>'
 
     def serialize(self):
         club = Club.query.filter_by(id=self.club_id).first()
@@ -97,7 +97,7 @@ class Club(db.Model):
     team = db.relationship("Team", backref="club", lazy=True)
 
     def __repr__(self):
-        return f'<Club {self.id}>'
+        return f'<Club {self.name}>'
 
     def serialize(self):
         return {
@@ -117,7 +117,7 @@ class Category(db.Model):
         "Category_Competition", backref="category", lazy=True)
 
     def __repr__(self):
-        return f'<Category {self.id}>'
+        return f'<Category {self.name}>'
 
     def serialize(self):
         return {
@@ -172,7 +172,7 @@ class Competition(db.Model):
         "Category_Competition", backref="competition", lazy=True)
 
     def __repr__(self):
-        return f'<Competition {self.id}>'
+        return f'<Competition {self.title}>'
 
     def serialize(self):
 
@@ -210,7 +210,7 @@ class Championship (db.Model):
         "Competition", backref="championship", lazy=True)
 
     def __repr__(self):
-        return f'<Championship {self.id}>'
+        return f'<Championship {self.title}>'
 
     def serialize(self):
         return {
