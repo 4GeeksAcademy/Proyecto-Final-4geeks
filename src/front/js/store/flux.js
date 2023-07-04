@@ -23,25 +23,25 @@ const getState = ({ getStore, getActions, setStore }) => {
           const store = getStore();
           store.user = JSON.parse(user);
           setStore(user);
+        }
 
-          try {
-            const response = await axios.get(`${url}trials`, config);
-            const tournaments = await axios.get(`${url}tournaments`, config);
+        try {
+          const response = await axios.get(`${url}trials`, config);
+          const tournaments = await axios.get(`${url}tournaments`, config);
 
-            console.log(response.data, response.status);
-            console.log(tournaments.data, tournaments.status);
+          console.log(response.data, response.status);
+          console.log(tournaments.data, tournaments.status);
 
-            const store = getStore();
-            store.trials = response.data.response;
-            store.tournaments = tournaments.data.response;
-            setStore(store);
+          const store = getStore();
+          store.trials = response.data.response;
+          store.tournaments = tournaments.data.response;
+          setStore(store);
 
-            return 200;
-          } catch (error) {
-            if (error === undefined) return undefined;
-            console.log(error.response?.data, error.response?.status);
-            return error.response?.status;
-          }
+          return 200;
+        } catch (error) {
+          if (error === undefined) return undefined;
+          console.log(error.response?.data, error.response?.status);
+          return error.response?.status;
         }
       },
 
@@ -139,22 +139,39 @@ const getState = ({ getStore, getActions, setStore }) => {
           return false;
         }
       },
+      recoverPassword: async (email) => {
+        console.log(email);
 
-      /* 
+        try {
+          const response = await axios.post(
+            `${url}recoverPassword`,
+            email,
+            config
+          );
+          console.log(response.data, response.status);
+          return true;
+        } catch (error) {
+          console.log(error.response.data, error.response.status);
+          return false;
+        }
+      },
+      resetPassword: async (password, token) => {
+        console.log(token);
+        config.headers.Authorization = "Bearer " + token;
+        try {
+          const response = await axios.put(
+            `${url}resetPassword`,
+            password,
+            config
+          );
 
-			getMessage: async () => {
-				try{
-					// fetching data from the backend
-					const resp = await fetch(process.env.BACKEND_URL + "/api/hello")
-					const data = await resp.json()
-					setStore({ message: data.message })
-					// don't forget to return something, that is how the async resolves
-					return data;
-				}catch(error){
-					console.log("Error loading message from backend", error)
-				}
-			},
-		*/
+          console.log(response.data, response.status);
+          return true;
+        } catch (error) {
+          console.log(error);
+          return false;
+        }
+      },
     },
   };
 };

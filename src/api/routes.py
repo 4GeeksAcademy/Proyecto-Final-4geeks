@@ -1,33 +1,81 @@
 """
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
-from flask import Flask, request, jsonify, url_for, Blueprint, current_app
+import os
+import json
+import datetime
+from flask import Flask, request, jsonify, url_for, Blueprint, current_app, render_template
 from api.models import db, User, Category, Club, Team, Competition, Championship, Competition_Data, Category_Competition
 from api.utils import generate_sitemap, APIException
 from sqlalchemy import or_
 
 from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
-
-# revisar
 from flask_bcrypt import Bcrypt
+from flask_mail import Message, Mail
+from threading import Thread
 
-
-import datetime
-import json
 # import timedelta
 
 api = Blueprint('api', __name__)
 
 
-@api.route('/hello', methods=['POST', 'GET'])
-def handle_hello():
+@api.route("/recoverPassword", methods=["POST"])
+def recoverPassword():
 
-    response_body = {
-        "message": "Hello! I'm a message that came from the backend, check the network tab on the google inspector and you will see the GET request"
-    }
+    try:
 
-    return jsonify(response_body), 200
+        email = request.get_json(force=True)
+        url = os.getenv('FRONTEND_URL') + 'reset-password/'
 
+        user = User.query.filter_by(email=email).first()
+
+        if user == None:
+            return jsonify({"msg": "Email no existe"}), 401
+
+        expires = datetime.timedelta(hours=24)
+        reset_token = create_access_token(str(user.id), expires_delta=expires)
+
+        reset_token = reset_token.replace(".", "&")
+
+        print(reset_token)
+
+        msg = Message(subject='BTFX - Recuperar contraseña',
+                      sender='rob_mb@outlook.es', recipients=[email])
+
+        msg.body = 'Pulsa en el link a continuación para crear una nueva contraseña: ' + \
+            url + reset_token
+
+        current_app.mail.send(msg)
+
+        return jsonify({"msg": "Ok",
+                        "response": "ok"
+                        }
+                       ), 200
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+
+
+@api.route("/resetPassword", methods=["PUT"])
+@jwt_required()
+def resetPassword():
+    try:
+        password = request.get_json(force=True)
+        pw_hash = current_app.bcrypt.generate_password_hash(
+            password).decode("utf-8")
+
+        current_user = get_jwt_identity()
+
+        user = User.query.get(current_user)
+        print(pw_hash)
+
+        user.password = pw_hash
+        db.session.commit()
+
+        return jsonify({"msg": "ok"}), 200
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
 
 # Empiezo los ENDPOINT de USUARIO
 
