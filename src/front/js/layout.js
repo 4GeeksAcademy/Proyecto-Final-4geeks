@@ -9,6 +9,7 @@ import { Signup } from "./pages/signup.jsx";
 import { Login } from "./pages/login.jsx";
 import { Profile } from "./pages/profile.jsx";
 import { Classification } from "./pages/classification.jsx";
+import { ManagerInscription } from "./pages/managerInscription.jsx";
 import { RecoverPassword } from "./pages/recoverPassword.jsx";
 import { ResetPassword } from "./pages/resetPassword.jsx";
 
@@ -48,6 +49,10 @@ const Layout = () => {
                 path="/reset-password/:token"
               />
               <Route element={<Classification />} path="/classification" />
+              <Route
+                element={<ManagerInscription />}
+                path="/manager-inscriptions"
+              />
 
               <Route element={<h1>Not found!</h1>} />
             </Routes>

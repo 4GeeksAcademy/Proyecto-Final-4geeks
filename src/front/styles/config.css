@@ -1,0 +1,62 @@
+.config-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  margin-bottom: 2em;
+}
+
+.config-wrapper .title {
+  background-position: top;
+  background-repeat: no-repeat;
+  background-size: 5em;
+
+  padding-top: 4.5em;
+}
+
+.config-wrapper .title h1 {
+  text-shadow: 1px 1px 4px white;
+}
+.config-wrapper .body {
+  margin-top: 1em;
+}
+
+.config-wrapper .body .item {
+  display: flex;
+  border: 1px solid black;
+  border-radius: 3px;
+  margin: 0.25em;
+  background-color: rgb(241, 255, 255);
+}
+.config-wrapper .body .item p {
+  padding: 0 1em;
+  margin: 0;
+  border-right: 1px solid black;
+}
+
+.config-wrapper .body .item * {
+  line-height: 2;
+}
+
+.config-wrapper .body .item select {
+  height: 1.5em;
+  margin-left: 0.5em;
+}
+
+.config-wrapper .body .item input[type="number"] {
+  width: 3.5em !important;
+  height: 1.5em;
+}
+
+.config-wrapper .body .item .check .yes {
+  margin: auto 0 auto auto;
+  color: green;
+  cursor: pointer;
+}
+
+.config-wrapper .body .item .check .no {
+  margin: auto 0 auto 0;
+  padding-left: 1em;
+  color: red;
+  cursor: pointer;
+}

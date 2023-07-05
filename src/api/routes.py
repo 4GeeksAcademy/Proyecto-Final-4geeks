@@ -5,7 +5,7 @@ import os
 import json
 import datetime
 from flask import Flask, request, jsonify, url_for, Blueprint, current_app, render_template
-from api.models import db, User, Category, Club, Team, Competition, Championship, Competition_Data, Category_Competition
+from api.models import db, User, Category, Club, Team, Competition, Championship, Competition_Data, Category_Competition, Inscriptions
 from api.utils import generate_sitemap, APIException
 from sqlalchemy import or_
 
@@ -240,6 +240,51 @@ def tournaments():
 
         return jsonify({"msg": "Ok",
                         "response": tournaments
+                        }
+                       ), 200
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+
+
+@api.route("/inscriptions", methods=["GET"])
+def inscriptions():
+    try:
+        ins = list(
+            map(lambda item: item.serialize(), Inscriptions.query.all()))
+        print(ins)
+        return jsonify({"msg": "Ok",
+                        "response": ins
+                        }
+                       ), 200
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+
+
+@api.route("/categories", methods=["GET"])
+def categories():
+    try:
+        categories = list(
+            map(lambda item: item.serialize(), Category.query.all()))
+
+        return jsonify({"msg": "Ok",
+                        "response": categories
+                        }
+                       ), 200
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+
+
+@api.route("/teams", methods=["GET"])
+def teams():
+    try:
+        teams = list(
+            map(lambda item: item.serialize(), Team.query.all()))
+
+        return jsonify({"msg": "Ok",
+                        "response": teams
                         }
                        ), 200
 

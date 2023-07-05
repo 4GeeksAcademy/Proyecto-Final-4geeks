@@ -1,6 +1,6 @@
 import os
 from flask_admin import Admin
-from .models import db, User, Category, Club, Team, Competition, Championship, Competition_Data, Category_Competition
+from .models import db, User, Category, Club, Team, Competition, Championship, Competition_Data, Category_Competition, Inscriptions
 from flask_admin.contrib.sqla import ModelView
 
 
@@ -18,6 +18,7 @@ def setup_admin(app):
     admin.add_view(ModelView(Competition, db.session))
     admin.add_view(ModelView(Championship, db.session))
     admin.add_view(ModelView(Competition_Data, db.session))
+    admin.add_view(ModelView(Inscriptions, db.session))
 
     # admin.add_view(ModelView(Riders, db.session))
 

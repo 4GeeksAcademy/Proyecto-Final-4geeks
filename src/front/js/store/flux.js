@@ -15,6 +15,9 @@ const getState = ({ getStore, getActions, setStore }) => {
       user: {},
       tournaments: [],
       trials: [],
+      inscriptions: [],
+      categories: [],
+      teams: [],
     },
     actions: {
       firstLoad: async () => {
@@ -166,6 +169,28 @@ const getState = ({ getStore, getActions, setStore }) => {
           );
 
           console.log(response.data, response.status);
+          return true;
+        } catch (error) {
+          console.log(error);
+          return false;
+        }
+      },
+      loadInscriptions: async () => {
+        try {
+          const response = await axios.get(`${url}inscriptions`, config);
+          const categories = await axios.get(`${url}categories`, config);
+          const teams = await axios.get(`${url}teams`, config);
+
+          console.log(response.data, response.status);
+          console.log(categories.data, categories.status);
+          console.log(teams.data, teams.status);
+
+          const store = getStore();
+          store.inscriptions = response.data.response;
+          store.categories = categories.data.response;
+          store.teams = teams.data.response;
+          setStore(store);
+
           return true;
         } catch (error) {
           console.log(error);

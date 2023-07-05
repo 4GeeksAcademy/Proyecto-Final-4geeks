@@ -14,5 +14,7 @@
 }
 
 .location > div {
-  box-shadow: 0 -10px 30px 5px black;
+  box-shadow: 0 0px 10px 3px black;
+  width: 90% !important;
+  margin-bottom: 3em;
 }
