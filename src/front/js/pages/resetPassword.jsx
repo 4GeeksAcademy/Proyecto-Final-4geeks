@@ -8,12 +8,17 @@ import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 
 import "../../styles/signup.css";
 
-export const Login = () => {
+export const ResetPassword = () => {
   useEffect(() => {
-    document.title = "BTFX - Inicio de Sesión";
+    document.title = "BTFX - Recuperar Contraseña";
   }, []);
 
+  const [token, setToken] = useState(useParams().token.replaceAll("&", "."));
+
   const navigate = useNavigate();
+  const { store, actions } = useContext(Context);
+  const [load, setLoad] = useState(false);
+
   //Redirect in case user is logged
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -23,46 +28,39 @@ export const Login = () => {
     setLoad(true);
   }, []);
 
-  const { store, actions } = useContext(Context);
-  const [load, setLoad] = useState(false);
-
   const [alert, setAlert] = useState(false);
   const [alertText, setAlertText] = useState("An error has occurred.");
 
-  const [firstField, setFirstField] = useState("");
   const [password, setPassword] = useState("");
-  const [remember, setRemember] = useState(false);
+  const [password2, setPassword2] = useState("");
+
+  const validatePassword = () => {
+    if (password !== password2 && password !== "" && password2 !== "") {
+      setAlert(true);
+      setAlertText("Las contraseñas no coinciden");
+      return false;
+    } else {
+      setAlert(false);
+      return true;
+    }
+  };
 
   const handleFormulary = async (e) => {
     e.preventDefault();
 
-    const loginData = {
-      firstField: firstField,
-      password: password,
-      remember: remember,
-    };
+    if (!validatePassword()) return;
 
-    const resp = await actions.login(loginData);
-    if (resp === 200) {
-      navigate("/");
-    }
-
-    if (resp === 401) {
+    const resp = await actions.resetPassword(password, token);
+    if (resp) {
       setAlert(true);
-      setAlertText("Dni, email, nombre de usuario o contraseña no encontrado");
+      setAlertText("Contraseña cambiada correctamente.");
       setPassword("");
-    }
-
-    if (resp === 400) {
+      setPassword2("");
+    } else {
       setAlert(true);
-      setAlertText("Error inesperado, porfavor intentelo de nuevo");
+      setAlertText("Error inesperado, vuelva a intentarlo mas adelante.");
       setPassword("");
-    }
-
-    if (resp === undefined) {
-      setAlert(true);
-      setAlertText("Bloqued by CORS policy");
-      setPassword("");
+      setPassword2("");
     }
   };
 
@@ -72,10 +70,9 @@ export const Login = () => {
         <div className="form">
           <form onSubmit={handleFormulary}>
             <div className="header-submit">
-              <h1>Iniciar Sesión</h1>
+              <h1>Recuperar Contraseña</h1>
               <div className="subtitle-submit d-flex">
-                <h6>¿No tienes una cuenta?</h6>
-                <Link to={`/signup`}>Regístrate</Link>
+                <h6>Porfavor, ingrese su nueva contraseña.</h6>
               </div>
             </div>
 
@@ -95,30 +92,13 @@ export const Login = () => {
             ) : null}
 
             {/* ALERT END*/}
-            <div className="form-group">
-              <label htmlFor="exampleInputEmail1">
-                DNI, email o nombre de usuario
-              </label>
-              <input
-                required
-                onChange={(e) => {
-                  setFirstField(e.target.value);
-                  setAlert(false);
-                }}
-                value={firstField}
-                type="text"
-                className="form-control"
-                id="firstField"
-                aria-describedby="emailHelp"
-              />
-            </div>
             <div className="form-group mb-1">
-              <label htmlFor="exampleInputEmail1">Contraseña</label>
+              <label htmlFor="exampleInputEmail1">Contraseña*</label>
               <input
                 required
+                onBlur={validatePassword}
                 onChange={(e) => {
                   setPassword(e.target.value);
-                  setAlert(false);
                 }}
                 value={password}
                 type="password"
@@ -127,21 +107,22 @@ export const Login = () => {
                 aria-describedby="emailHelp"
               />
             </div>
-            <div className="mb-3 form-check">
+            <div className="form-group mb-1">
+              <label htmlFor="exampleInputEmail1">Confirmar contraseña*</label>
               <input
+                required
+                onBlur={validatePassword}
                 onChange={(e) => {
-                  setRemember(e.target.checked);
+                  setPassword2(e.target.value);
                 }}
-                value={remember}
-                type="checkbox"
-                className="form-check-input"
-                id="exampleCheck1"
+                value={password2}
+                type="password"
+                className="form-control"
+                id="password2"
+                aria-describedby="emailHelp"
               />
-              <label className="form-check-label" htmlFor="exampleCheck1">
-                Recuerdame{" "}
-                <Link to={"/recover-password"}>¿No puedes acceder?</Link>
-              </label>
             </div>
+
             <div className="footer-submit">
               <button type="submit" className={`btn btn-success`}>
                 Continuar

@@ -1,6 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 # from sqlalchemy import Enum
 
+
 db = SQLAlchemy()
 
 
@@ -22,7 +23,7 @@ class User(db.Model):
     licencia = db.Column(db.String(9), unique=True, nullable=True)
     federado = db.Column(db.Enum('Sí', 'No', name="federado"), nullable=True)
     role = db.Column(db.Enum('User', 'Manager', 'Admin',
-                     name="role"), nullable=True, server_default="User")
+                     name="role"), nullable=False, server_default="User")
     rider = db.Column(db.Enum('Yes', 'No',
                               name="rider"), nullable=True, server_default="No")
 
@@ -33,6 +34,9 @@ class User(db.Model):
 
     competition_data = db.relationship(
         "Competition_Data", backref="user", lazy=True)
+
+    inscriptions = db.relationship(
+        "Inscriptions", backref="user", lazy=True)
 
     def __repr__(self):
         return f'<User {self.name}>'
@@ -170,6 +174,8 @@ class Competition(db.Model):
         "Competition_Data", backref="competition", lazy=True)
     category_competition = db.relationship(
         "Category_Competition", backref="competition", lazy=True)
+    inscriptions = db.relationship(
+        "Inscriptions", backref="competition", lazy=True)
 
     def __repr__(self):
         return f'<Competition {self.title}>'
@@ -187,9 +193,9 @@ class Competition(db.Model):
         return {
             "id": self.id,
             "name": self.title,
-            "date_celebration": self.fecha_celebracion,
-            "time_celebration": self.hora_celebracion,
-            "date_license": self.fecha_verificar_licencia,
+            "date_celebration": str(self.fecha_celebracion),
+            "time_celebration": str(self.hora_celebracion),
+            "date_license": str(self.fecha_verificar_licencia),
             "location": self.location,
 
             "organizer": self.organizador,
@@ -243,6 +249,29 @@ class Competition_Data (db.Model):
             "dorsal": self.dorsal,
             "time": self.time,
             "points": self.points,
+
+            "user": user.serialize() if user != None else user,
+            "competition": competition.serialize() if competition != None else competition,
+        }
+
+
+class Inscriptions (db.Model):
+    __tablename__ = "inscriptions"
+    id = db.Column(db.Integer, primary_key=True)
+
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    competition_id = db.Column(db.Integer, db.ForeignKey('competition.id'))
+
+    def __repr__(self):
+        return f'<Competition_Data {self.id}>'
+
+    def serialize(self):
+        user = User.query.filter_by(id=self.user_id).first()
+        competition = Competition.query.filter_by(
+            id=self.competition_id).first()
+
+        return {
+            "id": self.id,
 
             "user": user.serialize() if user != None else user,
             "competition": competition.serialize() if competition != None else competition,

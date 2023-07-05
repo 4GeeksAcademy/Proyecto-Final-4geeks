@@ -166,7 +166,16 @@ export const ModalLogin = (props) => {
                 id="exampleCheck1"
               />
               <label className="form-check-label" htmlFor="exampleCheck1">
-                Recuerdame <Link to={"/"}>¿No puedes acceder?</Link>
+                Recuerdame{" "}
+                <Link
+                  onClick={() => {
+                    props.setShowModal(false);
+                    navigate("/recover-password");
+                  }}
+                  to={"/recover-password"}
+                >
+                  ¿No puedes acceder?
+                </Link>
               </label>
             </div>
             <button type="submit" className="btn btn-success">

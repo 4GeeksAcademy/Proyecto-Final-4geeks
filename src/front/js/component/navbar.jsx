@@ -21,9 +21,13 @@ export const Navbar = () => {
   const [collapse, setCollapse] = useState(false);
 
   const [username, setUsername] = useState(false);
+  const [role, setRole] = useState(
+    JSON.parse(localStorage.getItem("user"))?.role
+  );
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
+    setRole(JSON.parse(localStorage.getItem("user"))?.role);
     const username = JSON.parse(localStorage.getItem("user"))?.user_name;
     if (username !== undefined)
       setUsername(username.charAt().toUpperCase() + username.slice(1));
@@ -91,7 +95,13 @@ export const Navbar = () => {
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                {username}
+                {username}{" "}
+                {role === "Manager" && (
+                  <i style={{ color: "blue", fontSize: "11px" }}>MG</i>
+                )}
+                {role === "Admin" && (
+                  <i style={{ color: "red", fontSize: "11px" }}>AD</i>
+                )}
               </a>
               <ul
                 className="dropdown-menu dropdown-menu-right"
@@ -109,6 +119,114 @@ export const Navbar = () => {
                     Perfil
                   </Link>
                 </li>
+                {role === "Manager" && (
+                  <>
+                    <hr className="dropdown-divider" />
+                    <li>
+                      <a
+                        onClick={() => {
+                          setCollapse(false);
+                          navigate("/manager-inscriptions");
+                        }}
+                        className="dropdown-item"
+                        href="#"
+                      >
+                        Administrar Inscritos
+                      </a>
+                    </li>
+                  </>
+                )}
+                {role === "Admin" && (
+                  <>
+                    <hr className="dropdown-divider" />
+                    <li>
+                      <a
+                        onClick={() => {
+                          setCollapse(false);
+                          navigate("/admin-events");
+                        }}
+                        className="dropdown-item"
+                        href="#"
+                      >
+                        Gestionar Pruebas
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        onClick={() => {
+                          setCollapse(false);
+                          navigate("/admin-trials");
+                        }}
+                        className="dropdown-item"
+                        href="#"
+                      >
+                        Eventos
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        onClick={() => {
+                          setCollapse(false);
+                          navigate("/admin-tournaments");
+                        }}
+                        className="dropdown-item"
+                        href="#"
+                      >
+                        Torneos
+                      </a>
+                    </li>
+
+                    <li>
+                      <a
+                        onClick={() => {
+                          setCollapse(false);
+                          navigate("/admin-users");
+                        }}
+                        className="dropdown-item"
+                        href="#"
+                      >
+                        Usuarios
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        onClick={() => {
+                          setCollapse(false);
+                          navigate("/admin-clubs");
+                        }}
+                        className="dropdown-item"
+                        href="#"
+                      >
+                        Clubs
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        onClick={() => {
+                          setCollapse(false);
+                          navigate("/admin-teams");
+                        }}
+                        className="dropdown-item"
+                        href="#"
+                      >
+                        Equipos
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        onClick={() => {
+                          setCollapse(false);
+                          navigate("/admin-categories");
+                        }}
+                        className="dropdown-item"
+                        href="#"
+                      >
+                        Categorías
+                      </a>
+                    </li>
+                  </>
+                )}
+
                 <hr className="dropdown-divider" />
                 <li>
                   <a className="dropdown-item" href="#">
@@ -205,7 +323,13 @@ export const Navbar = () => {
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                {username}
+                {username}{" "}
+                {role === "Manager" && (
+                  <i style={{ color: "blue", fontSize: "12px" }}>MNG</i>
+                )}
+                {role === "Admin" && (
+                  <i style={{ color: "red", fontSize: "12px" }}>ADM</i>
+                )}
               </a>
               <ul
                 className="dropdown-menu dropdown-menu-right"
@@ -223,6 +347,113 @@ export const Navbar = () => {
                     Perfil
                   </a>
                 </li>
+                {role === "Manager" && (
+                  <>
+                    <hr className="dropdown-divider" />
+                    <li>
+                      <a
+                        onClick={() => {
+                          setCollapse(false);
+                          navigate("/manager-inscriptions");
+                        }}
+                        className="dropdown-item"
+                        href="#"
+                      >
+                        Administrar Inscritos
+                      </a>
+                    </li>
+                  </>
+                )}
+                {role === "Admin" && (
+                  <>
+                    <hr className="dropdown-divider" />
+                    <li>
+                      <a
+                        onClick={() => {
+                          setCollapse(false);
+                          navigate("/admin-events");
+                        }}
+                        className="dropdown-item"
+                        href="#"
+                      >
+                        Gestionar Pruebas
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        onClick={() => {
+                          setCollapse(false);
+                          navigate("/admin-trials");
+                        }}
+                        className="dropdown-item"
+                        href="#"
+                      >
+                        Eventos
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        onClick={() => {
+                          setCollapse(false);
+                          navigate("/admin-tournaments");
+                        }}
+                        className="dropdown-item"
+                        href="#"
+                      >
+                        Torneos
+                      </a>
+                    </li>
+
+                    <li>
+                      <a
+                        onClick={() => {
+                          setCollapse(false);
+                          navigate("/admin-users");
+                        }}
+                        className="dropdown-item"
+                        href="#"
+                      >
+                        Usuarios
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        onClick={() => {
+                          setCollapse(false);
+                          navigate("/admin-clubs");
+                        }}
+                        className="dropdown-item"
+                        href="#"
+                      >
+                        Clubs
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        onClick={() => {
+                          setCollapse(false);
+                          navigate("/admin-teams");
+                        }}
+                        className="dropdown-item"
+                        href="#"
+                      >
+                        Equipos
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        onClick={() => {
+                          setCollapse(false);
+                          navigate("/admin-categories");
+                        }}
+                        className="dropdown-item"
+                        href="#"
+                      >
+                        Categorías
+                      </a>
+                    </li>
+                  </>
+                )}
                 <hr className="dropdown-divider" />
                 <li>
                   <a className="dropdown-item" href="#">
