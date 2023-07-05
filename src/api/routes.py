@@ -290,3 +290,20 @@ def teams():
 
     except Exception as e:
         return jsonify({'error': str(e)}), 400
+
+
+@api.route("/event-results", methods=["GET"])
+def event_results():
+    try:
+        event_results = list(
+            map(lambda item: item.serialize(), Competition_Data.query.all()))
+
+        print(event_results)
+
+        return jsonify({"msg": "Ok",
+                        "response": event_results
+                        }
+                       ), 200
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400

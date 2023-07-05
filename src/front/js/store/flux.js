@@ -18,6 +18,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       inscriptions: [],
       categories: [],
       teams: [],
+      eventResults: [],
     },
     actions: {
       firstLoad: async () => {
@@ -180,15 +181,18 @@ const getState = ({ getStore, getActions, setStore }) => {
           const response = await axios.get(`${url}inscriptions`, config);
           const categories = await axios.get(`${url}categories`, config);
           const teams = await axios.get(`${url}teams`, config);
+          const eventResults = await axios.get(`${url}event-results`, config);
 
           console.log(response.data, response.status);
           console.log(categories.data, categories.status);
           console.log(teams.data, teams.status);
+          console.log(eventResults.data, eventResults.status);
 
           const store = getStore();
           store.inscriptions = response.data.response;
           store.categories = categories.data.response;
           store.teams = teams.data.response;
+          store.eventResults = eventResults.data.response;
           setStore(store);
 
           return true;

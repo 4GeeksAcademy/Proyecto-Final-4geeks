@@ -19,7 +19,7 @@ class User(db.Model):
     phone = db.Column(db.Integer, unique=False, nullable=True)
     sexo = db.Column(db.Enum('Hombre', 'Mujer', name="sexo"), nullable=True)
     fecha_nacimiento = db.Column(db.Date, nullable=True)
-    uci_id = db.Column(db.Integer, unique=True, nullable=True)
+    uci_id = db.Column(db.BigInteger, unique=True, nullable=True)
     licencia = db.Column(db.String(9), unique=True, nullable=True)
     federado = db.Column(db.Enum('Sí', 'No', name="federado"), nullable=True)
     role = db.Column(db.Enum('User', 'Manager', 'Admin',

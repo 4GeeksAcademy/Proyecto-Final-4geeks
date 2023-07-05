@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import { Link, useLocation, useParams, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 
@@ -19,6 +19,8 @@ export const ManagerInscription = () => {
   }, []);
 
   const navigate = useNavigate();
+  const dorsalInput = useRef();
+
   const { store, actions } = useContext(Context);
   const [load, setLoad] = useState(false);
 
@@ -39,6 +41,18 @@ export const ManagerInscription = () => {
   }, [store.user]);
 
   const [dorsal, setDorsal] = useState({});
+
+  const userValidation = (userId, competitionId, dorsal) => {
+    console.log(dorsalInput.current);
+
+    const data = {
+      user: userId,
+      competition: competitionId,
+      dorsal: dorsal,
+    };
+
+    console.log(data);
+  };
 
   return (
     <div className="page-inside-wb config pt-5 w-25">
@@ -122,15 +136,15 @@ export const ManagerInscription = () => {
                           defaultValue={"value1"}
                         >
                           <option value="value1">{item.user.team.name}</option>
-                          {store.teams?.map((x, y) => (
-                            <>
-                              {x.name !== item.user.team.name && (
+                          {store.teams?.map((x, y) => {
+                            {
+                              x.name !== item.user.team.name && (
                                 <option key={y} value={y}>
                                   {x.name}
                                 </option>
-                              )}
-                            </>
-                          ))}
+                              );
+                            }
+                          })}
                         </select>
                       </>
                     )}
@@ -139,28 +153,60 @@ export const ManagerInscription = () => {
                   <p className="col-12 col-md-2">
                     {" "}
                     Dorsal:{" "}
-                    <input
+                    <select
+                      style={{ width: "4em" }}
+                      name="select"
+                      defaultValue={"value1"}
+                    >
+                      <option value="value1"></option>
+                      {[...Array(item.competition.participation_limit)].map(
+                        (x, y) => {
+                          const aux = [];
+                          store.eventResults.map((a, b) => {
+                            if (a.competition.id === item.competition.id) {
+                              aux.push(a.dorsal);
+                            }
+                          });
+
+                          return (
+                            <>
+                              {!aux.includes(y + 1) && (
+                                <option key={y} value={y}>
+                                  {y + 1}
+                                </option>
+                              )}
+                            </>
+                          );
+                        }
+                      )}
+                    </select>
+                    {/* <input
+                      ref={dorsalInput}
                       onChange={(e) => {
-                        setDorsal({ [index]: e.target.value });
+                        setDorsal({ ...dorsal, [index]: e.target.value });
                       }}
+                      value={dorsal[index]}
                       type="number"
-                    />
+                    />  */}
                   </p>
                   <div className="check col-12 col-md-1 d-flex">
                     <FontAwesomeIcon
+                      type="submit"
                       onClick={() => {
-                        const data = {
-                          user: item.user.id,
-                          competition: item.competition.id,
-                          dorsal: dorsal[index],
-                        };
-
-                        console.log(dorsal);
+                        userValidation(
+                          item.user.id,
+                          item.competition.id,
+                          dorsal[index]
+                        );
                       }}
                       className="yes"
                       icon={faCheck}
                     />
-                    <FontAwesomeIcon className="no" icon={faXmark} />
+                    <FontAwesomeIcon
+                      type="submit"
+                      className="no"
+                      icon={faXmark}
+                    />
                   </div>
                 </div>
               ))}
