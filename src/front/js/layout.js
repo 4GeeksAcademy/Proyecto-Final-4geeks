@@ -13,6 +13,7 @@ import { ManagerInscription } from "./pages/managerInscription.jsx";
 import { RecoverPassword } from "./pages/recoverPassword.jsx";
 import { ResetPassword } from "./pages/resetPassword.jsx";
 
+
 import background from "../img/background.png";
 
 import injectContext from "./store/appContext";
@@ -53,6 +54,7 @@ const Layout = () => {
                 element={<ManagerInscription />}
                 path="/manager-inscriptions"
               />
+
 
               <Route element={<h1>Not found!</h1>} />
             </Routes>

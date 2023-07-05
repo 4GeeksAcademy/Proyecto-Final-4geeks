@@ -290,3 +290,159 @@ def teams():
 
     except Exception as e:
         return jsonify({'error': str(e)}), 400
+
+
+@api.route("/clubs", methods=["GET"])
+def clubs():
+    try:
+        teams = list(
+            map(lambda item: item.serialize(), Club.query.all()))
+
+        return jsonify({"msg": "Ok",
+                        "response": clubs
+                        }
+                       ), 200
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+
+
+@api.route("/competitions", methods=["GET"])
+def competitions():
+    try:
+        teams = list(
+            map(lambda item: item.serialize(), Competition.query.all()))
+
+        return jsonify({"msg": "Ok",
+                        "response": competitions
+                        }
+                       ), 200
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+
+
+@api.route('/competitions/<int:id>', methods=['DELETE'])
+def delete_competitions(id):
+
+    try:
+        competition_id = Competition.query.get(id)
+
+        db.session.delete(competition_id)
+        db.session.commit()
+
+        return jsonify({"msg": "Competicion Borrada",
+                        "response": competition_id
+                        }
+                       ), 200
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+
+
+@api.route('/clubs/<int:id>', methods=['DELETE'])
+def delete_clubs(id):
+
+    try:
+        club_id = Club.query.get(id)
+
+        db.session.delete(club_id)
+        db.session.commit()
+
+        return jsonify({"msg": "Club Borrado",
+                        "response": club_id
+                        }
+                       ), 200
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+
+
+@api.route('/teamss/<int:id>', methods=['DELETE'])
+def delete_teams(id):
+
+    try:
+        team_id = Team.query.get(id)
+
+        db.session.delete(team_id)
+        db.session.commit()
+
+        return jsonify({"msg": "Equipo Borrado",
+                        "response": team_id
+                        }
+                       ), 200
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+
+
+@api.route('/categories/<int:id>', methods=['DELETE'])
+def delete_categories(id):
+
+    try:
+        category_id = Category.query.get(id)
+
+        db.session.delete(category_id)
+        db.session.commit()
+
+        return jsonify({"msg": "Categoria Borrada",
+                        "response": category_id
+                        }
+                       ), 200
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+
+
+@api.route('/inscriptions/<int:id>', methods=['DELETE'])
+def delete_inscriptions(id):
+
+    try:
+        inscription_id = Inscriptions.query.get(id)
+
+        db.session.delete(inscription_id)
+        db.session.commit()
+
+        return jsonify({"msg": "Inscripcion Borrada",
+                        "response": inscription_id
+                        }
+                       ), 200
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+
+
+@api.route('/tournaments/<int:id>', methods=['DELETE'])
+def delete_tournaments(id):
+
+    try:
+        tournament_id = Championship.query.get(id)
+
+        db.session.delete(tournament_id)
+        db.session.commit()
+
+        return jsonify({"msg": "Toreo Borrado",
+                        "response": tournament_id
+                        }
+                       ), 200
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+
+
+@api.route('/trials/<int:id>', methods=['DELETE'])
+def delete_trials(id):
+
+    try:
+        trial_id = trials.query.get(id)
+
+        db.session.delete(trial_id)
+        db.session.commit()
+
+        return jsonify({"msg": "Datos de competicion Borrado",
+                        "response": trial_id
+                        }
+                       ), 200
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400

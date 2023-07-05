@@ -23,6 +23,7 @@ api = "*"
 flask-jwt-extended = "*"
 flask-bcrypt = "*"
 flask-mail = "*"
+flask-email = "*"
 
 [requires]
 python_version = "3.10"
