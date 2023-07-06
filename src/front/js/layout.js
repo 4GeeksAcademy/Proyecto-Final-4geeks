@@ -51,14 +51,10 @@ const Layout = () => {
                 path="/reset-password/:token"
               />
               <Route element={<Classification />} path="/classification" />
-<<<<<<< HEAD
-              <Route element={<Calendariov />} path="/calendario" />
-=======
               <Route
                 element={<ManagerInscription />}
                 path="/manager-inscriptions"
               />
->>>>>>> main
 
               <Route element={<h1>Not found!</h1>} />
             </Routes>
