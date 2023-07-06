@@ -7,6 +7,7 @@ import { BackendURL } from "./component/backendURL";
 import { Home } from "./pages/home.jsx";
 import { Signup } from "./pages/signup.jsx";
 import { Login } from "./pages/login.jsx";
+import { Inscription } from "./pages/inscription.jsx";
 import { Profile } from "./pages/profile.jsx";
 import { Classification } from "./pages/classification.jsx";
 import { ManagerInscription } from "./pages/managerInscription.jsx";
@@ -19,6 +20,8 @@ import injectContext from "./store/appContext";
 
 import { Navbar } from "./component/navbar.jsx";
 import { Footer } from "./component/footer.jsx";
+import { Calendariov } from "./pages/calendarioV.jsx";
+
 
 //create your first component
 const Layout = () => {
@@ -48,7 +51,20 @@ const Layout = () => {
                 element={<ResetPassword />}
                 path="/reset-password/:token"
               />
+              
+              <Route
+                element={<Inscription/>}
+                path="/inscription"
+              />
+
+              <Route
+                element={<Inscription/>}
+                path="/inscription/:idEvent"
+              />
+
               <Route element={<Classification />} path="/classification" />
+              <Route element={<Calendariov />} path="/calendario" />
+              
               <Route
                 element={<ManagerInscription />}
                 path="/manager-inscriptions"
