@@ -15,6 +15,9 @@ from api.commands import setup_commands
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required, JWTManager
 
+from flask_mail import Mail
+
+
 # from flask_bcrypt import Bcrypt
 
 
@@ -46,8 +49,20 @@ bcrypt = Bcrypt(app)
 app.bcrypt = bcrypt
 
 # Setup the Flask-JWT-Extended extension
-app.config["JWT_SECRET_KEY"] = "unimade"  # Change this!
+app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY")  # Change this!
 jwt = JWTManager(app)
+app.jwt = jwt
+
+# Setup mail
+app.config['MAIL_SERVER'] = 'sandbox.smtp.mailtrap.io'
+app.config['MAIL_PORT'] = 2525
+app.config['MAIL_USERNAME'] = os.getenv("MAIL_USERNAME")
+app.config['MAIL_PASSWORD'] = os.getenv("MAIL_PASSWORD")
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False
+
+mail = Mail(app)
+app.mail = mail
 
 # add the admin
 setup_admin(app)
@@ -59,6 +74,8 @@ setup_commands(app)
 app.register_blueprint(api, url_prefix='/api')
 
 # Handle/serialize errors like a JSON object
+
+app.app = app
 
 
 @app.errorhandler(APIException)

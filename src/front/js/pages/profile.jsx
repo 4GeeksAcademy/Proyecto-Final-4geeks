@@ -248,8 +248,8 @@ export const Profile = () => {
                     <p className="info">
                       {data.role === "User"
                         ? "Usuario"
-                        : data.role === "Team manager"
-                        ? "Líder de Equipo"
+                        : data.role === "Manager"
+                        ? "Manager"
                         : "Administrador"}
                     </p>
                   </div>

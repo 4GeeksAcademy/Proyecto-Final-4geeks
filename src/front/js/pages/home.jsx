@@ -8,6 +8,8 @@ import "../../styles/home.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAnglesDown } from "@fortawesome/free-solid-svg-icons";
 
+import { Location } from "../component/location.jsx";
+
 export const Home = () => {
   useEffect(() => {
     document.title = "BTFX";
@@ -20,16 +22,16 @@ export const Home = () => {
   useEffect(() => {
     document.querySelector("body").onscroll = () => {
       const scrolltotop = document.scrollingElement.scrollTop;
-      const target = document.querySelector(".hero");
+      const target1 = document.querySelector(".hero");
       const xvalue = "center";
       const factor = 0.5;
       const yvalue = scrolltotop * factor;
-      target.style.backgroundPosition = xvalue + " " + yvalue + "px";
+      target1.style.backgroundPosition = xvalue + " " + yvalue + "px";
     };
   }, [location]);
 
   return (
-    <div className="back-hero">
+    <div className="wrapper-home">
       <div
         style={{
           backgroundImage: `url(${hero})`,
@@ -47,6 +49,8 @@ export const Home = () => {
           <FontAwesomeIcon type="button" icon={faAnglesDown} />
         </div>
       </div>
+
+      <Location />
     </div>
   );
 };

@@ -9,6 +9,9 @@ import { Signup } from "./pages/signup.jsx";
 import { Login } from "./pages/login.jsx";
 import { Profile } from "./pages/profile.jsx";
 import { Classification } from "./pages/classification.jsx";
+import { ManagerInscription } from "./pages/managerInscription.jsx";
+import { RecoverPassword } from "./pages/recoverPassword.jsx";
+import { ResetPassword } from "./pages/resetPassword.jsx";
 
 import background from "../img/background.png";
 
@@ -42,8 +45,20 @@ const Layout = () => {
               <Route element={<Signup />} path="/signup" />
               <Route element={<Login />} path="/login" />
               <Route element={<Profile />} path="/profile" />
+              <Route element={<RecoverPassword />} path="/recover-password" />
+              <Route
+                element={<ResetPassword />}
+                path="/reset-password/:token"
+              />
               <Route element={<Classification />} path="/classification" />
+<<<<<<< HEAD
               <Route element={<Calendariov />} path="/calendario" />
+=======
+              <Route
+                element={<ManagerInscription />}
+                path="/manager-inscriptions"
+              />
+>>>>>>> main
 
               <Route element={<h1>Not found!</h1>} />
             </Routes>
