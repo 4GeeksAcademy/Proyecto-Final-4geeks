@@ -201,6 +201,76 @@ const getState = ({ getStore, getActions, setStore }) => {
           return false;
         }
       },
+      userValidation: async (data) => {
+        console.log(data);
+
+        try {
+          const response = await axios.post(
+            `${url}user-validation`,
+            data,
+            config
+          );
+
+          const responseDelete = await axios.delete(
+            `${url}inscriptions-delete/${data.user}/${data.competition}`
+          );
+          console.log(response.data, response.status);
+          console.log(responseDelete.data, responseDelete.status);
+
+          /* LOCAL */
+          const store = getStore();
+          store.inscriptions = store.inscriptions.filter(
+            (e) =>
+              !(e.competition.id == data.competition && e.user.id == data.user)
+          );
+
+          if (data.category !== null && data.team !== null) {
+            store.inscriptions = store.inscriptions.map((x, y) => {
+              if (x.user.id === data.user) {
+                x.user.category = {};
+                x.user.team = {};
+                x.user.category.name = data.category;
+                x.user.team.name = data.team;
+                console.log(data.team);
+              }
+              return x;
+            });
+          }
+          /* END LOCAL */
+
+          const eventResults = await axios.get(`${url}event-results`, config);
+          store.eventResults = eventResults.data.response;
+
+          setStore(store);
+
+          return true;
+        } catch (error) {
+          console.log(error);
+          return false;
+        }
+      },
+
+      cancelInscription: async (data) => {
+        try {
+          const responseDelete = await axios.delete(
+            `${url}inscriptions-delete/${data.user}/${data.competition}`
+          );
+          console.log(responseDelete.data, responseDelete.status);
+
+          const store = getStore();
+          store.inscriptions = store.inscriptions.filter(
+            (e) =>
+              !(e.competition.id == data.competition && e.user.id == data.user)
+          );
+
+          setStore(store);
+
+          return true;
+        } catch (error) {
+          console.log(error);
+          return false;
+        }
+      },
     },
   };
 };

@@ -41,17 +41,57 @@ export const ManagerInscription = () => {
   }, [store.user]);
 
   const [dorsal, setDorsal] = useState({});
+  const [category, setCategory] = useState({});
+  const [team, setTeam] = useState({});
 
-  const userValidation = (userId, competitionId, dorsal) => {
+  const userValidation = async (
+    userId,
+    competitionId,
+    dors,
+    cat,
+    te,
+    index
+  ) => {
     console.log(dorsalInput.current);
 
     const data = {
       user: userId,
       competition: competitionId,
-      dorsal: dorsal,
+      dorsal: dors,
+      category: cat,
+      team: te,
     };
 
-    console.log(data);
+    const aux1 = dorsal;
+    const aux2 = category;
+    const aux3 = team;
+    aux1[index] = 0;
+    aux2[index] = "";
+    aux3[index] = "";
+    setDorsal(aux1);
+    setCategory(aux2);
+    setTeam(aux3);
+
+    const response = await actions.userValidation(data);
+  };
+
+  const cancelInscription = async (userId, competitionId) => {
+    const data = {
+      user: userId,
+      competition: competitionId,
+    };
+
+    const aux1 = dorsal;
+    const aux2 = category;
+    const aux3 = team;
+    aux1[index] = 0;
+    aux2[index] = "";
+    aux3[index] = "";
+    setDorsal(aux1);
+    setCategory(aux2);
+    setTeam(aux3);
+
+    const response = await actions.cancelInscription(data);
   };
 
   return (
@@ -74,13 +114,20 @@ export const ManagerInscription = () => {
                       <>
                         Categoría:
                         <select
+                          onChange={(e) => {
+                            setCategory({
+                              ...category,
+                              [index]: e.target.value,
+                            });
+                          }}
+                          value={category[index]}
                           defaultValue={"value1"}
                           style={{ width: "8em" }}
                           name="select"
                         >
                           <option value="value1"></option>
                           {store.categories?.map((x, y) => (
-                            <option key={y} value="value1">
+                            <option key={y} value={x.name}>
                               {x.name}
                             </option>
                           ))}
@@ -90,17 +137,24 @@ export const ManagerInscription = () => {
                       <>
                         Categoría:
                         <select
+                          onChange={(e) => {
+                            setCategory({
+                              ...category,
+                              [index]: e.target.value,
+                            });
+                          }}
+                          value={category[index]}
                           style={{ width: "8em" }}
                           name="select"
-                          defaultValue={"value1"}
+                          defaultValue={item.user.category.name}
                         >
-                          <option value="value1">
+                          <option value={item.user.category.name}>
                             {item.user.category.name}
                           </option>
                           {store.categories?.map((x, y) => (
                             <>
                               {x.name !== item.user.category.name && (
-                                <option key={y} value={y}>
+                                <option key={y} value={x.name}>
                                   {x.name}
                                 </option>
                               )}
@@ -115,13 +169,20 @@ export const ManagerInscription = () => {
                       <>
                         Equipo:
                         <select
+                          onChange={(e) => {
+                            setTeam({
+                              ...team,
+                              [index]: e.target.value,
+                            });
+                          }}
+                          value={team[index]}
                           defaultValue={"value1"}
                           style={{ width: "6em" }}
                           name="select"
                         >
                           <option value="value1"></option>
                           {store.teams?.map((x, y) => (
-                            <option key={y} value="value1">
+                            <option key={y} value={x.name}>
                               {x.name}
                             </option>
                           ))}
@@ -131,15 +192,24 @@ export const ManagerInscription = () => {
                       <>
                         Equipo:
                         <select
+                          onChange={(e) => {
+                            setTeam({
+                              ...team,
+                              [index]: e.target.value,
+                            });
+                          }}
+                          value={team[index]}
                           style={{ width: "6em" }}
                           name="select"
-                          defaultValue={"value1"}
+                          defaultValue={item.user.team.name}
                         >
-                          <option value="value1">{item.user.team.name}</option>
+                          <option value={item.user.team.name}>
+                            {item.user.team.name}
+                          </option>
                           {store.teams?.map((x, y) => {
-                            {
-                              x.name !== item.user.team.name && (
-                                <option key={y} value={y}>
+                            if (x.name !== item.user.team.name) {
+                              return (
+                                <option key={y} value={x.name}>
                                   {x.name}
                                 </option>
                               );
@@ -154,6 +224,11 @@ export const ManagerInscription = () => {
                     {" "}
                     Dorsal:{" "}
                     <select
+                      /* ref={dorsalInput} */
+                      onChange={(e) => {
+                        setDorsal({ ...dorsal, [index]: e.target.value });
+                      }}
+                      value={dorsal[index]}
                       style={{ width: "4em" }}
                       name="select"
                       defaultValue={"value1"}
@@ -162,6 +237,7 @@ export const ManagerInscription = () => {
                       {[...Array(item.competition.participation_limit)].map(
                         (x, y) => {
                           const aux = [];
+
                           store.eventResults.map((a, b) => {
                             if (a.competition.id === item.competition.id) {
                               aux.push(a.dorsal);
@@ -171,7 +247,7 @@ export const ManagerInscription = () => {
                           return (
                             <>
                               {!aux.includes(y + 1) && (
-                                <option key={y} value={y}>
+                                <option key={y + 1} value={y + 1}>
                                   {y + 1}
                                 </option>
                               )}
@@ -180,30 +256,30 @@ export const ManagerInscription = () => {
                         }
                       )}
                     </select>
-                    {/* <input
-                      ref={dorsalInput}
-                      onChange={(e) => {
-                        setDorsal({ ...dorsal, [index]: e.target.value });
-                      }}
-                      value={dorsal[index]}
-                      type="number"
-                    />  */}
                   </p>
                   <div className="check col-12 col-md-1 d-flex">
                     <FontAwesomeIcon
-                      type="submit"
                       onClick={() => {
                         userValidation(
                           item.user.id,
                           item.competition.id,
-                          dorsal[index]
+                          dorsal[index],
+                          category[index],
+                          team[index],
+                          index
                         );
                       }}
                       className="yes"
                       icon={faCheck}
                     />
                     <FontAwesomeIcon
-                      type="submit"
+                      onClick={() => {
+                        cancelInscription(
+                          item.user.id,
+                          item.competition.id,
+                          index
+                        );
+                      }}
                       className="no"
                       icon={faXmark}
                     />

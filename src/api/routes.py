@@ -37,8 +37,6 @@ def recoverPassword():
 
         reset_token = reset_token.replace(".", "&")
 
-        print(reset_token)
-
         msg = Message(subject='BTFX - Recuperar contraseña',
                       sender='rob_mb@outlook.es', recipients=[email])
 
@@ -67,7 +65,6 @@ def resetPassword():
         current_user = get_jwt_identity()
 
         user = User.query.get(current_user)
-        print(pw_hash)
 
         user.password = pw_hash
         db.session.commit()
@@ -175,7 +172,6 @@ def edit_profile():
         user.user_name = user_name
         user.email = email
 
-        print(current_user)
         db.session.commit()
 
         return jsonify({'msg': "Ok. User edited",
@@ -252,7 +248,7 @@ def inscriptions():
     try:
         ins = list(
             map(lambda item: item.serialize(), Inscriptions.query.all()))
-        print(ins)
+
         return jsonify({"msg": "Ok",
                         "response": ins
                         }
@@ -298,10 +294,61 @@ def event_results():
         event_results = list(
             map(lambda item: item.serialize(), Competition_Data.query.all()))
 
-        print(event_results)
-
         return jsonify({"msg": "Ok",
                         "response": event_results
+                        }
+                       ), 200
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+
+
+@api.route("/user-validation", methods=["POST", "PUT"])
+def user_validation():
+    try:
+        user = request.json.get("user", None)
+        competition = request.json.get("competition", None)
+        dorsal = request.json.get("dorsal", None)
+        category = request.json.get("category", None)
+        team = request.json.get("team", None)
+
+        competition_data = Competition_Data(
+            user_id=user,
+            competition_id=competition,
+            dorsal=dorsal
+        )
+
+        db.session.add(competition_data)
+
+        user_data = User.query.get(user)
+
+        if category != None and team != None:
+            category_id = Category.query.filter_by(name=category).first().id
+            team_id = Team.query.filter_by(name=team).first().id
+
+            user_data.category_id = category_id
+            user_data.team_id = team_id
+
+        db.session.commit()
+
+        return jsonify({"msg": "Ok", }), 200
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+
+
+@api.route("/inscriptions-delete/<int:id_user>/<int:id_competition>", methods=["DELETE"])
+def inscriptions_delete(id_user, id_competition):
+
+    try:
+
+        inscription = Inscriptions.query.filter_by(
+            user_id=id_user, competition_id=id_competition).first()
+
+        db.session.delete(inscription)
+        db.session.commit()
+
+        return jsonify({"msg": "Ok, Deleted"
                         }
                        ), 200
 

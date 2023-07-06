@@ -39,7 +39,7 @@ class User(db.Model):
         "Inscriptions", backref="user", lazy=True)
 
     def __repr__(self):
-        return f'<User {self.name}>'
+        return f'<User {self.name}, {self.id}>'
 
     def serialize(self):
         category = Category.query.filter_by(id=self.category_id).first()
@@ -80,7 +80,7 @@ class Team(db.Model):
     user = db.relationship("User", backref="team", lazy=True)
 
     def __repr__(self):
-        return f'<Team {self.name}>'
+        return f'<Team {self.name}, {self.id}>'
 
     def serialize(self):
         club = Club.query.filter_by(id=self.club_id).first()
@@ -101,7 +101,7 @@ class Club(db.Model):
     team = db.relationship("Team", backref="club", lazy=True)
 
     def __repr__(self):
-        return f'<Club {self.name}>'
+        return f'<Club {self.name}, {self.id}>'
 
     def serialize(self):
         return {
@@ -121,7 +121,7 @@ class Category(db.Model):
         "Category_Competition", backref="category", lazy=True)
 
     def __repr__(self):
-        return f'<Category {self.name}>'
+        return f'<Category {self.name}, {self.id}>'
 
     def serialize(self):
         return {
@@ -140,7 +140,7 @@ class Category_Competition(db.Model):
         "competition.id"), nullable=False)
 
     def __repr__(self):
-        return f'<Category {self.id}>'
+        return f'<Category {self.id}, {self.id}>'
 
     def serialize(self):
         category = Category.query.get(self.category_id)
@@ -178,7 +178,7 @@ class Competition(db.Model):
         "Inscriptions", backref="competition", lazy=True)
 
     def __repr__(self):
-        return f'<Competition {self.title}>'
+        return f'<Competition {self.title}, {self.id}>'
 
     def serialize(self):
 
@@ -216,7 +216,7 @@ class Championship (db.Model):
         "Competition", backref="championship", lazy=True)
 
     def __repr__(self):
-        return f'<Championship {self.title}>'
+        return f'<Championship {self.title}, {self.id}>'
 
     def serialize(self):
         return {
