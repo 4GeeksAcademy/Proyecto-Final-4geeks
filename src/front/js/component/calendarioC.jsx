@@ -30,6 +30,7 @@ export const CalendarioC = (props) => {
                       <div className="col-auto  fs-5 fst-italic">Categoria: {props.categories} </div>
                       <div className="col-auto  fs-5 fst-italic">Ubicación: {props.location}  </div>
                       <div className="col-auto  fs-5 fst-italic">Torneo: {props.torneo} </div> 
+                      <div className="col-auto  fs-5 fst-italic">Participantes: {props.participation_limit} </div> 
                     </div>
                 </div>
 

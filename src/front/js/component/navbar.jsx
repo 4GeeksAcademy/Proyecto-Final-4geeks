@@ -294,9 +294,18 @@ export const Navbar = () => {
               </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link active" aria-current="page" href="#">
-                Inscripción
-              </a>
+              <Link
+                  onClick={() => {
+                    setCollapse(false);
+                    navigate("/inscription");
+                  }}
+                  data-bs-toggle="collapse"
+                  data-bs-target="#navbarSupportedContent"
+                  className="nav-link active"
+                  aria-current="page"
+                >
+                  Inscripción
+                </Link>
             </li>
 
             <li className="nav-item">

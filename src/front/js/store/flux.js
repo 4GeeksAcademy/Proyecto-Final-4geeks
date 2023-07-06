@@ -33,8 +33,8 @@ const getState = ({ getStore, getActions, setStore }) => {
           const response = await axios.get(`${url}trials`, config);
           const tournaments = await axios.get(`${url}tournaments`, config);
 
-          console.log(response.data, response.status);
-          console.log(tournaments.data, tournaments.status);
+          // console.log(response.data, response.status);
+          // console.log(tournaments.data, tournaments.status);
 
           const store = getStore();
           store.trials = response.data.response;
@@ -191,6 +191,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           store.categories = categories.data.response;
           store.teams = teams.data.response;
           setStore(store);
+          
 
           return true;
         } catch (error) {

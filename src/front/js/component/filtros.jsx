@@ -8,35 +8,31 @@ import { Button } from 'react-bootstrap';
 export const Filtros = () => {
    
     const { store } = useContext(Context);
+
     const [torneos,setTorneos] = useState(false)
 
+    const [torneosFill,setTorneosfill] = useState({})
+
+  
     
 
 
-    // function filtrarTorneo() {
-    //     const torneosB = store.tournaments;
-    //      torneosB.map((item) => (
-    //       <button >{item}</button>
-    //     ));
-    //     return;
-    //   }
+// function filtrarCategoria(torneo,index) {
 
-function filtrarCategoria(torneo,index) {
-
-    // const newArray = store.trials.tournament.filter((item) => item.tournament === torneo) 
-    // const newCategorie = newArray.map((item) => item.categories ) 
+//     // const newArray = store.trials.tournament.filter((item) => item.tournament === torneo) 
+//     // const newCategorie = newArray.map((item) => item.categories ) 
      
-    // console.log(newCategorie)
-}
+//     // console.log(newCategorie)
+// }
 
-function filtrarFecha(torneo,index) {
+// function filtrarFecha(torneo,index) {
 
-    // const newArray = store.trials.tournament.filter((item) => item.tournament === torneo) 
+//     // const newArray = store.trials.tournament.filter((item) => item.tournament === torneo) 
    
-    // const newCategorie = newArray.map((item) => item.categories ) 
+//     // const newCategorie = newArray.map((item) => item.categories ) 
      
-    // console.log(newCategorie)
-}
+//     // console.log(newCategorie)
+// }
 
     return (
 
@@ -46,41 +42,46 @@ function filtrarFecha(torneo,index) {
                 
                 <div className='col-auto'>
                     <button
-                        
+                        onClick={() => {  
+                            if (!torneos)  {
+                            setTorneos(true)                          
+                            }else{
+                                setTorneos(false)
+                            }; 
+                        }}
                         type="button"
-                        className='filterss'
+                        className={torneos ? "btn btn-primary" : "btn btn-secondary"}
                     
                     >  Torneo
                         
                     </button>
                 </div>
                 
-                <div className='col-auto'>
-                    <button
-                        // onClick={() => { filtrarCategoria()  }}
-                        type="button"
-                        className='filterss'
-                    
-                    >  Categoría
-                        
-                    </button>
-                </div>
-                
-                <div className='col-auto'>
-                    <button
-                        // onClick={() => { filtrarFecha()  }}
-                        type="button"
-                        className='filterss'
-                    
-                    >  Fecha
-                        
-                    </button>
-                </div>
+                <div className="row d-flex justify-content-center m-0 p-0">
+                    { store.tournaments.map((item,index)=>(
+                        <> {torneos ?( 
+                        <div className='col-auto' key={index}> 
+                        <button
+                                onClick={() => {
+                                    setTorneosfill({[index]:true} )
+                                    console.log({[index]:true})
+                                }}
+                                type="button"
+                                className={torneosFill[index]? "btn btn-primary" : "btn btn-secondary"}
+                            
+                            >
+                            {item}
+                        </button>
+                    </div>) 
+        
+                            :null}           
+                        </>
+                       
 
-                <div className='col-auto'>
-                    {filtrarTorneo()}
-                </div>    
-
+                        ))}
+                                      
+                </div>
+            
             </div>
         </Fragment>
 )}
