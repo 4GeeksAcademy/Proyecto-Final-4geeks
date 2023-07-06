@@ -143,7 +143,7 @@ export const Navbar = () => {
                       <a
                         onClick={() => {
                           setCollapse(false);
-                          navigate("/admin-events");
+                          navigate("/admin-trials");
                         }}
                         className="dropdown-item"
                         href="#"
@@ -155,7 +155,7 @@ export const Navbar = () => {
                       <a
                         onClick={() => {
                           setCollapse(false);
-                          navigate("/admin-trials");
+                          navigate("/admin-events");
                         }}
                         className="dropdown-item"
                         href="#"
@@ -371,7 +371,7 @@ export const Navbar = () => {
                       <a
                         onClick={() => {
                           setCollapse(false);
-                          navigate("/admin-events");
+                          navigate("/admin-trials");
                         }}
                         className="dropdown-item"
                         href="#"
@@ -383,7 +383,7 @@ export const Navbar = () => {
                       <a
                         onClick={() => {
                           setCollapse(false);
-                          navigate("/admin-trials");
+                          navigate("/admin-events");
                         }}
                         className="dropdown-item"
                         href="#"

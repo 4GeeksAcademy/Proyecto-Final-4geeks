@@ -271,6 +271,22 @@ const getState = ({ getStore, getActions, setStore }) => {
           return false;
         }
       },
+      loadTrials: async () => {
+        try {
+          const eventResults = await axios.get(`${url}event-results`, config);
+
+          console.log(eventResults.data, eventResults.status);
+
+          const store = getStore();
+          store.eventResults = eventResults.data.response;
+          setStore(store);
+
+          return true;
+        } catch (error) {
+          console.log(error);
+          return false;
+        }
+      },
     },
   };
 };

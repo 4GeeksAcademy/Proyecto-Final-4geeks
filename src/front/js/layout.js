@@ -12,6 +12,7 @@ import { Classification } from "./pages/classification.jsx";
 import { ManagerInscription } from "./pages/managerInscription.jsx";
 import { RecoverPassword } from "./pages/recoverPassword.jsx";
 import { ResetPassword } from "./pages/resetPassword.jsx";
+import { AdminTrials } from "./pages/adminTrials.jsx";
 
 import background from "../img/background.png";
 
@@ -53,6 +54,7 @@ const Layout = () => {
                 element={<ManagerInscription />}
                 path="/manager-inscriptions"
               />
+              <Route element={<AdminTrials />} path="/admin-trials" />
 
               <Route element={<h1>Not found!</h1>} />
             </Routes>
