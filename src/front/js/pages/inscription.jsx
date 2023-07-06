@@ -16,9 +16,11 @@ export const Inscription = () => {
 
   const navigate = useNavigate();
   //Redirect in case user is logged
- 
 
   const { store, actions } = useContext(Context);
+
+  
+  const [tok, setTok] = useState("");
   const [load, setLoad] = useState(false);
 
   const [alert, setAlert] = useState(false);
@@ -31,6 +33,17 @@ export const Inscription = () => {
   const [sexoUser, setSexoUser] = useState("");
 
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setTok(token);
+    console.log("hola");
+    if (token === null) {
+      navigate("/login");
+    }
+    setLoad(true);
+  }, []);
+
+
 
   const handleFormulary = async (e) => {
     e.preventDefault();
@@ -40,10 +53,10 @@ export const Inscription = () => {
       fechaN: fechaN,
       licencia: licencia,
       federado: federado,
-      sexoUser: sexoUser
+      sexoUser: sexoUser,
     };
-console.log(data)
-    const resp = await actions.Inscription(data);
+    console.log(data);
+    const resp = await actions.inscription(data,tok);
     // if (resp === 200) {
     //   navigate("/");
     // }
@@ -73,7 +86,7 @@ console.log(data)
         <div className="form">
           <form onSubmit={handleFormulary}>
             <div className="header-submit">
-              <h1>Iniciar Sesión</h1>
+              <h1>INSCRIPCIÓN</h1>
               <div className="subtitle-submit d-flex">
                 <h6>¿No tienes una cuenta?</h6>
                 <Link to={`/signup`}>Regístrate</Link>
@@ -97,16 +110,12 @@ console.log(data)
 
             {/* ALERT END*/}
             <div className="form-group">
-
-              <label >
-                Uci Id
-              </label>
+              <label>Uci Id</label>
 
               <input
                 required
                 onChange={(e) => {
                   setUciId(e.target.value);
-                 
                 }}
                 value={uciId}
                 type="number"
@@ -117,8 +126,7 @@ console.log(data)
             </div>
 
             <div className="form-group mb-1">
-
-              <label >Licencia</label>
+              <label>Licencia</label>
 
               <input
                 required
@@ -129,14 +137,11 @@ console.log(data)
                 type="number"
                 className="form-control"
                 id="licencia"
-               
-
               />
             </div>
-            
-            <div className="form-group mb-1">
 
-              <label >Fecha</label>
+            <div className="form-group mb-1">
+              <label>Fecha</label>
 
               <input
                 required
@@ -147,70 +152,52 @@ console.log(data)
                 type="date"
                 className="form-control"
                 id="fechaNacimiento"
-                
-
               />
             </div>
-            
+
             <div className="form-group mb-1">
+              <label>Federado</label>
 
-              <label >Federado</label>
+              <select
+                name="select"
+                defaultValue={"default"}
+                className="form-control"
+                onChange={(e) => {
+                  setFederado(e.target.value);
+                }}
+                value={federado}
+                required
+              >
+                <option value=""></option>
 
-                    <select         
-                      name="select"
-                      defaultValue={"default"}
-                      className="form-control"
-                      onChange={(e) => {
-                        setFederado(e.target.value);
-                      }}
-                      value={federado}
-                      required
-                    >
-                          <option value="">
-                          
-                          </option>
+                <option value="si">si</option>
 
-                          <option value="si">
-                            si
-                          </option>
-
-                          <option value="no">
-                            No
-                          </option>
-
-                    </select>
+                <option value="no">No</option>
+              </select>
             </div>
-            
+
             <div className="form-group mb-1">
+              <label>Genero</label>
 
-              <label >Genero</label>
+              <select
+                name="select"
+                defaultValue={"default"}
+                className="form-control"
+                required
+                onChange={(e) => {
+                  setSexoUser(e.target.value);
+                }}
+                value={sexoUser}
+                id="genero"
+              >
+                <option value=""></option>
 
+                <option value="masculino">Masculino</option>
 
-                    <select         
-                      name="select"
-                      defaultValue={"default"}
-                      className="form-control"
-                      required
-                      onChange={(e) => {
-                        setSexoUser(e.target.value);
-                      }}
-                      value={sexoUser}
-                      id="genero"
-                    >
-                          <option value="">
-                            
-                          </option>
-
-                          <option value="masculino">
-                            Masculino
-                          </option>
-
-                          <option value="femenino">
-                            Femenino
-                          </option>
-                    </select>
+                <option value="femenino">Femenino</option>
+              </select>
             </div>
-            
+
             <div className="footer-submit">
               <button type="submit" className={`btn btn-success`}>
                 Continuar

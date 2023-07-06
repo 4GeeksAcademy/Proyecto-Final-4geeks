@@ -49,8 +49,22 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
-      inscription: async(data) => {
-        console.log(data)
+      inscription: async(data,token) => {
+        config.headers.Authorization = "Bearer " + token;
+
+        console.log(token);
+        
+        try {
+          
+          const resp = await axios.put(`${url}inscription-user`,data,config)
+
+          console.log(resp.data, resp.status);
+          return true
+
+        } catch (error) {
+          console.log(error)
+          return false
+        }
         
       },
 
