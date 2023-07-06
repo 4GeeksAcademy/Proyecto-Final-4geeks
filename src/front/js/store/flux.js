@@ -49,6 +49,11 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
+      inscription: async(data) => {
+        console.log(data)
+        
+      },
+
       login: async (data) => {
         data.firstField = data.firstField.toLowerCase().replaceAll(" ", "");
 

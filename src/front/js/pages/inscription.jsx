@@ -43,7 +43,7 @@ export const Inscription = () => {
       sexoUser: sexoUser
     };
 console.log(data)
-    // const resp = await actions.login(loginData);
+    const resp = await actions.Inscription(data);
     // if (resp === 200) {
     //   navigate("/");
     // }
@@ -166,7 +166,7 @@ console.log(data)
                       value={federado}
                       required
                     >
-                          <option value="default">
+                          <option value="">
                           
                           </option>
 
@@ -197,7 +197,7 @@ console.log(data)
                       value={sexoUser}
                       id="genero"
                     >
-                          <option value="default">
+                          <option value="">
                             
                           </option>
 
