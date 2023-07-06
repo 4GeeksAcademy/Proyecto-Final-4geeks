@@ -21,6 +21,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       eventResults: [],
     },
     actions: {
+      
       firstLoad: async () => {
         const user = localStorage.getItem("user");
         if (user !== null) {
@@ -33,8 +34,8 @@ const getState = ({ getStore, getActions, setStore }) => {
           const response = await axios.get(`${url}trials`, config);
           const tournaments = await axios.get(`${url}tournaments`, config);
 
-          console.log(response.data, response.status);
-          console.log(tournaments.data, tournaments.status);
+          // console.log(response.data, response.status);
+          // console.log(tournaments.data, tournaments.status);
 
           const store = getStore();
           store.trials = response.data.response;
@@ -47,6 +48,25 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log(error.response?.data, error.response?.status);
           return error.response?.status;
         }
+      },
+
+      inscription: async(data,token) => {
+        config.headers.Authorization = "Bearer " + token;
+
+        console.log(token);
+        
+        try {
+          
+          const resp = await axios.put(`${url}inscription-user`,data,config)
+
+          console.log(resp.data, resp.status);
+          return true
+
+        } catch (error) {
+          console.log(error)
+          return false
+        }
+        
       },
 
       login: async (data) => {
@@ -280,6 +300,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           const store = getStore();
           store.eventResults = eventResults.data.response;
           setStore(store);
+          
 
           return true;
         } catch (error) {

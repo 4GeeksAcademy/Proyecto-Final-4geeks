@@ -61,7 +61,6 @@ class User(db.Model):
             "fecha_nacimiento": self.fecha_nacimiento,
             "role": self.role,
             "rider": self.rider,
-
             "category": category.serialize() if category != None else category,
             "team": team.serialize() if team != None else team
 

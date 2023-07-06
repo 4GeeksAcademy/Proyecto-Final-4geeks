@@ -228,6 +228,36 @@ def trials():
         return jsonify({'error': str(e)}), 400
 
 
+@api.route("/inscription-user", methods=["PUT"])
+@jwt_required()
+def inscription_user():
+
+
+    try:
+        current_user = get_jwt_identity()
+
+        user = User.query.get(current_user)
+      
+        user.uci_id= request.json.get("uciId",None)
+        user.licencia=request.json.get("licencia",None)
+        user.fecha_nacimiento=request.json.get("fechaN",None)
+        user.federado=request.json.get("federado",None)
+        user.sexo=request.json.get("sexoUser",None)
+
+        db.session.commit()
+
+
+        return jsonify({"msg": "Ok",
+                        "response": "recibido"
+                        }
+                        ), 200
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+
+
+
+
 @api.route("/tournaments", methods=["GET"])
 def tournaments():
     try:

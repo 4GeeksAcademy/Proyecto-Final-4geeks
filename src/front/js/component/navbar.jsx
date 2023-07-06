@@ -286,14 +286,26 @@ export const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <a className="nav-link active" aria-current="page" href="#">
+              <Link className="nav-link active" aria-current="page" to="/calendario" onClick={() => {
+                  
+                  
+                }}>
                 Calendario
-              </a>
+              </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link active" aria-current="page" href="#">
-                Inscripción
-              </a>
+              <Link
+                  onClick={() => {
+                    setCollapse(false);
+                    navigate("/inscription");
+                  }}
+                  data-bs-toggle="collapse"
+                  data-bs-target="#navbarSupportedContent"
+                  className="nav-link active"
+                  aria-current="page"
+                >
+                  Inscripción
+                </Link>
             </li>
 
             <li className="nav-item">
