@@ -18,9 +18,9 @@ const getState = ({ getStore, getActions, setStore }) => {
       inscriptions: [],
       categories: [],
       teams: [],
+      eventResults: [],
     },
     actions: {
-      
       firstLoad: async () => {
         const user = localStorage.getItem("user");
         if (user !== null) {
@@ -49,23 +49,22 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
-      inscription: async(data,token) => {
+      inscription: async (data, token) => {
         config.headers.Authorization = "Bearer " + token;
 
-        console.log(token);
-        
         try {
-          
-          const resp = await axios.put(`${url}inscription-user`,data,config)
+          const resp = await axios.put(`${url}inscription-user`, data, config);
+          const store = getStore();
+          store.user = resp.data.response;
+          setStore(store);
+          localStorage.setItem("user", JSON.stringify(resp.data.response));
 
           console.log(resp.data, resp.status);
-          return true
-
+          return resp.status;
         } catch (error) {
-          console.log(error)
-          return false
+          console.log(error.response);
+          return error.response.status;
         }
-        
       },
 
       login: async (data) => {
@@ -94,8 +93,6 @@ const getState = ({ getStore, getActions, setStore }) => {
       signup: async (data) => {
         data.email = data.email.toLowerCase().replaceAll(" ", "");
         data.mobile = data.mobile.replaceAll(" ", "");
-        data.name = data.name.toLowerCase().replaceAll(" ", "");
-        data.subName = data.subName.toLowerCase();
         data.username = data.username.toLowerCase().replaceAll(" ", "");
         data.dni = data.dni.toLowerCase().replaceAll(" ", "");
         console.log(data);
@@ -105,7 +102,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log(response);
           return true;
         } catch (error) {
-          console.log(error.response.data, error.response.status);
+          console.log(error);
           return false;
         }
       },
@@ -197,22 +194,130 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
       loadInscriptions: async () => {
         try {
-          const response = await axios.get(`${url}inscriptions`, config);
-          const categories = await axios.get(`${url}categories`, config);
-          const teams = await axios.get(`${url}teams`, config);
-
-          console.log(response.data, response.status);
-          console.log(categories.data, categories.status);
-          console.log(teams.data, teams.status);
-
           const store = getStore();
+
+          const response = await axios.get(`${url}inscriptions`, config);
+          console.log(response.data, response.status);
           store.inscriptions = response.data.response;
+          setStore(store);
+
+          const categories = await axios.get(`${url}categories`, config);
+          console.log(categories.data, categories.status);
           store.categories = categories.data.response;
+          setStore(store);
+
+          const teams = await axios.get(`${url}teams`, config);
+          console.log(teams.data, teams.status);
           store.teams = teams.data.response;
           setStore(store);
-          
+
+          const eventResults = await axios.get(`${url}event-results`, config);
+          console.log(eventResults.data, eventResults.status);
+          store.eventResults = eventResults.data.response;
+          setStore(store);
 
           return true;
+        } catch (error) {
+          console.log(error);
+          return false;
+        }
+      },
+      userValidation: async (data) => {
+        console.log(data);
+
+        try {
+          const response = await axios.post(
+            `${url}user-validation`,
+            data,
+            config
+          );
+
+          const responseDelete = await axios.delete(
+            `${url}inscriptions-delete/${data.user}/${data.competition}`
+          );
+          console.log(response.data, response.status);
+          console.log(responseDelete.data, responseDelete.status);
+
+          /* LOCAL */
+          const store = getStore();
+          store.inscriptions = store.inscriptions.filter(
+            (e) =>
+              !(e.competition.id == data.competition && e.user.id == data.user)
+          );
+
+          if (data.category !== null && data.team !== null) {
+            store.inscriptions = store.inscriptions.map((x, y) => {
+              if (x.user.id === data.user) {
+                x.user.category = {};
+                x.user.team = {};
+                x.user.category.name = data.category;
+                x.user.team.name = data.team;
+                console.log(data.team);
+              }
+              return x;
+            });
+          }
+          /* END LOCAL */
+
+          const eventResults = await axios.get(`${url}event-results`, config);
+          store.eventResults = eventResults.data.response;
+
+          setStore(store);
+
+          return true;
+        } catch (error) {
+          console.log(error);
+          return false;
+        }
+      },
+
+      cancelInscription: async (data) => {
+        try {
+          const responseDelete = await axios.delete(
+            `${url}inscriptions-delete/${data.user}/${data.competition}`
+          );
+          console.log(responseDelete.data, responseDelete.status);
+
+          const store = getStore();
+          store.inscriptions = store.inscriptions.filter(
+            (e) =>
+              !(e.competition.id == data.competition && e.user.id == data.user)
+          );
+
+          setStore(store);
+
+          return true;
+        } catch (error) {
+          console.log(error);
+          return false;
+        }
+      },
+      loadTrials: async () => {
+        try {
+          const eventResults = await axios.get(`${url}event-results`, config);
+
+          console.log(eventResults.data, eventResults.status);
+
+          const store = getStore();
+          store.eventResults = eventResults.data.response;
+          setStore(store);
+
+          return true;
+        } catch (error) {
+          console.log(error);
+          return false;
+        }
+      },
+      registerEvent: async (data) => {
+        try {
+          const response = await axios.put(
+            `${url}register-event`,
+            data,
+            config
+          );
+
+          console.log(response.data, response.status);
+          return response.status;
         } catch (error) {
           console.log(error);
           return false;

@@ -1,8 +1,14 @@
 """empty message
 
-Revision ID: 317e4cf63a79
+<<<<<<<< HEAD:migrations/versions/c4a83cc4d78b_.py
+Revision ID: c4a83cc4d78b
 Revises: 
-Create Date: 2023-07-06 15:50:54.934223
+Create Date: 2023-07-07 10:15:02.688909
+========
+Revision ID: 8d28c24ee4a1
+Revises: 
+Create Date: 2023-07-07 13:47:36.087697
+>>>>>>>> 1e1241846fd1e6e2f14599da37fbae35cd1663b5:migrations/versions/8d28c24ee4a1_.py
 
 """
 from alembic import op
@@ -10,7 +16,11 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '317e4cf63a79'
+<<<<<<<< HEAD:migrations/versions/c4a83cc4d78b_.py
+revision = 'c4a83cc4d78b'
+========
+revision = '8d28c24ee4a1'
+>>>>>>>> 1e1241846fd1e6e2f14599da37fbae35cd1663b5:migrations/versions/8d28c24ee4a1_.py
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -77,8 +87,8 @@ def upgrade():
     sa.Column('phone', sa.Integer(), nullable=True),
     sa.Column('sexo', sa.Enum('Hombre', 'Mujer', name='sexo'), nullable=True),
     sa.Column('fecha_nacimiento', sa.Date(), nullable=True),
-    sa.Column('uci_id', sa.Integer(), nullable=True),
-    sa.Column('licencia', sa.String(length=9), nullable=True),
+    sa.Column('uci_id', sa.BigInteger(), nullable=True),
+    sa.Column('licencia', sa.String(length=20), nullable=True),
     sa.Column('federado', sa.Enum('Sí', 'No', name='federado'), nullable=True),
     sa.Column('role', sa.Enum('User', 'Manager', 'Admin', name='role'), server_default='User', nullable=False),
     sa.Column('rider', sa.Enum('Yes', 'No', name='rider'), server_default='No', nullable=True),
@@ -96,7 +106,7 @@ def upgrade():
     op.create_table('competition_data',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('dorsal', sa.Integer(), nullable=True),
-    sa.Column('time', sa.Integer(), nullable=True),
+    sa.Column('time', sa.Time(), nullable=True),
     sa.Column('points', sa.Integer(), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.Column('competition_id', sa.Integer(), nullable=True),

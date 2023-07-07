@@ -37,8 +37,6 @@ def recoverPassword():
 
         reset_token = reset_token.replace(".", "&")
 
-        print(reset_token)
-
         msg = Message(subject='BTFX - Recuperar contraseña',
                       sender='rob_mb@outlook.es', recipients=[email])
 
@@ -67,7 +65,6 @@ def resetPassword():
         current_user = get_jwt_identity()
 
         user = User.query.get(current_user)
-        print(pw_hash)
 
         user.password = pw_hash
         db.session.commit()
@@ -91,18 +88,26 @@ def signup():
         user_name = request.json.get("username", None)
         email = request.json.get("email", None)
         password = request.json.get("password", None)
-
+        print(phone)
     # #Encrypt password
 
         pw_hash = current_app.bcrypt.generate_password_hash(
             password).decode("utf-8")
 
-        user = User(
-            email=email, password=pw_hash, name=name,
-            subname=subname, phone=phone, user_name=user_name,
-            dni=dni, uci_id=None, licencia=None,
-            federado=None, sexo=None, fecha_nacimiento=None
-        )
+        if phone == "":
+            user = User(
+                email=email, password=pw_hash, name=name,
+                subname=subname, phone=None, user_name=user_name,
+                dni=dni, uci_id=None, licencia=None,
+                federado=None, sexo=None, fecha_nacimiento=None
+            )
+        else:
+            user = User(
+                email=email, password=pw_hash, name=name,
+                subname=subname, phone=phone, user_name=user_name,
+                dni=dni, uci_id=None, licencia=None,
+                federado=None, sexo=None, fecha_nacimiento=None
+            )
 
         db.session.add(user)
         db.session.commit()
@@ -175,7 +180,6 @@ def edit_profile():
         user.user_name = user_name
         user.email = email
 
-        print(current_user)
         db.session.commit()
 
         return jsonify({'msg': "Ok. User edited",
@@ -232,34 +236,52 @@ def trials():
         return jsonify({'error': str(e)}), 400
 
 
-@api.route("/inscription-user", methods=["PUT"])
+@api.route("/inscription-user", methods=["PUT", "POST"])
 @jwt_required()
 def inscription_user():
-
 
     try:
         current_user = get_jwt_identity()
 
+        uci_id = request.json.get("uciId", None)
+        fecha_nacimiento = request.json.get("fechaN", None)
+        licencia = request.json.get("licencia", None)
+        federado = request.json.get("federado", None)
+        sexo = request.json.get("sexoUser", None)
+        event = request.json.get("event", None)
+
         user = User.query.get(current_user)
-      
-        user.uci_id= request.json.get("uciId",None)
-        user.licencia=request.json.get("licencia",None)
-        user.fecha_nacimiento=request.json.get("fechaN",None)
-        user.federado=request.json.get("federado",None)
-        user.sexo=request.json.get("sexoUser",None)
+
+        event = Competition.query.filter_by(title=event).first().id
+
+        inscription = Inscriptions.query.filter_by(
+            user_id=current_user, competition_id=event).first()
+
+        if inscription is not None:
+            return jsonify({"msg": "This inscription already exist"}), 403
+        print(licencia)
+        user.uci_id = int(uci_id)
+        user.licencia = licencia
+        user.fecha_nacimiento = fecha_nacimiento
+        user.federado = federado
+        user.sexo = sexo
+
+        data = Inscriptions(
+            user_id=int(current_user), competition_id=int(event)
+        )
+
+        db.session.add(data)
 
         db.session.commit()
-
+        print(data)
 
         return jsonify({"msg": "Ok",
-                        "response": "recibido"
+                        "response": user.serialize()
                         }
-                        ), 200
+                       ), 200
 
     except Exception as e:
         return jsonify({'error': str(e)}), 400
-
-
 
 
 @api.route("/tournaments", methods=["GET"])
@@ -282,7 +304,7 @@ def inscriptions():
     try:
         ins = list(
             map(lambda item: item.serialize(), Inscriptions.query.all()))
-        print(ins)
+
         return jsonify({"msg": "Ok",
                         "response": ins
                         }
@@ -316,6 +338,102 @@ def teams():
         return jsonify({"msg": "Ok",
                         "response": teams
                         }
+                       ), 200
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+
+
+@api.route("/event-results", methods=["GET"])
+def event_results():
+    try:
+        event_results = list(
+            map(lambda item: item.serialize() if item != None else item, Competition_Data.query.all()))
+
+        return jsonify({"msg": "Ok",
+                        "response": event_results
+                        }
+                       ), 200
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+
+
+@api.route("/user-validation", methods=["POST", "PUT"])
+def user_validation():
+    try:
+        user = request.json.get("user", None)
+        competition = request.json.get("competition", None)
+        dorsal = request.json.get("dorsal", None)
+        category = request.json.get("category", None)
+        team = request.json.get("team", None)
+
+        competition_data = Competition_Data(
+            user_id=user,
+            competition_id=competition,
+            dorsal=dorsal
+        )
+        print("1")
+        db.session.add(competition_data)
+
+        user_data = User.query.get(user)
+
+        if category == "":
+            category = None
+        if team == "":
+            team = None
+
+        print("2")
+        if category != None and team != None:
+            category_id = Category.query.filter_by(name=category).first().id
+            team_id = Team.query.filter_by(name=team).first().id
+
+            user_data.category_id = category_id
+            user_data.team_id = team_id
+
+        print("")
+        db.session.commit()
+
+        return jsonify({"msg": "Ok", }), 200
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+
+
+@api.route("/inscriptions-delete/<int:id_user>/<int:id_competition>", methods=["DELETE"])
+def inscriptions_delete(id_user, id_competition):
+
+    try:
+
+        inscription = Inscriptions.query.filter_by(
+            user_id=id_user, competition_id=id_competition).first()
+
+        db.session.delete(inscription)
+        db.session.commit()
+
+        return jsonify({"msg": "Ok, Deleted"
+                        }
+                       ), 200
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+
+
+@api.route("/register-event", methods=["PUT"])
+def register_event():
+    try:
+        id_event = request.json.get("idEvent", None)
+        time = request.json.get("time", None)
+        points = request.json.get("points", None)
+
+        competition_data = Competition_Data.query.get(id_event)
+
+        competition_data.time = time
+        competition_data.points = points
+
+        db.session.commit()
+
+        return jsonify({"msg": "Ok, probando"}
                        ), 200
 
     except Exception as e:

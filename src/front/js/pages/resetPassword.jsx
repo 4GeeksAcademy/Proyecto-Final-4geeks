@@ -4,7 +4,10 @@ import { Link, useLocation, useParams, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
+import {
+  faTriangleExclamation,
+  faCheckCircle,
+} from "@fortawesome/free-solid-svg-icons";
 
 import "../../styles/signup.css";
 
@@ -30,6 +33,7 @@ export const ResetPassword = () => {
 
   const [alert, setAlert] = useState(false);
   const [alertText, setAlertText] = useState("An error has occurred.");
+  const [alertColor, setAlertColor] = useState("red");
 
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
@@ -37,6 +41,7 @@ export const ResetPassword = () => {
   const validatePassword = () => {
     if (password !== password2 && password !== "" && password2 !== "") {
       setAlert(true);
+      setAlertColor("red");
       setAlertText("Las contraseñas no coinciden");
       return false;
     } else {
@@ -54,10 +59,16 @@ export const ResetPassword = () => {
     if (resp) {
       setAlert(true);
       setAlertText("Contraseña cambiada correctamente.");
+      setAlertColor("green");
       setPassword("");
       setPassword2("");
+
+      setTimeout(() => {
+        navigate("/");
+      }, 3000);
     } else {
       setAlert(true);
+      setAlertColor("red");
       setAlertText("Error inesperado, vuelva a intentarlo mas adelante.");
       setPassword("");
       setPassword2("");
@@ -80,12 +91,24 @@ export const ResetPassword = () => {
             {/* ALERT */}
             {alert ? (
               <div
-                className="alert alert-danger d-flex align-items-center"
+                className={
+                  alertColor === "green"
+                    ? "alert alert-success d-flex align-items-center"
+                    : "alert alert-danger d-flex align-items-center"
+                }
                 role="alert"
               >
                 <FontAwesomeIcon
-                  icon={faTriangleExclamation}
-                  style={{ color: "#fa0000" }}
+                  icon={
+                    alertColor === "green"
+                      ? faCheckCircle
+                      : faTriangleExclamation
+                  }
+                  style={
+                    alertColor === "green"
+                      ? { color: "#2c511f" }
+                      : { color: "#fa0000" }
+                  }
                 />
                 <div>{alertText}</div>
               </div>

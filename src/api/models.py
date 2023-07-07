@@ -19,8 +19,8 @@ class User(db.Model):
     phone = db.Column(db.Integer, unique=False, nullable=True)
     sexo = db.Column(db.Enum('Hombre', 'Mujer', name="sexo"), nullable=True)
     fecha_nacimiento = db.Column(db.Date, nullable=True)
-    uci_id = db.Column(db.Integer, unique=True, nullable=True)
-    licencia = db.Column(db.String(9), unique=True, nullable=True)
+    uci_id = db.Column(db.BigInteger, unique=True, nullable=True)
+    licencia = db.Column(db.String(20), unique=True, nullable=True)
     federado = db.Column(db.Enum('Sí', 'No', name="federado"), nullable=True)
     role = db.Column(db.Enum('User', 'Manager', 'Admin',
                      name="role"), nullable=False, server_default="User")
@@ -39,7 +39,7 @@ class User(db.Model):
         "Inscriptions", backref="user", lazy=True)
 
     def __repr__(self):
-        return f'<User {self.name}>'
+        return f'<User {self.name}, {self.id}>'
 
     def serialize(self):
         category = Category.query.filter_by(id=self.category_id).first()
@@ -58,7 +58,7 @@ class User(db.Model):
             "licencia": self.licencia,
             "federado": self.federado,
             "sexo": self.sexo,
-            "fecha_nacimiento": self.fecha_nacimiento,
+            "fecha_nacimiento": str(self.fecha_nacimiento),
             "role": self.role,
             "rider": self.rider,
             "category": category.serialize() if category != None else category,
@@ -79,7 +79,7 @@ class Team(db.Model):
     user = db.relationship("User", backref="team", lazy=True)
 
     def __repr__(self):
-        return f'<Team {self.name}>'
+        return f'<Team {self.name}, {self.id}>'
 
     def serialize(self):
         club = Club.query.filter_by(id=self.club_id).first()
@@ -100,7 +100,7 @@ class Club(db.Model):
     team = db.relationship("Team", backref="club", lazy=True)
 
     def __repr__(self):
-        return f'<Club {self.name}>'
+        return f'<Club {self.name}, {self.id}>'
 
     def serialize(self):
         return {
@@ -120,7 +120,7 @@ class Category(db.Model):
         "Category_Competition", backref="category", lazy=True)
 
     def __repr__(self):
-        return f'<Category {self.name}>'
+        return f'<Category {self.name}, {self.id}>'
 
     def serialize(self):
         return {
@@ -139,7 +139,7 @@ class Category_Competition(db.Model):
         "competition.id"), nullable=False)
 
     def __repr__(self):
-        return f'<Category {self.id}>'
+        return f'<Category {self.id}, {self.id}>'
 
     def serialize(self):
         category = Category.query.get(self.category_id)
@@ -177,7 +177,7 @@ class Competition(db.Model):
         "Inscriptions", backref="competition", lazy=True)
 
     def __repr__(self):
-        return f'<Competition {self.title}>'
+        return f'<Competition {self.title}, {self.id}>'
 
     def serialize(self):
 
@@ -215,7 +215,7 @@ class Championship (db.Model):
         "Competition", backref="championship", lazy=True)
 
     def __repr__(self):
-        return f'<Championship {self.title}>'
+        return f'<Championship {self.title}, {self.id}>'
 
     def serialize(self):
         return {
@@ -229,7 +229,7 @@ class Competition_Data (db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
     dorsal = db.Column(db.Integer, unique=False)
-    time = db.Column(db.Integer, unique=False, nullable=True)
+    time = db.Column(db.Time, unique=False, nullable=True)
     points = db.Column(db.Integer, unique=False, nullable=True)
 
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
@@ -246,7 +246,7 @@ class Competition_Data (db.Model):
         return {
             "id": self.id,
             "dorsal": self.dorsal,
-            "time": self.time,
+            "time": str(self.time),
             "points": self.points,
 
             "user": user.serialize() if user != None else user,

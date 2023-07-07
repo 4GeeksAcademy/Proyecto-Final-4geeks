@@ -67,7 +67,7 @@ export const Navbar = () => {
         >
           <img width="80px" src={logo} alt="" />
         </Link>
-        <form className="search-form d-flex">
+        {/* <form className="search-form d-flex">
           {dimensions.width < 1000 ? (
             <input
               className="fontAwesome search form-control me-2"
@@ -83,7 +83,7 @@ export const Navbar = () => {
               aria-label="Search"
             />
           )}
-        </form>
+        </form> */}
         {dimensions.width < 1000 ? (
           logged ? (
             <li className="nav-item dropdown">
@@ -119,7 +119,7 @@ export const Navbar = () => {
                     Perfil
                   </Link>
                 </li>
-                {role === "Manager" && (
+                {role !== "User" && (
                   <>
                     <hr className="dropdown-divider" />
                     <li>
@@ -138,12 +138,11 @@ export const Navbar = () => {
                 )}
                 {role === "Admin" && (
                   <>
-                    <hr className="dropdown-divider" />
                     <li>
                       <a
                         onClick={() => {
                           setCollapse(false);
-                          navigate("/admin-events");
+                          navigate("/admin-trials");
                         }}
                         className="dropdown-item"
                         href="#"
@@ -151,11 +150,11 @@ export const Navbar = () => {
                         Gestionar Pruebas
                       </a>
                     </li>
-                    <li>
+                    {/* <li>
                       <a
                         onClick={() => {
                           setCollapse(false);
-                          navigate("/admin-trials");
+                          navigate("/admin-events");
                         }}
                         className="dropdown-item"
                         href="#"
@@ -223,16 +222,16 @@ export const Navbar = () => {
                       >
                         Categorías
                       </a>
-                    </li>
+                    </li> */}
                   </>
                 )}
 
                 <hr className="dropdown-divider" />
-                <li>
+                {/* <li>
                   <a className="dropdown-item" href="#">
                     Seguimientos
                   </a>
-                </li>
+                </li> */}
 
                 <li>
                   <a
@@ -286,26 +285,33 @@ export const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <Link className="nav-link active" aria-current="page" to="/calendario" onClick={() => {
-                  
-                  
-                }}>
+              <Link
+                onClick={() => {
+                  setCollapse(false);
+                  navigate("/calendario");
+                }}
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent"
+                className="nav-link active"
+                aria-current="page"
+              >
                 Calendario
               </Link>
             </li>
+
             <li className="nav-item">
               <Link
-                  onClick={() => {
-                    setCollapse(false);
-                    navigate("/inscription");
-                  }}
-                  data-bs-toggle="collapse"
-                  data-bs-target="#navbarSupportedContent"
-                  className="nav-link active"
-                  aria-current="page"
-                >
-                  Inscripción
-                </Link>
+                onClick={() => {
+                  setCollapse(false);
+                  navigate("/inscription");
+                }}
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent"
+                className="nav-link active"
+                aria-current="page"
+              >
+                Inscripción
+              </Link>
             </li>
 
             <li className="nav-item">
@@ -359,7 +365,7 @@ export const Navbar = () => {
                     Perfil
                   </a>
                 </li>
-                {role === "Manager" && (
+                {role !== "User" && (
                   <>
                     <hr className="dropdown-divider" />
                     <li>
@@ -378,12 +384,11 @@ export const Navbar = () => {
                 )}
                 {role === "Admin" && (
                   <>
-                    <hr className="dropdown-divider" />
                     <li>
                       <a
                         onClick={() => {
                           setCollapse(false);
-                          navigate("/admin-events");
+                          navigate("/admin-trials");
                         }}
                         className="dropdown-item"
                         href="#"
@@ -391,11 +396,11 @@ export const Navbar = () => {
                         Gestionar Pruebas
                       </a>
                     </li>
-                    <li>
+                    {/*  <li>
                       <a
                         onClick={() => {
                           setCollapse(false);
-                          navigate("/admin-trials");
+                          navigate("/admin-events");
                         }}
                         className="dropdown-item"
                         href="#"
@@ -463,15 +468,15 @@ export const Navbar = () => {
                       >
                         Categorías
                       </a>
-                    </li>
+                    </li> */}
                   </>
                 )}
                 <hr className="dropdown-divider" />
-                <li>
+                {/* <li>
                   <a className="dropdown-item" href="#">
                     Seguimientos
                   </a>
-                </li>
+                </li> */}
 
                 <li>
                   <a
