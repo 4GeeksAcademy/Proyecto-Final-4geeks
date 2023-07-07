@@ -13,6 +13,7 @@ import { Classification } from "./pages/classification.jsx";
 import { ManagerInscription } from "./pages/managerInscription.jsx";
 import { RecoverPassword } from "./pages/recoverPassword.jsx";
 import { ResetPassword } from "./pages/resetPassword.jsx";
+import { Legalidad } from "./pages/legalidad.jsx";
 
 import background from "../img/background.png";
 
@@ -64,6 +65,7 @@ const Layout = () => {
 
               <Route element={<Classification />} path="/classification" />
               <Route element={<Calendariov />} path="/calendario" />
+              <Route element={<Legalidad />} path="/legalidad" />
               
               <Route
                 element={<ManagerInscription />}

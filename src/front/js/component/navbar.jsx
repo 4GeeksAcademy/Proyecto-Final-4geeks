@@ -286,11 +286,12 @@ export const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <Link className="nav-link active" aria-current="page" to="/calendario" onClick={() => {
-                  
-                  
-                }}>
-                Calendario
+              <Link 
+                className="nav-link active" 
+                aria-current="page" 
+                to="/calendario" 
+                onClick={() => {navigate("/calendario");}}
+                >Calendario
               </Link>
             </li>
             <li className="nav-item">
