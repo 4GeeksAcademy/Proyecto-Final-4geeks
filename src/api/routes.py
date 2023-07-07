@@ -88,18 +88,26 @@ def signup():
         user_name = request.json.get("username", None)
         email = request.json.get("email", None)
         password = request.json.get("password", None)
-
+        print(phone)
     # #Encrypt password
 
         pw_hash = current_app.bcrypt.generate_password_hash(
             password).decode("utf-8")
 
-        user = User(
-            email=email, password=pw_hash, name=name,
-            subname=subname, phone=phone, user_name=user_name,
-            dni=dni, uci_id=None, licencia=None,
-            federado=None, sexo=None, fecha_nacimiento=None
-        )
+        if phone == "":
+            user = User(
+                email=email, password=pw_hash, name=name,
+                subname=subname, phone=None, user_name=user_name,
+                dni=dni, uci_id=None, licencia=None,
+                federado=None, sexo=None, fecha_nacimiento=None
+            )
+        else:
+            user = User(
+                email=email, password=pw_hash, name=name,
+                subname=subname, phone=phone, user_name=user_name,
+                dni=dni, uci_id=None, licencia=None,
+                federado=None, sexo=None, fecha_nacimiento=None
+            )
 
         db.session.add(user)
         db.session.commit()

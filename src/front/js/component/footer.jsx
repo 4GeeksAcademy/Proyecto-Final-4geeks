@@ -41,7 +41,7 @@ export const Footer = () => (
                     <Link
                       className="nav-link enlaces "
                       aria-current="page"
-                      to="#"
+                      to="calendario"
                     >
                       Calendario
                     </Link>
@@ -50,7 +50,7 @@ export const Footer = () => (
                     <Link
                       className="nav-link enlaces "
                       aria-current="page"
-                      to="#"
+                      to="inscription"
                     >
                       Inscripción
                     </Link>
