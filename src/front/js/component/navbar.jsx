@@ -286,17 +286,19 @@ export const Navbar = () => {
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
               <Link
+                onClick={() => {
+                  setCollapse(false);
+                  navigate("/calendario");
+                }}
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent"
                 className="nav-link active"
                 aria-current="page"
-                to="/calendario"
-                onClick={() => {
-                  navigate("/calendario");
-                  setCollapse(false);
-                }}
               >
                 Calendario
               </Link>
             </li>
+
             <li className="nav-item">
               <Link
                 onClick={() => {
