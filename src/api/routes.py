@@ -228,34 +228,52 @@ def trials():
         return jsonify({'error': str(e)}), 400
 
 
-@api.route("/inscription-user", methods=["PUT"])
+@api.route("/inscription-user", methods=["PUT", "POST"])
 @jwt_required()
 def inscription_user():
-
 
     try:
         current_user = get_jwt_identity()
 
+        uci_id = request.json.get("uciId", None)
+        fecha_nacimiento = request.json.get("fechaN", None)
+        licencia = request.json.get("licencia", None)
+        federado = request.json.get("federado", None)
+        sexo = request.json.get("sexoUser", None)
+        event = request.json.get("event", None)
+
         user = User.query.get(current_user)
-      
-        user.uci_id= request.json.get("uciId",None)
-        user.licencia=request.json.get("licencia",None)
-        user.fecha_nacimiento=request.json.get("fechaN",None)
-        user.federado=request.json.get("federado",None)
-        user.sexo=request.json.get("sexoUser",None)
+
+        event = Competition.query.filter_by(title=event).first().id
+
+        inscription = Inscriptions.query.filter_by(
+            user_id=current_user, competition_id=event).first()
+
+        if inscription is not None:
+            return jsonify({"msg": "This inscription already exist"}), 403
+        print(licencia)
+        user.uci_id = int(uci_id)
+        user.licencia = licencia
+        user.fecha_nacimiento = fecha_nacimiento
+        user.federado = federado
+        user.sexo = sexo
+
+        data = Inscriptions(
+            user_id=int(current_user), competition_id=int(event)
+        )
+
+        db.session.add(data)
 
         db.session.commit()
-
+        print(data)
 
         return jsonify({"msg": "Ok",
-                        "response": "recibido"
+                        "response": user.serialize()
                         }
-                        ), 200
+                       ), 200
 
     except Exception as e:
         return jsonify({'error': str(e)}), 400
-
-
 
 
 @api.route("/tournaments", methods=["GET"])

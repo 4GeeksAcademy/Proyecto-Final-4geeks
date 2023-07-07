@@ -37,6 +37,7 @@ export const Profile = () => {
 
   //Redirect in case user is logged
   useEffect(() => {
+    console.log("comprobandoooo");
     const token = localStorage.getItem("token");
     if (token === null) {
       navigate("/");
@@ -267,7 +268,8 @@ export const Profile = () => {
                   <div className="col-12 col-md-6">
                     <p>Fecha Nacimiento:</p>
                     <p className="info">
-                      {data.fecha_nacimiento === null
+                      {data.fecha_nacimiento === null ||
+                      data.fecha_nacimiento === "None"
                         ? "-"
                         : data.fecha_nacimiento}
                     </p>
@@ -278,13 +280,13 @@ export const Profile = () => {
                   <div className="col-6">
                     <p>Equipo:</p>
                     <p className="info">
-                      {data.equipo === null ? "-" : data.equipo}
+                      {data.equipo === null ? "-" : data.team.name}
                     </p>
                   </div>{" "}
                   <div className="col-12 col-md-6">
                     <p>Club:</p>
                     <p className="info">
-                      {data.club === null ? "-" : data.club}
+                      {data.club === null ? "-" : data.team.club.name}
                     </p>
                   </div>
                   <div className="col-12 col-md-6"></div>

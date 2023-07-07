@@ -21,7 +21,6 @@ const getState = ({ getStore, getActions, setStore }) => {
       eventResults: [],
     },
     actions: {
-      
       firstLoad: async () => {
         const user = localStorage.getItem("user");
         if (user !== null) {
@@ -50,23 +49,22 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
-      inscription: async(data,token) => {
+      inscription: async (data, token) => {
         config.headers.Authorization = "Bearer " + token;
 
-        console.log(token);
-        
         try {
-          
-          const resp = await axios.put(`${url}inscription-user`,data,config)
+          const resp = await axios.put(`${url}inscription-user`, data, config);
+          const store = getStore();
+          store.user = resp.data.response;
+          setStore(store);
+          localStorage.setItem("user", JSON.stringify(resp.data.response));
 
           console.log(resp.data, resp.status);
-          return true
-
+          return resp.status;
         } catch (error) {
-          console.log(error)
-          return false
+          console.log(error.response);
+          return error.response.status;
         }
-        
       },
 
       login: async (data) => {
@@ -300,7 +298,6 @@ const getState = ({ getStore, getActions, setStore }) => {
           const store = getStore();
           store.eventResults = eventResults.data.response;
           setStore(store);
-          
 
           return true;
         } catch (error) {

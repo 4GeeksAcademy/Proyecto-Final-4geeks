@@ -20,7 +20,7 @@ class User(db.Model):
     sexo = db.Column(db.Enum('Hombre', 'Mujer', name="sexo"), nullable=True)
     fecha_nacimiento = db.Column(db.Date, nullable=True)
     uci_id = db.Column(db.BigInteger, unique=True, nullable=True)
-    licencia = db.Column(db.String(9), unique=True, nullable=True)
+    licencia = db.Column(db.String(20), unique=True, nullable=True)
     federado = db.Column(db.Enum('Sí', 'No', name="federado"), nullable=True)
     role = db.Column(db.Enum('User', 'Manager', 'Admin',
                      name="role"), nullable=False, server_default="User")
@@ -58,7 +58,7 @@ class User(db.Model):
             "licencia": self.licencia,
             "federado": self.federado,
             "sexo": self.sexo,
-            "fecha_nacimiento": self.fecha_nacimiento,
+            "fecha_nacimiento": str(self.fecha_nacimiento),
             "role": self.role,
             "rider": self.rider,
             "category": category.serialize() if category != None else category,
