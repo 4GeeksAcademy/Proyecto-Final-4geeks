@@ -289,7 +289,10 @@ export const Navbar = () => {
                 className="nav-link active"
                 aria-current="page"
                 to="/calendario"
-                onClick={() => {}}
+                onClick={() => {
+                  navigate("/calendario");
+                  setCollapse(false);
+                }}
               >
                 Calendario
               </Link>
