@@ -229,7 +229,7 @@ class Competition_Data (db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
     dorsal = db.Column(db.Integer, unique=False)
-    time = db.Column(db.Date, unique=False, nullable=True)
+    time = db.Column(db.Time, unique=False, nullable=True)
     points = db.Column(db.Integer, unique=False, nullable=True)
 
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
@@ -246,7 +246,7 @@ class Competition_Data (db.Model):
         return {
             "id": self.id,
             "dorsal": self.dorsal,
-            "time": self.time,
+            "time": str(self.time),
             "points": self.points,
 
             "user": user.serialize() if user != None else user,

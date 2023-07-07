@@ -18,15 +18,15 @@ export const Calendariov = () => {
         {/*################# Primer Row ########################## */}
         <div className="row mt-5 ">
           <div className="text-center  ">
-            <h3>Información en texto cabecera</h3>
+            <h1 style={{ fontSize: "33px" }}>PRÓXIMOS EVENTOS</h1>
           </div>
 
           {/*################# Fin Row ############################# */}
         </div>
 
-        <div className="row">
+        {/* <div className="row">
           <Filtros />
-        </div>
+        </div> */}
 
         {/*################# Segundo Row ########################## */}
         <div className="row body justify-content-center ">

@@ -93,8 +93,6 @@ const getState = ({ getStore, getActions, setStore }) => {
       signup: async (data) => {
         data.email = data.email.toLowerCase().replaceAll(" ", "");
         data.mobile = data.mobile.replaceAll(" ", "");
-        data.name = data.name.toLowerCase().replaceAll(" ", "");
-        data.subName = data.subName.toLowerCase();
         data.username = data.username.toLowerCase().replaceAll(" ", "");
         data.dni = data.dni.toLowerCase().replaceAll(" ", "");
         console.log(data);
@@ -196,20 +194,25 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
       loadInscriptions: async () => {
         try {
-          const response = await axios.get(`${url}inscriptions`, config);
-          const categories = await axios.get(`${url}categories`, config);
-          const teams = await axios.get(`${url}teams`, config);
-          const eventResults = await axios.get(`${url}event-results`, config);
-
-          console.log(response.data, response.status);
-          console.log(categories.data, categories.status);
-          console.log(teams.data, teams.status);
-          console.log(eventResults.data, eventResults.status);
-
           const store = getStore();
+
+          const response = await axios.get(`${url}inscriptions`, config);
+          console.log(response.data, response.status);
           store.inscriptions = response.data.response;
+          setStore(store);
+
+          const categories = await axios.get(`${url}categories`, config);
+          console.log(categories.data, categories.status);
           store.categories = categories.data.response;
+          setStore(store);
+
+          const teams = await axios.get(`${url}teams`, config);
+          console.log(teams.data, teams.status);
           store.teams = teams.data.response;
+          setStore(store);
+
+          const eventResults = await axios.get(`${url}event-results`, config);
+          console.log(eventResults.data, eventResults.status);
           store.eventResults = eventResults.data.response;
           setStore(store);
 
@@ -312,11 +315,12 @@ const getState = ({ getStore, getActions, setStore }) => {
             data,
             config
           );
+
           console.log(response.data, response.status);
           return response.status;
         } catch (error) {
-          console.log(error.response.data, error.response.status);
-          return error.response.status;
+          console.log(error);
+          return false;
         }
       },
     },

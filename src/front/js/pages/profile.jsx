@@ -280,13 +280,13 @@ export const Profile = () => {
                   <div className="col-6">
                     <p>Equipo:</p>
                     <p className="info">
-                      {data.equipo === null ? "-" : data.team.name}
+                      {data.equipo === null ? "-" : data.team?.name}
                     </p>
                   </div>{" "}
                   <div className="col-12 col-md-6">
                     <p>Club:</p>
                     <p className="info">
-                      {data.club === null ? "-" : data.team.club.name}
+                      {data.club === null ? "-" : data.team?.club.name}
                     </p>
                   </div>
                   <div className="col-12 col-md-6"></div>

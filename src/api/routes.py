@@ -340,7 +340,7 @@ def teams():
 def event_results():
     try:
         event_results = list(
-            map(lambda item: item.serialize(), Competition_Data.query.all()))
+            map(lambda item: item.serialize() if item != None else item, Competition_Data.query.all()))
 
         return jsonify({"msg": "Ok",
                         "response": event_results
@@ -420,7 +420,6 @@ def register_event():
 
         competition_data = Competition_Data.query.get(id_event)
 
-        print(type(time))
         competition_data.time = time
         competition_data.points = points
 

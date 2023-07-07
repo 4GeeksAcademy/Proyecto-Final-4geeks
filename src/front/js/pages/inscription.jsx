@@ -105,9 +105,9 @@ export const Inscription = () => {
             <div className="header-submit">
               <h1>INSCRIPCIÓN</h1>
               <div className="subtitle-submit d-flex">
-                <h6>
+                {/* <h6>
                   Recuerda que puedes ver tus inscripciones desde tu perfil.
-                </h6>
+                </h6> */}
               </div>
             </div>
 

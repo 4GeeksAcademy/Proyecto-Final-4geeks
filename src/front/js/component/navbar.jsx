@@ -67,7 +67,7 @@ export const Navbar = () => {
         >
           <img width="80px" src={logo} alt="" />
         </Link>
-        <form className="search-form d-flex">
+        {/* <form className="search-form d-flex">
           {dimensions.width < 1000 ? (
             <input
               className="fontAwesome search form-control me-2"
@@ -83,7 +83,7 @@ export const Navbar = () => {
               aria-label="Search"
             />
           )}
-        </form>
+        </form> */}
         {dimensions.width < 1000 ? (
           logged ? (
             <li className="nav-item dropdown">
@@ -228,11 +228,11 @@ export const Navbar = () => {
                 )}
 
                 <hr className="dropdown-divider" />
-                <li>
+                {/* <li>
                   <a className="dropdown-item" href="#">
                     Seguimientos
                   </a>
-                </li>
+                </li> */}
 
                 <li>
                   <a
@@ -469,11 +469,11 @@ export const Navbar = () => {
                   </>
                 )}
                 <hr className="dropdown-divider" />
-                <li>
+                {/* <li>
                   <a className="dropdown-item" href="#">
                     Seguimientos
                   </a>
-                </li>
+                </li> */}
 
                 <li>
                   <a

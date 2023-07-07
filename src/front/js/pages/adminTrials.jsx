@@ -50,6 +50,10 @@ export const AdminTrials = () => {
     };
 
     const resp = await actions.registerEvent(data);
+
+    if (resp === 200) {
+      actions.firstLoad();
+    }
   };
 
   return (
@@ -77,7 +81,7 @@ export const AdminTrials = () => {
                             setTime({ ...time, [index]: e.target.value });
                           }}
                           type="time"
-                          step="0.00001"
+                          step="0.001"
                         />
                       </p>
                       <p className="col-12 col-md-2">
