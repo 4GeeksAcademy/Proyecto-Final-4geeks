@@ -365,11 +365,17 @@ def user_validation():
             competition_id=competition,
             dorsal=dorsal
         )
-
+        print("1")
         db.session.add(competition_data)
 
         user_data = User.query.get(user)
 
+        if category == "":
+            category = None
+        if team == "":
+            team = None
+
+        print("2")
         if category != None and team != None:
             category_id = Category.query.filter_by(name=category).first().id
             team_id = Team.query.filter_by(name=team).first().id
@@ -377,6 +383,7 @@ def user_validation():
             user_data.category_id = category_id
             user_data.team_id = team_id
 
+        print("")
         db.session.commit()
 
         return jsonify({"msg": "Ok", }), 200
@@ -398,6 +405,28 @@ def inscriptions_delete(id_user, id_competition):
 
         return jsonify({"msg": "Ok, Deleted"
                         }
+                       ), 200
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+
+
+@api.route("/register-event", methods=["PUT"])
+def register_event():
+    try:
+        id_event = request.json.get("idEvent", None)
+        time = request.json.get("time", None)
+        points = request.json.get("points", None)
+
+        competition_data = Competition_Data.query.get(id_event)
+
+        print(type(time))
+        competition_data.time = time
+        competition_data.points = points
+
+        db.session.commit()
+
+        return jsonify({"msg": "Ok, probando"}
                        ), 200
 
     except Exception as e:

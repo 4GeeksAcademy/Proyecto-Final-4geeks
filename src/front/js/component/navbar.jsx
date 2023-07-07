@@ -119,26 +119,26 @@ export const Navbar = () => {
                     Perfil
                   </Link>
                 </li>
-                {role === "Manager" && (
-                  <>
-                    <hr className="dropdown-divider" />
-                    <li>
-                      <a
-                        onClick={() => {
-                          setCollapse(false);
-                          navigate("/manager-inscriptions");
-                        }}
-                        className="dropdown-item"
-                        href="#"
-                      >
-                        Administrar Inscritos
-                      </a>
-                    </li>
-                  </>
-                )}
+                {role === "Manager" ||
+                  (role === "Admin" && (
+                    <>
+                      <hr className="dropdown-divider" />
+                      <li>
+                        <a
+                          onClick={() => {
+                            setCollapse(false);
+                            navigate("/manager-inscriptions");
+                          }}
+                          className="dropdown-item"
+                          href="#"
+                        >
+                          Administrar Inscritos
+                        </a>
+                      </li>
+                    </>
+                  ))}
                 {role === "Admin" && (
                   <>
-                    <hr className="dropdown-divider" />
                     <li>
                       <a
                         onClick={() => {
@@ -151,7 +151,7 @@ export const Navbar = () => {
                         Gestionar Pruebas
                       </a>
                     </li>
-                    <li>
+                    {/* <li>
                       <a
                         onClick={() => {
                           setCollapse(false);
@@ -223,7 +223,7 @@ export const Navbar = () => {
                       >
                         Categorías
                       </a>
-                    </li>
+                    </li> */}
                   </>
                 )}
 
@@ -286,26 +286,28 @@ export const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <Link className="nav-link active" aria-current="page" to="/calendario" onClick={() => {
-                  
-                  
-                }}>
+              <Link
+                className="nav-link active"
+                aria-current="page"
+                to="/calendario"
+                onClick={() => {}}
+              >
                 Calendario
               </Link>
             </li>
             <li className="nav-item">
               <Link
-                  onClick={() => {
-                    setCollapse(false);
-                    navigate("/inscription");
-                  }}
-                  data-bs-toggle="collapse"
-                  data-bs-target="#navbarSupportedContent"
-                  className="nav-link active"
-                  aria-current="page"
-                >
-                  Inscripción
-                </Link>
+                onClick={() => {
+                  setCollapse(false);
+                  navigate("/inscription");
+                }}
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent"
+                className="nav-link active"
+                aria-current="page"
+              >
+                Inscripción
+              </Link>
             </li>
 
             <li className="nav-item">
@@ -359,26 +361,26 @@ export const Navbar = () => {
                     Perfil
                   </a>
                 </li>
-                {role === "Manager" && (
-                  <>
-                    <hr className="dropdown-divider" />
-                    <li>
-                      <a
-                        onClick={() => {
-                          setCollapse(false);
-                          navigate("/manager-inscriptions");
-                        }}
-                        className="dropdown-item"
-                        href="#"
-                      >
-                        Administrar Inscritos
-                      </a>
-                    </li>
-                  </>
-                )}
+                {role === "Manager" ||
+                  (role === "Admin" && (
+                    <>
+                      <hr className="dropdown-divider" />
+                      <li>
+                        <a
+                          onClick={() => {
+                            setCollapse(false);
+                            navigate("/manager-inscriptions");
+                          }}
+                          className="dropdown-item"
+                          href="#"
+                        >
+                          Administrar Inscritos
+                        </a>
+                      </li>
+                    </>
+                  ))}
                 {role === "Admin" && (
                   <>
-                    <hr className="dropdown-divider" />
                     <li>
                       <a
                         onClick={() => {
@@ -391,7 +393,7 @@ export const Navbar = () => {
                         Gestionar Pruebas
                       </a>
                     </li>
-                    <li>
+                    {/*  <li>
                       <a
                         onClick={() => {
                           setCollapse(false);
@@ -463,7 +465,7 @@ export const Navbar = () => {
                       >
                         Categorías
                       </a>
-                    </li>
+                    </li> */}
                   </>
                 )}
                 <hr className="dropdown-divider" />

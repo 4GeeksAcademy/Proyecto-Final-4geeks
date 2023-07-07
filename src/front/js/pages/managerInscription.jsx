@@ -75,7 +75,7 @@ export const ManagerInscription = () => {
     const response = await actions.userValidation(data);
   };
 
-  const cancelInscription = async (userId, competitionId) => {
+  const cancelInscription = async (userId, competitionId, index) => {
     const data = {
       user: userId,
       competition: competitionId,

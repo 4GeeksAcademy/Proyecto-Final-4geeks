@@ -23,6 +23,9 @@ export const AdminTrials = () => {
   const { store, actions } = useContext(Context);
   const [load, setLoad] = useState(false);
 
+  const [time, setTime] = useState(0);
+  const [points, setPoints] = useState({});
+
   const [alert, setAlert] = useState(false);
   const [alertText, setAlertText] = useState("Error inesperado.");
 
@@ -39,6 +42,16 @@ export const AdminTrials = () => {
     }
   }, [store.user]);
 
+  const handleRegisterEvent = async (idEvent, time, points) => {
+    const data = {
+      idEvent: idEvent,
+      time: time,
+      points: points,
+    };
+
+    const resp = await actions.registerEvent(data);
+  };
+
   return (
     <div className="page-inside-wb config pt-5 w-25">
       {load && (
@@ -49,23 +62,67 @@ export const AdminTrials = () => {
             </div>
             <div className="body container-fluid">
               {store.eventResults.map((item, index) => (
-                <div key={index} className="item row">
-                  <p className="col-12 col-md-2">{item.competition.name}</p>
-                  <p className="col-12 col-md-2">
-                    {item.user.name} {item.user.subname}
-                  </p>
-                  <p className="col-12 col-md-2">Dorsal : {item.dorsal}</p>
-                  <p className="col-12 col-md-2">Tiempo : {item.time}</p>
-                  <p className="col-12 col-md-2">Puntos : {item.points}</p>
+                <>
+                  {item.points === null && (
+                    <div key={index} className="item row">
+                      <p className="col-12 col-md-2">{item.competition.name}</p>
+                      <p className="col-12 col-md-2">
+                        {item.user.name} {item.user.subname}
+                      </p>
+                      <p className="col-12 col-md-2">Dorsal : {item.dorsal}</p>
+                      <p className="col-12 col-md-3">
+                        Tiempo :
+                        <input
+                          onChange={(e) => {
+                            setTime({ ...time, [index]: e.target.value });
+                          }}
+                          type="time"
+                          step="0.00001"
+                        />
+                      </p>
+                      <p className="col-12 col-md-2">
+                        Puntos :{" "}
+                        <input
+                          onChange={(e) => {
+                            setPoints({ ...points, [index]: e.target.value });
+                          }}
+                          type="number"
+                          value={points[index]}
+                        />
+                      </p>
 
-                  <div className="check col-12 col-md-1 d-flex">
-                    <FontAwesomeIcon
-                      onClick={() => {}}
-                      className="yes"
-                      icon={faCheck}
-                    />
-                  </div>
-                </div>
+                      <div className="check col-12 col-md-1 d-flex">
+                        <button
+                          onClick={() => {
+                            handleRegisterEvent(
+                              item.id,
+                              time[index],
+                              points[index]
+                            );
+                          }}
+                          className="btn btn-success"
+                          style={{
+                            height: "2em",
+                            width: "4em",
+                            margin: "auto",
+                          }}
+                        >
+                          <FontAwesomeIcon
+                            style={{
+                              color: "black",
+                              padding: "0",
+                              margin: "0 0 12px 0",
+                              fontSize: "larger",
+                            }}
+                            onClick={() => {}}
+                            className="yes"
+                            icon={faCheck}
+                          />
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </>
               ))}
             </div>
           </div>

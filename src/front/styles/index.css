@@ -17,6 +17,36 @@
   margin-top: 5.5em;
 }
 
+/* INPUT ARROWS */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* SCROLLBAR */
+/* Track CHROME*/
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #ffffff;
+  border: solid 2px rgba(224, 224, 224, 0.5);
+}
+
+/* Thumb */
+::-webkit-scrollbar-thumb {
+  background: #000000;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover,
+::-webkit-scrollbar-thumb:active {
+  background: #262424;
+}
+
 /* ESTILOS DE FONDO */
 .page-inside-wb {
   width: 100% !important;

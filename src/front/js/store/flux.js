@@ -305,6 +305,20 @@ const getState = ({ getStore, getActions, setStore }) => {
           return false;
         }
       },
+      registerEvent: async (data) => {
+        try {
+          const response = await axios.put(
+            `${url}register-event`,
+            data,
+            config
+          );
+          console.log(response.data, response.status);
+          return response.status;
+        } catch (error) {
+          console.log(error.response.data, error.response.status);
+          return error.response.status;
+        }
+      },
     },
   };
 };

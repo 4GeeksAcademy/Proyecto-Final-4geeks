@@ -38,7 +38,8 @@
   line-height: 2;
 }
 
-.config-wrapper .body .item select {
+.config-wrapper .body .item select,
+.config-wrapper .body .item input {
   height: 1.5em;
   margin-left: 0.5em;
 }
